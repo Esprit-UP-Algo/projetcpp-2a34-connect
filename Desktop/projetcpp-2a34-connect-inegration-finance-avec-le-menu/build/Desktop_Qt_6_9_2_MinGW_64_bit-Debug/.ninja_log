@@ -1,0 +1,15 @@
+# ninja log v6
+10	1141	7806821309215622	interfin_autogen/timestamp	c29058d581fb2029
+10	1141	7806821309215622	interfin_autogen/mocs_compilation.cpp	c29058d581fb2029
+10	1141	7806821309215622	C:/Users/pc/Desktop/projetcpp-2a34-connect-inegration-finance-avec-le-menu/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/interfin_autogen/timestamp	c29058d581fb2029
+10	1141	7806821309215622	C:/Users/pc/Desktop/projetcpp-2a34-connect-inegration-finance-avec-le-menu/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/interfin_autogen/mocs_compilation.cpp	c29058d581fb2029
+1185	5821	7806821310572071	CMakeFiles/interfin.dir/interfin_autogen/mocs_compilation.cpp.obj	f5f5bfca254544bb
+1189	5946	7806821310572071	CMakeFiles/interfin.dir/main.cpp.obj	596bd50eaf4702c2
+1193	6698	7806821310726311	CMakeFiles/interfin.dir/mainwindow.cpp.obj	7d9c35f08dc7fea4
+6699	7185	7806821365797037	interfin.exe	7b17b81991fd0aef
+18	260	7806830805146015	interfin_autogen/timestamp	c29058d581fb2029
+18	260	7806830805146015	interfin_autogen/mocs_compilation.cpp	c29058d581fb2029
+18	260	7806830805146015	C:/Users/pc/Desktop/projetcpp-2a34-connect-inegration-finance-avec-le-menu/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/interfin_autogen/timestamp	c29058d581fb2029
+18	260	7806830805146015	C:/Users/pc/Desktop/projetcpp-2a34-connect-inegration-finance-avec-le-menu/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/interfin_autogen/mocs_compilation.cpp	c29058d581fb2029
+261	4852	7806830807573131	CMakeFiles/interfin.dir/mainwindow.cpp.obj	7d9c35f08dc7fea4
+4853	5190	7806830853464366	interfin.exe	7b17b81991fd0aef
