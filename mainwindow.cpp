@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QHeaderView>
+#include <QtGlobal>
 #include <QMessageBox>
 #include <QFile>
 #include <QTextStream>
@@ -13,26 +13,25 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // Find UI elements
-    nameEdit = findChild<QLineEdit*>("nameEdit");
-    platformCombo = findChild<QComboBox*>("platformCombo");
-    subscribersSpin = findChild<QSpinBox*>("subscribersSpin");
-    contentTypeEdit = findChild<QLineEdit*>("contentTypeEdit");
-    searchEdit = findChild<QLineEdit*>("searchEdit");
-    addButton = findChild<QPushButton*>("addButton");
-    updateButton = findChild<QPushButton*>("updateButton");
-    deleteButton = findChild<QPushButton*>("deleteButton");
-    themeButton = findChild<QPushButton*>("themeButton");
-    exportButton = findChild<QPushButton*>("exportButton");
-    clearButton = findChild<QPushButton*>("clearButton");
-    creatorTable = findChild<QTableWidget*>("creatorTable");
-    stackedWidget = findChild<QStackedWidget*>("stackedWidget");
-    managementButton = findChild<QPushButton*>("managementButton");
-    financeButton = findChild<QPushButton*>("financeButton");
-    contentCreatorButton = findChild<QPushButton*>("contentCreatorButton");
-    sponsorButton = findChild<QPushButton*>("sponsorButton");
-    dealButton = findChild<QPushButton*>("dealButton");
-    employeeButton = findChild<QPushButton*>("employeeButton");
+    // Assign widgets directly from ui
+    nameEdit = ui->nameEdit;
+    platformCombo = ui->platformCombo;
+    subscribersSpin = ui->subscribersSpin;
+    contentTypeEdit = ui->contentTypeEdit;
+    searchEdit = ui->searchEdit;
+    addButton = ui->addButton;
+    updateButton = ui->updateButton;
+    deleteButton = ui->deleteButton;
+    themeButton = ui->themeButton;
+    exportButton = ui->exportButton;
+    clearButton = ui->clearButton;
+    creatorTable = ui->creatorTable;
+    stackedWidget = ui->stackedWidget;
+    financeButton = ui->financeButton;
+    contentCreatorButton = ui->contentCreatorButton;
+    sponsorButton = ui->sponsorButton;
+    dealButton = ui->dealButton;
+    employeeButton = ui->employeeButton;
 
     // Setup table
     if (!creatorTable) {
@@ -46,60 +45,24 @@ MainWindow::MainWindow(QWidget *parent)
     creatorTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     connect(creatorTable, &QTableWidget::cellClicked, this, &MainWindow::handleTableRowSelected);
 
-    // Connect buttons and search
-    if (addButton) {
-        connect(addButton, &QPushButton::clicked, this, &MainWindow::handleAddButtonClicked);
-    } else {
-        QMessageBox::critical(this, "Error", "Add button not found!");
-    }
-    if (updateButton) {
-        connect(updateButton, &QPushButton::clicked, this, &MainWindow::handleUpdateButtonClicked);
-    } else {
-        QMessageBox::critical(this, "Error", "Update button not found!");
-    }
-    if (deleteButton) {
-        connect(deleteButton, &QPushButton::clicked, this, &MainWindow::handleDeleteButtonClicked);
-    } else {
-        QMessageBox::critical(this, "Error", "Delete button not found!");
-    }
-    if (searchEdit) {
-        connect(searchEdit, &QLineEdit::textChanged, this, &MainWindow::handleSearchTextChanged);
-    }
-    if (themeButton) {
-        connect(themeButton, &QPushButton::clicked, this, &MainWindow::handleThemeButtonClicked);
-    }
-    if (exportButton) {
-        connect(exportButton, &QPushButton::clicked, this, &MainWindow::handleExportButtonClicked);
-    }
-    if (clearButton) {
-        connect(clearButton, &QPushButton::clicked, this, &MainWindow::handleClearButtonClicked);
-    }
+    // Connect signals and slots
+    connect(addButton, &QPushButton::clicked, this, &MainWindow::handleAddButtonClicked);
+    connect(updateButton, &QPushButton::clicked, this, &MainWindow::handleUpdateButtonClicked);
+    connect(deleteButton, &QPushButton::clicked, this, &MainWindow::handleDeleteButtonClicked);
+    connect(searchEdit, &QLineEdit::textChanged, this, &MainWindow::handleSearchTextChanged);
+    connect(exportButton, &QPushButton::clicked, this, &MainWindow::handleExportButtonClicked);
+    connect(themeButton, &QPushButton::clicked, this, &MainWindow::handleThemeButtonClicked);
+    connect(clearButton, &QPushButton::clicked, this, &MainWindow::handleClearButtonClicked);
 
-    // Connect sidebar buttons to stacked widget
-    if (managementButton) {
-        connect(managementButton, &QPushButton::clicked, this, [this]() { stackedWidget->setCurrentWidget(ui->managementPage); });
-    }
-    if (financeButton) {
-        connect(financeButton, &QPushButton::clicked, this, [this]() { stackedWidget->setCurrentWidget(ui->financePage); });
-    }
-    if (contentCreatorButton) {
-        connect(contentCreatorButton, &QPushButton::clicked, this, [this]() { stackedWidget->setCurrentWidget(ui->contentCreatorPage); });
-    }
-    if (sponsorButton) {
-        connect(sponsorButton, &QPushButton::clicked, this, [this]() { stackedWidget->setCurrentWidget(ui->sponsorPage); });
-    }
-    if (dealButton) {
-        connect(dealButton, &QPushButton::clicked, this, [this]() { stackedWidget->setCurrentWidget(ui->dealPage); });
-    }
-    if (employeeButton) {
-        connect(employeeButton, &QPushButton::clicked, this, [this]() { stackedWidget->setCurrentWidget(ui->employeePage); });
-    }
+    // Connect sidebar navigation
+    connect(managementButton, &QPushButton::clicked, this, &MainWindow::showManagementPage);
+    connect(financeButton, &QPushButton::clicked, this, &MainWindow::showFinancePage);
+    connect(contentCreatorButton, &QPushButton::clicked, this, &MainWindow::showContentCreatorPage);
+    connect(sponsorButton, &QPushButton::clicked, this, &MainWindow::showSponsorPage);
+    connect(dealButton, &QPushButton::clicked, this, &MainWindow::showDealPage);
+    connect(employeeButton, &QPushButton::clicked, this, &MainWindow::showEmployeePage);
 
-    // Set default page
-    if (stackedWidget) {
-        stackedWidget->setCurrentWidget(ui->contentCreatorPage);
-    }
-
+    loadTheme();
     updateTable();
 }
 
@@ -110,22 +73,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::handleAddButtonClicked()
 {
-    if (!nameEdit || !contentTypeEdit || !platformCombo || !subscribersSpin || !creatorTable) {
-        QMessageBox::critical(this, "Error", "UI elements missing!");
-        return;
-    }
-
     QString name = nameEdit->text().trimmed();
-    if (name.isEmpty() || contentTypeEdit->text().isEmpty()) {
-        QMessageBox::warning(this, "Input Error", "Name and Content Type are required!");
-        return;
-    }
-    if (name.length() > 50) {
-        QMessageBox::warning(this, "Input Error", "Name must be 50 characters or less!");
+    if (name.isEmpty()) {
+        QMessageBox::warning(this, "Error", "Name cannot be empty!");
         return;
     }
     if (!isNameUnique(name)) {
-        QMessageBox::warning(this, "Input Error", "Name must be unique!");
+        QMessageBox::warning(this, "Error", "Name must be unique!");
         return;
     }
 
@@ -134,186 +88,181 @@ void MainWindow::handleAddButtonClicked()
     creator.platform = platformCombo->currentText();
     creator.subscribers = subscribersSpin->value();
     creator.contentType = contentTypeEdit->text().trimmed();
-
     creators.append(creator);
-
-    nameEdit->clear();
-    platformCombo->setCurrentIndex(0);
-    subscribersSpin->setValue(0);
-    contentTypeEdit->clear();
-    selectedRow = -1;
-
     updateTable();
+    handleClearButtonClicked();
 }
 
 void MainWindow::handleUpdateButtonClicked()
 {
-    if (!nameEdit || !contentTypeEdit || !platformCombo || !subscribersSpin || !creatorTable) {
-        QMessageBox::critical(this, "Error", "UI elements missing!");
-        return;
-    }
-
-    if (selectedRow < 0 || selectedRow >= creators.size()) {
-        QMessageBox::warning(this, "Selection Error", "Please select a creator to update!");
-        return;
-    }
-
-    QString name = nameEdit->text().trimmed();
-    if (name.isEmpty() || contentTypeEdit->text().isEmpty()) {
-        QMessageBox::warning(this, "Input Error", "Name and Content Type are required!");
-        return;
-    }
-    if (name.length() > 50) {
-        QMessageBox::warning(this, "Input Error", "Name must be 50 characters or less!");
+    if (selectedRow < 0) {
+        QMessageBox::warning(this, "Error", "Select a row to update!");
         return;
     }
     QString oldName = creators[selectedRow].name;
-    if (!isNameUnique(name, oldName)) {
-        QMessageBox::warning(this, "Input Error", "Name must be unique!");
+    QString newName = nameEdit->text().trimmed();
+    if (newName.isEmpty()) {
+        QMessageBox::warning(this, "Error", "Name cannot be empty!");
+        return;
+    }
+    if (!isNameUnique(newName, oldName)) {
+        QMessageBox::warning(this, "Error", "Name must be unique!");
         return;
     }
 
-    creators[selectedRow].name = name;
+    creators[selectedRow].name = newName;
     creators[selectedRow].platform = platformCombo->currentText();
     creators[selectedRow].subscribers = subscribersSpin->value();
     creators[selectedRow].contentType = contentTypeEdit->text().trimmed();
-
-    nameEdit->clear();
-    platformCombo->setCurrentIndex(0);
-    subscribersSpin->setValue(0);
-    contentTypeEdit->clear();
-    selectedRow = -1;
-
     updateTable();
+    selectedRow = -1;
+    handleClearButtonClicked();
 }
 
 void MainWindow::handleDeleteButtonClicked()
 {
-    if (!creatorTable) {
-        QMessageBox::critical(this, "Error", "Table widget not found!");
+    if (selectedRow < 0) {
+        QMessageBox::warning(this, "Error", "Select a row to delete!");
         return;
     }
-
-    if (selectedRow < 0 || selectedRow >= creators.size()) {
-        QMessageBox::warning(this, "Selection Error", "Please select a creator to delete!");
-        return;
-    }
-
     creators.removeAt(selectedRow);
-    if (nameEdit) nameEdit->clear();
-    if (platformCombo) platformCombo->setCurrentIndex(0);
-    if (subscribersSpin) subscribersSpin->setValue(0);
-    if (contentTypeEdit) contentTypeEdit->clear();
-    selectedRow = -1;
-
     updateTable();
+    selectedRow = -1;
+    handleClearButtonClicked();
 }
 
 void MainWindow::handleTableRowSelected(int row, int column)
 {
     Q_UNUSED(column);
-    if (!creatorTable || !nameEdit || !platformCombo || !subscribersSpin || !contentTypeEdit) {
-        QMessageBox::critical(this, "Error", "UI elements missing!");
-        return;
-    }
-
-    selectedRow = row;
-    if (selectedRow >= 0 && selectedRow < creators.size()) {
-        nameEdit->setText(creators[selectedRow].name);
-        platformCombo->setCurrentText(creators[selectedRow].platform);
-        subscribersSpin->setValue(creators[selectedRow].subscribers);
-        contentTypeEdit->setText(creators[selectedRow].contentType);
+    if (row >= 0 && row < creators.size()) {
+        selectedRow = row;
+        nameEdit->setText(creators[row].name);
+        platformCombo->setCurrentText(creators[row].platform);
+        subscribersSpin->setValue(creators[row].subscribers);
+        contentTypeEdit->setText(creators[row].contentType);
     }
 }
 
 void MainWindow::handleSearchTextChanged(const QString &text)
 {
-    Q_UNUSED(text);
-    if (!creatorTable) {
-        QMessageBox::critical(this, "Error", "Table widget not found!");
-        return;
-    }
-    updateTable();
+    updateTable(text);
 }
 
 void MainWindow::handleExportButtonClicked()
 {
-    if (!creatorTable) {
-        QMessageBox::critical(this, "Error", "Table widget not found!");
-        return;
-    }
-
-    QFile file("creators_export.csv");
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QMessageBox::warning(this, "Export Error", "Cannot save CSV file!");
-        return;
-    }
-
-    QTextStream out(&file);
-    out << "Name,Platform,Subscribers,Content Type\n";
-    for (int i = 0; i < creatorTable->rowCount(); i++) {
-        if (creatorTable->item(i, 0) && creatorTable->item(i, 1) &&
-            creatorTable->item(i, 2) && creatorTable->item(i, 3)) {
-            out << creatorTable->item(i, 0)->text() << ","
-                << creatorTable->item(i, 1)->text() << ","
-                << creatorTable->item(i, 2)->text() << ","
-                << creatorTable->item(i, 3)->text() << "\n";
+    QString fileName = "creators.csv";
+    QFile file(fileName);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream out(&file);
+        out << "Name,Platform,Subscribers,Content Type\n";
+        for (const Creator &creator : creators) {
+            out << creator.name << "," << creator.platform << "," << creator.subscribers << "," << creator.contentType << "\n";
         }
+        file.close();
+        QMessageBox::information(this, "Success", "Exported to " + fileName);
+    } else {
+        QMessageBox::critical(this, "Error", "Failed to export to " + fileName);
     }
-    file.close();
-    QMessageBox::information(this, "Success", "Exported to creators_export.csv");
 }
 
 void MainWindow::handleThemeButtonClicked()
 {
     darkTheme = !darkTheme;
-    setProperty("darkTheme", darkTheme);
-    style()->unpolish(this);
-    style()->polish(this);
-    if (themeButton) {
-        themeButton->setText(darkTheme ? "Light Theme" : "Dark Theme");
-    }
+    saveTheme();
+    loadTheme();
 }
 
 void MainWindow::handleClearButtonClicked()
 {
-    if (nameEdit) nameEdit->clear();
-    if (platformCombo) platformCombo->setCurrentIndex(0);
-    if (subscribersSpin) subscribersSpin->setValue(0);
-    if (contentTypeEdit) contentTypeEdit->clear();
+    nameEdit->clear();
+    platformCombo->setCurrentIndex(0);
+    subscribersSpin->setValue(100); // Default to 100 as in original
+    contentTypeEdit->clear();
     selectedRow = -1;
 }
 
-void MainWindow::updateTable()
+void MainWindow::showManagementPage()
 {
-    if (!creatorTable) {
-        QMessageBox::critical(this, "Error", "Table widget not found!");
-        return;
+    if (stackedWidget) {
+        stackedWidget->setCurrentWidget(ui->managementPage);
     }
+}
 
+void MainWindow::showFinancePage()
+{
+    if (stackedWidget) {
+        stackedWidget->setCurrentWidget(ui->financePage);
+    }
+}
+
+void MainWindow::showContentCreatorPage()
+{
+    if (stackedWidget) {
+        stackedWidget->setCurrentWidget(ui->contentCreatorPage);
+    }
+}
+
+void MainWindow::showSponsorPage()
+{
+    if (stackedWidget) {
+        stackedWidget->setCurrentWidget(ui->sponsorPage);
+    }
+}
+
+void MainWindow::showDealPage()
+{
+    if (stackedWidget) {
+        stackedWidget->setCurrentWidget(ui->dealPage);
+    }
+}
+
+void MainWindow::showEmployeePage()
+{
+    if (stackedWidget) {
+        stackedWidget->setCurrentWidget(ui->employeePage);
+    }
+}
+
+void MainWindow::updateTable(const QString &searchText)
+{
     creatorTable->setRowCount(0);
-    QString search = searchEdit ? searchEdit->text().toLower() : "";
-    for (int i = 0; i < creators.size(); i++) {
-        if (!search.isEmpty() &&
-            !creators[i].name.toLower().contains(search) &&
-            !creators[i].platform.toLower().contains(search)) {
-            continue;
+    for (int i = 0; i < creators.size(); ++i) {
+        const Creator &creator = creators[i];
+        if (searchText.isEmpty() || creator.name.contains(searchText, Qt::CaseInsensitive) ||
+            creator.platform.contains(searchText, Qt::CaseInsensitive)) {
+            int row = creatorTable->rowCount();
+            creatorTable->insertRow(row);
+            creatorTable->setItem(row, 0, new QTableWidgetItem(creator.name));
+            creatorTable->setItem(row, 1, new QTableWidgetItem(creator.platform));
+            creatorTable->setItem(row, 2, new QTableWidgetItem(QString::number(creator.subscribers)));
+            creatorTable->setItem(row, 3, new QTableWidgetItem(creator.contentType));
         }
-        int row = creatorTable->rowCount();
-        creatorTable->insertRow(row);
-        creatorTable->setItem(row, 0, new QTableWidgetItem(creators[i].name));
-        creatorTable->setItem(row, 1, new QTableWidgetItem(creators[i].platform));
-        creatorTable->setItem(row, 2, new QTableWidgetItem(QString::number(creators[i].subscribers)));
-        creatorTable->setItem(row, 3, new QTableWidgetItem(creators[i].contentType));
     }
 }
 
 bool MainWindow::isNameUnique(const QString &name, const QString &oldName)
 {
-    for (int i = 0; i < creators.size(); i++) {
-        if (creators[i].name == name && creators[i].name != oldName) {
+    for (const Creator &creator : creators) {
+        if (creator.name == name && name != oldName) {
             return false;
         }
     }
     return true;
+}
+
+void MainWindow::loadTheme()
+{
+    setProperty("darkTheme", darkTheme);
+    style()->unpolish(this);
+    style()->polish(this);
+    update();
+    if (themeButton) {
+        themeButton->setText(darkTheme ? "Light Theme" : "Dark Theme");
+    }
+}
+
+void MainWindow::saveTheme()
+{
+    QSettings settings("MyCompany", "ContentCreatorManager");
+    settings.setValue("darkTheme", darkTheme);
 }

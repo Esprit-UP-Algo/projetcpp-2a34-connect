@@ -400,6 +400,8 @@ CMakeFiles/content_creators_manger.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qlist.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QStackedWidget \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstackedwidget.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/QSettings \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qsettings.h \
  C:/Users/SELIMF~1/DOCUME~1/CONTEN~1/build/DESKTO~1/CONTEN~1/include/ui_mainwindow.h \
  C:/Qt/6.7.3/mingw_64/include/QtCore/QVariant \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qvariant.h \
@@ -416,11 +418,20 @@ CMakeFiles/content_creators_manger.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.3/mingw_64/include/QtGui/qinputmethod.h \
  C:/Qt/6.7.3/mingw_64/include/QtGui/qguiapplication_platform.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QComboBox \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/QGridLayout \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qgridlayout.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/QDateEdit \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdatetimeedit.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qtimezone.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/QFormLayout \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qformlayout.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLayout \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlayout.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlayoutitem.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qboxlayout.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlayout.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qgridlayout.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/QGridLayout \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qgridlayout.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QGroupBox \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qgroupbox.h \
@@ -434,16 +445,24 @@ CMakeFiles/content_creators_manger.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qiodevice.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLineEdit \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMainWindow \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMenuBar \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmenubar.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmenu.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QPushButton \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QSpacerItem \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlayoutitem.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QSpinBox \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QStackedWidget \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/QStatusBar \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstatusbar.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTabWidget \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidget \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QVBoxLayout \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QWidget \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qwidget.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/QHeaderView \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/QtGlobal \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qglobal.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMessageBox \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmessagebox.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialog.h \

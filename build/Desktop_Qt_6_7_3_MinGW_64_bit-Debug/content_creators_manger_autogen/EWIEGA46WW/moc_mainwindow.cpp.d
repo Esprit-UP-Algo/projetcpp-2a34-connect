@@ -1,6 +1,7 @@
 C:/Users/Selim\ Fekih/Documents/content_creators_manger/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/content_creators_manger_autogen/EWIEGA46WW/moc_mainwindow.cpp: C:/Users/Selim\ Fekih/Documents/content_creators_manger/mainwindow.h \
   C:/Users/Selim\ Fekih/Documents/content_creators_manger/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/content_creators_manger_autogen/moc_predefs.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/QList \
+  C:/Qt/6.7.3/mingw_64/include/QtCore/QSettings \
   C:/Qt/6.7.3/mingw_64/include/QtCore/q20functional.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/q20memory.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/q20type_traits.h \
@@ -78,6 +79,7 @@ C:/Users/Selim\ Fekih/Documents/content_creators_manger/build/Desktop_Qt_6_7_3_M
   C:/Qt/6.7.3/mingw_64/include/QtCore/qscopedpointer.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qscopeguard.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qset.h \
+  C:/Qt/6.7.3/mingw_64/include/QtCore/qsettings.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qshareddata.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qshareddata_impl.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qsharedpointer.h \

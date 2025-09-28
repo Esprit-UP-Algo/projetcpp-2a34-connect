@@ -401,4 +401,6 @@ CMakeFiles/content_creators_manger.dir/content_creators_manger_autogen/mocs_comp
  C:/Qt/6.7.3/mingw_64/include/QtCore/qlist.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QStackedWidget \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstackedwidget.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/QSettings \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qsettings.h \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qtmochelpers.h

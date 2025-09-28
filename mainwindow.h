@@ -9,8 +9,9 @@
 #include <QPushButton>
 #include <QList>
 #include <QStackedWidget>
+#include <QSettings>
 
-    QT_BEGIN_NAMESPACE
+QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
@@ -39,9 +40,19 @@ private slots:
     void handleThemeButtonClicked();
     void handleClearButtonClicked();
 
+    // Navigation slots for sidebar
+    void showManagementPage();
+    void showFinancePage();
+    void showContentCreatorPage();
+    void showSponsorPage();
+    void showDealPage();
+    void showEmployeePage();
+
 private:
-    void updateTable();
+    void updateTable(const QString &searchText = ""); // Updated declaration
     bool isNameUnique(const QString &name, const QString &oldName = "");
+    void loadTheme();
+    void saveTheme();
 
     Ui::MainWindow *ui;
     QLineEdit *nameEdit;

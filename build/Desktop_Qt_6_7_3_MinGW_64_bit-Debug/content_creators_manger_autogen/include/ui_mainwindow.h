@@ -12,6 +12,8 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QComboBox>
+#include <QtWidgets/QDateEdit>
+#include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
@@ -19,10 +21,13 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStackedWidget>
+#include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -35,14 +40,42 @@ public:
     QWidget *centralwidget;
     QHBoxLayout *mainLayout;
     QVBoxLayout *sidebarLayout;
-    QPushButton *sidebarButton;
-    QPushButton *sidebarButton1;
-    QPushButton *sidebarButton2;
-    QPushButton *sidebarButton3;
-    QPushButton *sidebarButton4;
-    QPushButton *sidebarButton5;
+    QPushButton *financeButton;
+    QPushButton *contentCreatorButton;
+    QPushButton *sponsorButton;
+    QPushButton *dealButton;
+    QPushButton *employeeButton;
     QSpacerItem *verticalSpacer;
     QStackedWidget *stackedWidget;
+    QWidget *managementPage;
+    QVBoxLayout *managementLayout;
+    QLabel *managementLabel;
+    QWidget *financePage;
+    QVBoxLayout *financeLayout;
+    QHBoxLayout *topBar;
+    QLineEdit *searchBox;
+    QPushButton *btnSearchById;
+    QPushButton *btnDarkTheme;
+    QPushButton *btnSortByMontant;
+    QPushButton *btnExportCSV;
+    QGroupBox *formBox;
+    QFormLayout *formLayout;
+    QLabel *labelId;
+    QLineEdit *lineId;
+    QLabel *labelMontant;
+    QLineEdit *lineMontant;
+    QLabel *labelDateEmission;
+    QDateEdit *dateEmission;
+    QLabel *labelDateEcheance;
+    QDateEdit *dateEcheance;
+    QLabel *labelStatut;
+    QComboBox *comboStatut;
+    QHBoxLayout *actionLayout;
+    QPushButton *btnAdd;
+    QPushButton *btnEdit;
+    QPushButton *btnDelete;
+    QPushButton *btnClear;
+    QTableWidget *tableFactures;
     QWidget *contentCreatorPage;
     QVBoxLayout *contentCreatorLayout;
     QHBoxLayout *horizontalLayout_2;
@@ -68,125 +101,161 @@ public:
     QSpinBox *subscribersSpin;
     QLineEdit *contentTypeEdit;
     QTableWidget *creatorTable;
-    QWidget *managementPage;
-    QVBoxLayout *managementLayout;
-    QLabel *managementLabel;
-    QWidget *financePage;
-    QVBoxLayout *financeLayout;
-    QLabel *financeLabel;
     QWidget *sponsorPage;
     QVBoxLayout *sponsorLayout;
-    QLabel *sponsorLabel;
+    QTabWidget *sponsorTabWidget;
+    QWidget *tabAdd;
+    QVBoxLayout *tabAddLayout;
+    QGroupBox *formBoxAdd;
+    QFormLayout *formLayoutAdd;
+    QLabel *label_5;
+    QLineEdit *lineEdit_10;
+    QLabel *label1;
+    QLineEdit *lineEdit;
+    QLabel *label_21;
+    QLineEdit *lineEdit_2;
+    QLabel *label_31;
+    QLineEdit *lineEdit_3;
+    QLabel *label_41;
+    QDateEdit *dateEdit;
+    QLabel *label_9;
+    QDateEdit *dateEdit_2;
+    QLabel *label_10;
+    QLineEdit *lineEdit_6;
+    QPushButton *pushButton;
+    QWidget *tabModify;
+    QVBoxLayout *tabModifyLayout;
+    QGroupBox *formBoxModify;
+    QFormLayout *formLayoutModify;
+    QLabel *label_18;
+    QLineEdit *lineEdit_11;
+    QLabel *label_13;
+    QLineEdit *lineEdit_5;
+    QLabel *label_12;
+    QLineEdit *lineEdit_9;
+    QLabel *label_15;
+    QLineEdit *lineEdit_8;
+    QLabel *label_16;
+    QDateEdit *dateEdit_4;
+    QLabel *label_14;
+    QDateEdit *dateEdit_3;
+    QLabel *label_11;
+    QLineEdit *lineEdit_7;
+    QPushButton *pushButton_2;
+    QTableWidget *sponsorTable;
     QWidget *dealPage;
     QVBoxLayout *dealLayout;
     QLabel *dealLabel;
     QWidget *employeePage;
     QVBoxLayout *employeeLayout;
     QLabel *employeeLabel;
+    QMenuBar *menubar;
+    QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(1000, 532);
+        MainWindow->resize(1000, 600);
         MainWindow->setStyleSheet(QString::fromUtf8("\n"
-"QMainWindow {\n"
-"    background-color: #FFFFFF;\n"
-"    border-radius: 10px;\n"
-"}\n"
-"QMainWindow[darkTheme=\"true\"] {\n"
-"    background-color: #000000;\n"
-"}\n"
-"QGroupBox {\n"
-"    background-color: #FFFFFF;\n"
-"    border: 2px solid #7D4FEE;\n"
-"    border-radius: 10px;\n"
-"    font: bold 14pt \"Arial\";\n"
-"    color: #7D4FEE;\n"
-"    margin: 10px;\n"
-"}\n"
-"QGroupBox[darkTheme=\"true\"] {\n"
-"    background-color: #000000;\n"
-"    border: 2px solid #7D4FEE;\n"
-"    color: #7D4FEE;\n"
-"}\n"
-"QGroupBox::title {\n"
-"    color: #7D4FEE;\n"
-"    padding: 0 5px;\n"
-"    subcontrol-origin: margin;\n"
-"    subcontrol-position: top left;\n"
-"}\n"
-"QPushButton {\n"
-"    background-color: #7D4FEE;\n"
-"    color: #FFFFFF;\n"
-"    border-radius: 10px;\n"
-"    padding: 8px;\n"
-"    min-width: 100px;\n"
-"    font: 10pt \"Arial\";\n"
-"    border: 2px solid #7D4FEE;\n"
-"}\n"
-"QPushButton:hover {\n"
-"    background-color: #FFFFFF;\n"
-"    color: #7D4FEE;\n"
-"    border: 2px solid #7D4FEE;\n"
-"}\n"
-"QLineEdit, QCom"
-                        "boBox, QSpinBox {\n"
-"    background-color: #FFFFFF;\n"
-"    border: 2px solid #7D4FEE;\n"
-"    border-radius: 10px;\n"
-"    padding: 6px;\n"
-"    font: 10pt \"Arial\";\n"
-"    color: #7D4FEE;\n"
-"}\n"
-"QLineEdit[darkTheme=\"true\"], QComboBox[darkTheme=\"true\"], QSpinBox[darkTheme=\"true\"] {\n"
-"    background-color: #000000;\n"
-"    border: 2px solid #7D4FEE;\n"
-"    color: #7D4FEE;\n"
-"}\n"
-"QTableWidget {\n"
-"    background-color: #FFFFFF;\n"
-"    border: 2px solid #7D4FEE;\n"
-"    border-radius: 10px;\n"
-"    gridline-color: #7D4FEE;\n"
-"    font: 10pt \"Arial\";\n"
-"    color: #7D4FEE;\n"
-"}\n"
-"QTableWidget[darkTheme=\"true\"] {\n"
-"    background-color: #1A1A1A;\n"
-"    border: 2px solid #7D4FEE;\n"
-"    color: #7D4FEE;\n"
-"}\n"
-"QTableWidget::item:selected {\n"
-"    background-color: #7D4FEE;\n"
-"    color: #FFFFFF;\n"
-"}\n"
-"QLabel {\n"
-"    color: #7D4FEE;\n"
-"    font: 10pt \"Arial\";\n"
-"}\n"
-"QLabel[darkTheme=\"true\"] {\n"
-"    color: #7D4FEE;\n"
-"}\n"
-"QWidget#sidebar {\n"
-"    background-col"
-                        "or: #7D4FEE;\n"
-"    border-radius: 10px 0 0 10px;\n"
-"}\n"
-"QPushButton#sidebarButton {\n"
-"    background-color: #7D4FEE;\n"
-"    color: #FFFFFF;\n"
-"    border: none;\n"
-"    border-radius: 10px;\n"
-"    padding: 10px;\n"
-"    font: 10pt \"Arial\";\n"
-"    width: 100%;\n"
-"    text-align: left;\n"
-"}\n"
-"QPushButton#sidebarButton:hover {\n"
-"    background-color: #FFFFFF;\n"
-"    color: #7D4FEE;\n"
-"}\n"
+"     QMainWindow {\n"
+"         background-color: #FFFFFF;\n"
+"         border-radius: 10px;\n"
+"     }\n"
+"     QMainWindow[darkTheme=\"true\"] {\n"
+"         background-color: #000000;\n"
+"     }\n"
+"     QGroupBox {\n"
+"         background-color: #FFFFFF;\n"
+"         border: 2px solid #7D4FEE;\n"
+"         border-radius: 10px;\n"
+"         font: bold 14pt \"Arial\";\n"
+"         color: #7D4FEE;\n"
+"         margin: 10px;\n"
+"     }\n"
+"     QGroupBox[darkTheme=\"true\"] {\n"
+"         background-color: #000000;\n"
+"         border: 2px solid #7D4FEE;\n"
+"         color: #7D4FEE;\n"
+"     }\n"
+"     QGroupBox::title {\n"
+"         color: #7D4FEE;\n"
+"         padding: 0 5px;\n"
+"         subcontrol-origin: margin;\n"
+"         subcontrol-position: top left;\n"
+"     }\n"
+"     QPushButton {\n"
+"         background-color: #7D4FEE;\n"
+"         color: #FFFFFF;\n"
+"         border-radius: 10px;\n"
+"         padding: 8px;\n"
+"         min-width: 100px;\n"
+"         font: 10pt \"Arial\";\n"
+"         border"
+                        ": 2px solid #7D4FEE;\n"
+"     }\n"
+"     QPushButton:hover {\n"
+"         background-color: #FFFFFF;\n"
+"         color: #7D4FEE;\n"
+"         border: 2px solid #7D4FEE;\n"
+"     }\n"
+"     QLineEdit, QComboBox, QSpinBox, QDateEdit {\n"
+"         background-color: #FFFFFF;\n"
+"         border: 2px solid #7D4FEE;\n"
+"         border-radius: 10px;\n"
+"         padding: 6px;\n"
+"         font: 10pt \"Arial\";\n"
+"         color: #7D4FEE;\n"
+"     }\n"
+"     QLineEdit[darkTheme=\"true\"], QComboBox[darkTheme=\"true\"], QSpinBox[darkTheme=\"true\"], QDateEdit[darkTheme=\"true\"] {\n"
+"         background-color: #000000;\n"
+"         border: 2px solid #7D4FEE;\n"
+"         color: #7D4FEE;\n"
+"     }\n"
+"     QTableWidget {\n"
+"         background-color: #FFFFFF;\n"
+"         border: 2px solid #7D4FEE;\n"
+"         border-radius: 10px;\n"
+"         gridline-color: #7D4FEE;\n"
+"         font: 10pt \"Arial\";\n"
+"         color: #7D4FEE;\n"
+"     }\n"
+"     QTableWidget[darkTheme=\"true\"] {\n"
+"         background-col"
+                        "or: #1A1A1A;\n"
+"         border: 2px solid #7D4FEE;\n"
+"         color: #7D4FEE;\n"
+"     }\n"
+"     QTableWidget::item:selected {\n"
+"         background-color: #7D4FEE;\n"
+"         color: #FFFFFF;\n"
+"     }\n"
+"     QLabel {\n"
+"         color: #7D4FEE;\n"
+"         font: 10pt \"Arial\";\n"
+"     }\n"
+"     QLabel[darkTheme=\"true\"] {\n"
+"         color: #7D4FEE;\n"
+"     }\n"
+"     QWidget#sidebar {\n"
+"         background-color: #7D4FEE;\n"
+"         border-radius: 10px 0 0 10px;\n"
+"     }\n"
+"     QPushButton#sidebarButton {\n"
+"         background-color: #7D4FEE;\n"
+"         color: #FFFFFF;\n"
+"         border: none;\n"
+"         border-radius: 10px;\n"
+"         padding: 10px;\n"
+"         font: 10pt \"Arial\";\n"
+"         width: 100%;\n"
+"         text-align: left;\n"
+"     }\n"
+"     QPushButton#sidebarButton:hover {\n"
+"         background-color: #FFFFFF;\n"
+"         color: #7D4FEE;\n"
+"         border: 2px solid #7D4FEE;\n"
+"     }\n"
 "   "));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
@@ -194,35 +263,30 @@ public:
         mainLayout->setObjectName("mainLayout");
         sidebarLayout = new QVBoxLayout();
         sidebarLayout->setObjectName("sidebarLayout");
-        sidebarButton = new QPushButton(centralwidget);
-        sidebarButton->setObjectName("sidebarButton");
+        financeButton = new QPushButton(centralwidget);
+        financeButton->setObjectName("financeButton");
 
-        sidebarLayout->addWidget(sidebarButton);
+        sidebarLayout->addWidget(financeButton);
 
-        sidebarButton1 = new QPushButton(centralwidget);
-        sidebarButton1->setObjectName("sidebarButton1");
+        contentCreatorButton = new QPushButton(centralwidget);
+        contentCreatorButton->setObjectName("contentCreatorButton");
 
-        sidebarLayout->addWidget(sidebarButton1);
+        sidebarLayout->addWidget(contentCreatorButton);
 
-        sidebarButton2 = new QPushButton(centralwidget);
-        sidebarButton2->setObjectName("sidebarButton2");
+        sponsorButton = new QPushButton(centralwidget);
+        sponsorButton->setObjectName("sponsorButton");
 
-        sidebarLayout->addWidget(sidebarButton2);
+        sidebarLayout->addWidget(sponsorButton);
 
-        sidebarButton3 = new QPushButton(centralwidget);
-        sidebarButton3->setObjectName("sidebarButton3");
+        dealButton = new QPushButton(centralwidget);
+        dealButton->setObjectName("dealButton");
 
-        sidebarLayout->addWidget(sidebarButton3);
+        sidebarLayout->addWidget(dealButton);
 
-        sidebarButton4 = new QPushButton(centralwidget);
-        sidebarButton4->setObjectName("sidebarButton4");
+        employeeButton = new QPushButton(centralwidget);
+        employeeButton->setObjectName("employeeButton");
 
-        sidebarLayout->addWidget(sidebarButton4);
-
-        sidebarButton5 = new QPushButton(centralwidget);
-        sidebarButton5->setObjectName("sidebarButton5");
-
-        sidebarLayout->addWidget(sidebarButton5);
+        sidebarLayout->addWidget(employeeButton);
 
         verticalSpacer = new QSpacerItem(0, 0, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Fixed);
 
@@ -238,6 +302,170 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(stackedWidget->sizePolicy().hasHeightForWidth());
         stackedWidget->setSizePolicy(sizePolicy);
+        managementPage = new QWidget();
+        managementPage->setObjectName("managementPage");
+        managementLayout = new QVBoxLayout(managementPage);
+        managementLayout->setObjectName("managementLayout");
+        managementLabel = new QLabel(managementPage);
+        managementLabel->setObjectName("managementLabel");
+        managementLabel->setAlignment(Qt::AlignmentFlag::AlignCenter);
+
+        managementLayout->addWidget(managementLabel);
+
+        stackedWidget->addWidget(managementPage);
+        financePage = new QWidget();
+        financePage->setObjectName("financePage");
+        financeLayout = new QVBoxLayout(financePage);
+        financeLayout->setObjectName("financeLayout");
+        topBar = new QHBoxLayout();
+        topBar->setObjectName("topBar");
+        searchBox = new QLineEdit(financePage);
+        searchBox->setObjectName("searchBox");
+        searchBox->setStyleSheet(QString::fromUtf8("border: 1px solid #ccc; border-radius: 5px; padding: 4px; background: #f9f9f9;"));
+
+        topBar->addWidget(searchBox);
+
+        btnSearchById = new QPushButton(financePage);
+        btnSearchById->setObjectName("btnSearchById");
+        btnSearchById->setStyleSheet(QString::fromUtf8("background-color: #7D4FEE; color: white; border-radius: 8px; padding: 6px 12px; font-weight: bold;"));
+
+        topBar->addWidget(btnSearchById);
+
+        btnDarkTheme = new QPushButton(financePage);
+        btnDarkTheme->setObjectName("btnDarkTheme");
+        btnDarkTheme->setStyleSheet(QString::fromUtf8("background-color: #7D4FEE; color: white; border-radius: 8px; padding: 6px 12px; font-weight: bold;"));
+
+        topBar->addWidget(btnDarkTheme);
+
+        btnSortByMontant = new QPushButton(financePage);
+        btnSortByMontant->setObjectName("btnSortByMontant");
+        btnSortByMontant->setStyleSheet(QString::fromUtf8("background-color: #7D4FEE; color: white; border-radius: 8px; padding: 6px 12px; font-weight: bold;"));
+
+        topBar->addWidget(btnSortByMontant);
+
+        btnExportCSV = new QPushButton(financePage);
+        btnExportCSV->setObjectName("btnExportCSV");
+        btnExportCSV->setStyleSheet(QString::fromUtf8("background-color: #7D4FEE; color: white; border-radius: 8px; padding: 6px 12px; font-weight: bold;"));
+
+        topBar->addWidget(btnExportCSV);
+
+
+        financeLayout->addLayout(topBar);
+
+        formBox = new QGroupBox(financePage);
+        formBox->setObjectName("formBox");
+        formBox->setStyleSheet(QString::fromUtf8("font-weight: bold; border: 2px solid #7D4FEE; border-radius: 10px; margin-top: 10px;"));
+        formLayout = new QFormLayout(formBox);
+        formLayout->setObjectName("formLayout");
+        labelId = new QLabel(formBox);
+        labelId->setObjectName("labelId");
+
+        formLayout->setWidget(0, QFormLayout::LabelRole, labelId);
+
+        lineId = new QLineEdit(formBox);
+        lineId->setObjectName("lineId");
+        lineId->setStyleSheet(QString::fromUtf8("border: 2px solid #7D4FEE; border-radius: 10px; padding: 6px; background: #FFFFFF;"));
+
+        formLayout->setWidget(0, QFormLayout::FieldRole, lineId);
+
+        labelMontant = new QLabel(formBox);
+        labelMontant->setObjectName("labelMontant");
+
+        formLayout->setWidget(1, QFormLayout::LabelRole, labelMontant);
+
+        lineMontant = new QLineEdit(formBox);
+        lineMontant->setObjectName("lineMontant");
+        lineMontant->setStyleSheet(QString::fromUtf8("border: 2px solid #7D4FEE; border-radius: 10px; padding: 6px; background: #FFFFFF;"));
+
+        formLayout->setWidget(1, QFormLayout::FieldRole, lineMontant);
+
+        labelDateEmission = new QLabel(formBox);
+        labelDateEmission->setObjectName("labelDateEmission");
+
+        formLayout->setWidget(2, QFormLayout::LabelRole, labelDateEmission);
+
+        dateEmission = new QDateEdit(formBox);
+        dateEmission->setObjectName("dateEmission");
+        dateEmission->setStyleSheet(QString::fromUtf8("border: 2px solid #7D4FEE; border-radius: 10px; padding: 6px; background: #FFFFFF;"));
+
+        formLayout->setWidget(2, QFormLayout::FieldRole, dateEmission);
+
+        labelDateEcheance = new QLabel(formBox);
+        labelDateEcheance->setObjectName("labelDateEcheance");
+
+        formLayout->setWidget(3, QFormLayout::LabelRole, labelDateEcheance);
+
+        dateEcheance = new QDateEdit(formBox);
+        dateEcheance->setObjectName("dateEcheance");
+        dateEcheance->setStyleSheet(QString::fromUtf8("border: 2px solid #7D4FEE; border-radius: 10px; padding: 6px; background: #FFFFFF;"));
+
+        formLayout->setWidget(3, QFormLayout::FieldRole, dateEcheance);
+
+        labelStatut = new QLabel(formBox);
+        labelStatut->setObjectName("labelStatut");
+
+        formLayout->setWidget(4, QFormLayout::LabelRole, labelStatut);
+
+        comboStatut = new QComboBox(formBox);
+        comboStatut->addItem(QString());
+        comboStatut->addItem(QString());
+        comboStatut->addItem(QString());
+        comboStatut->setObjectName("comboStatut");
+        comboStatut->setStyleSheet(QString::fromUtf8("border: 2px solid #7D4FEE; border-radius: 10px; padding: 6px; background: #FFFFFF;"));
+
+        formLayout->setWidget(4, QFormLayout::FieldRole, comboStatut);
+
+
+        financeLayout->addWidget(formBox);
+
+        actionLayout = new QHBoxLayout();
+        actionLayout->setObjectName("actionLayout");
+        btnAdd = new QPushButton(financePage);
+        btnAdd->setObjectName("btnAdd");
+        btnAdd->setStyleSheet(QString::fromUtf8("background-color: #7D4FEE; color: white; border-radius: 8px; padding: 6px 12px; font-weight: bold;"));
+
+        actionLayout->addWidget(btnAdd);
+
+        btnEdit = new QPushButton(financePage);
+        btnEdit->setObjectName("btnEdit");
+        btnEdit->setStyleSheet(QString::fromUtf8("background-color: #7D4FEE; color: white; border-radius: 8px; padding: 6px 12px; font-weight: bold;"));
+
+        actionLayout->addWidget(btnEdit);
+
+        btnDelete = new QPushButton(financePage);
+        btnDelete->setObjectName("btnDelete");
+        btnDelete->setStyleSheet(QString::fromUtf8("background-color: #7D4FEE; color: white; border-radius: 8px; padding: 6px 12px; font-weight: bold;"));
+
+        actionLayout->addWidget(btnDelete);
+
+        btnClear = new QPushButton(financePage);
+        btnClear->setObjectName("btnClear");
+        btnClear->setStyleSheet(QString::fromUtf8("background-color: #7D4FEE; color: white; border-radius: 8px; padding: 6px 12px; font-weight: bold;"));
+
+        actionLayout->addWidget(btnClear);
+
+
+        financeLayout->addLayout(actionLayout);
+
+        tableFactures = new QTableWidget(financePage);
+        if (tableFactures->columnCount() < 5)
+            tableFactures->setColumnCount(5);
+        QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
+        tableFactures->setHorizontalHeaderItem(0, __qtablewidgetitem);
+        QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
+        tableFactures->setHorizontalHeaderItem(1, __qtablewidgetitem1);
+        QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
+        tableFactures->setHorizontalHeaderItem(2, __qtablewidgetitem2);
+        QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
+        tableFactures->setHorizontalHeaderItem(3, __qtablewidgetitem3);
+        QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
+        tableFactures->setHorizontalHeaderItem(4, __qtablewidgetitem4);
+        tableFactures->setObjectName("tableFactures");
+        tableFactures->setStyleSheet(QString::fromUtf8("border: 2px solid #7D4FEE; gridline-color: #7D4FEE; selection-background-color: #7D4FEE; selection-color: white;"));
+
+        financeLayout->addWidget(tableFactures);
+
+        stackedWidget->addWidget(financePage);
         contentCreatorPage = new QWidget();
         contentCreatorPage->setObjectName("contentCreatorPage");
         contentCreatorLayout = new QVBoxLayout(contentCreatorPage);
@@ -360,14 +588,14 @@ public:
         creatorTable = new QTableWidget(contentCreatorPage);
         if (creatorTable->columnCount() < 4)
             creatorTable->setColumnCount(4);
-        QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
-        creatorTable->setHorizontalHeaderItem(0, __qtablewidgetitem);
-        QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
-        creatorTable->setHorizontalHeaderItem(1, __qtablewidgetitem1);
-        QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
-        creatorTable->setHorizontalHeaderItem(2, __qtablewidgetitem2);
-        QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
-        creatorTable->setHorizontalHeaderItem(3, __qtablewidgetitem3);
+        QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
+        creatorTable->setHorizontalHeaderItem(0, __qtablewidgetitem5);
+        QTableWidgetItem *__qtablewidgetitem6 = new QTableWidgetItem();
+        creatorTable->setHorizontalHeaderItem(1, __qtablewidgetitem6);
+        QTableWidgetItem *__qtablewidgetitem7 = new QTableWidgetItem();
+        creatorTable->setHorizontalHeaderItem(2, __qtablewidgetitem7);
+        QTableWidgetItem *__qtablewidgetitem8 = new QTableWidgetItem();
+        creatorTable->setHorizontalHeaderItem(3, __qtablewidgetitem8);
         creatorTable->setObjectName("creatorTable");
         sizePolicy.setHeightForWidth(creatorTable->sizePolicy().hasHeightForWidth());
         creatorTable->setSizePolicy(sizePolicy);
@@ -375,37 +603,211 @@ public:
         contentCreatorLayout->addWidget(creatorTable);
 
         stackedWidget->addWidget(contentCreatorPage);
-        managementPage = new QWidget();
-        managementPage->setObjectName("managementPage");
-        managementLayout = new QVBoxLayout(managementPage);
-        managementLayout->setObjectName("managementLayout");
-        managementLabel = new QLabel(managementPage);
-        managementLabel->setObjectName("managementLabel");
-        managementLabel->setAlignment(Qt::AlignmentFlag::AlignCenter);
-
-        managementLayout->addWidget(managementLabel);
-
-        stackedWidget->addWidget(managementPage);
-        financePage = new QWidget();
-        financePage->setObjectName("financePage");
-        financeLayout = new QVBoxLayout(financePage);
-        financeLayout->setObjectName("financeLayout");
-        financeLabel = new QLabel(financePage);
-        financeLabel->setObjectName("financeLabel");
-        financeLabel->setAlignment(Qt::AlignmentFlag::AlignCenter);
-
-        financeLayout->addWidget(financeLabel);
-
-        stackedWidget->addWidget(financePage);
         sponsorPage = new QWidget();
         sponsorPage->setObjectName("sponsorPage");
         sponsorLayout = new QVBoxLayout(sponsorPage);
         sponsorLayout->setObjectName("sponsorLayout");
-        sponsorLabel = new QLabel(sponsorPage);
-        sponsorLabel->setObjectName("sponsorLabel");
-        sponsorLabel->setAlignment(Qt::AlignmentFlag::AlignCenter);
+        sponsorTabWidget = new QTabWidget(sponsorPage);
+        sponsorTabWidget->setObjectName("sponsorTabWidget");
+        tabAdd = new QWidget();
+        tabAdd->setObjectName("tabAdd");
+        tabAddLayout = new QVBoxLayout(tabAdd);
+        tabAddLayout->setObjectName("tabAddLayout");
+        formBoxAdd = new QGroupBox(tabAdd);
+        formBoxAdd->setObjectName("formBoxAdd");
+        formLayoutAdd = new QFormLayout(formBoxAdd);
+        formLayoutAdd->setObjectName("formLayoutAdd");
+        label_5 = new QLabel(formBoxAdd);
+        label_5->setObjectName("label_5");
 
-        sponsorLayout->addWidget(sponsorLabel);
+        formLayoutAdd->setWidget(0, QFormLayout::LabelRole, label_5);
+
+        lineEdit_10 = new QLineEdit(formBoxAdd);
+        lineEdit_10->setObjectName("lineEdit_10");
+
+        formLayoutAdd->setWidget(0, QFormLayout::FieldRole, lineEdit_10);
+
+        label1 = new QLabel(formBoxAdd);
+        label1->setObjectName("label1");
+
+        formLayoutAdd->setWidget(1, QFormLayout::LabelRole, label1);
+
+        lineEdit = new QLineEdit(formBoxAdd);
+        lineEdit->setObjectName("lineEdit");
+
+        formLayoutAdd->setWidget(1, QFormLayout::FieldRole, lineEdit);
+
+        label_21 = new QLabel(formBoxAdd);
+        label_21->setObjectName("label_21");
+
+        formLayoutAdd->setWidget(2, QFormLayout::LabelRole, label_21);
+
+        lineEdit_2 = new QLineEdit(formBoxAdd);
+        lineEdit_2->setObjectName("lineEdit_2");
+
+        formLayoutAdd->setWidget(2, QFormLayout::FieldRole, lineEdit_2);
+
+        label_31 = new QLabel(formBoxAdd);
+        label_31->setObjectName("label_31");
+
+        formLayoutAdd->setWidget(3, QFormLayout::LabelRole, label_31);
+
+        lineEdit_3 = new QLineEdit(formBoxAdd);
+        lineEdit_3->setObjectName("lineEdit_3");
+
+        formLayoutAdd->setWidget(3, QFormLayout::FieldRole, lineEdit_3);
+
+        label_41 = new QLabel(formBoxAdd);
+        label_41->setObjectName("label_41");
+
+        formLayoutAdd->setWidget(4, QFormLayout::LabelRole, label_41);
+
+        dateEdit = new QDateEdit(formBoxAdd);
+        dateEdit->setObjectName("dateEdit");
+
+        formLayoutAdd->setWidget(4, QFormLayout::FieldRole, dateEdit);
+
+        label_9 = new QLabel(formBoxAdd);
+        label_9->setObjectName("label_9");
+
+        formLayoutAdd->setWidget(5, QFormLayout::LabelRole, label_9);
+
+        dateEdit_2 = new QDateEdit(formBoxAdd);
+        dateEdit_2->setObjectName("dateEdit_2");
+
+        formLayoutAdd->setWidget(5, QFormLayout::FieldRole, dateEdit_2);
+
+        label_10 = new QLabel(formBoxAdd);
+        label_10->setObjectName("label_10");
+
+        formLayoutAdd->setWidget(6, QFormLayout::LabelRole, label_10);
+
+        lineEdit_6 = new QLineEdit(formBoxAdd);
+        lineEdit_6->setObjectName("lineEdit_6");
+
+        formLayoutAdd->setWidget(6, QFormLayout::FieldRole, lineEdit_6);
+
+
+        tabAddLayout->addWidget(formBoxAdd);
+
+        pushButton = new QPushButton(tabAdd);
+        pushButton->setObjectName("pushButton");
+
+        tabAddLayout->addWidget(pushButton);
+
+        sponsorTabWidget->addTab(tabAdd, QString());
+        tabModify = new QWidget();
+        tabModify->setObjectName("tabModify");
+        tabModifyLayout = new QVBoxLayout(tabModify);
+        tabModifyLayout->setObjectName("tabModifyLayout");
+        formBoxModify = new QGroupBox(tabModify);
+        formBoxModify->setObjectName("formBoxModify");
+        formLayoutModify = new QFormLayout(formBoxModify);
+        formLayoutModify->setObjectName("formLayoutModify");
+        label_18 = new QLabel(formBoxModify);
+        label_18->setObjectName("label_18");
+
+        formLayoutModify->setWidget(0, QFormLayout::LabelRole, label_18);
+
+        lineEdit_11 = new QLineEdit(formBoxModify);
+        lineEdit_11->setObjectName("lineEdit_11");
+
+        formLayoutModify->setWidget(0, QFormLayout::FieldRole, lineEdit_11);
+
+        label_13 = new QLabel(formBoxModify);
+        label_13->setObjectName("label_13");
+
+        formLayoutModify->setWidget(1, QFormLayout::LabelRole, label_13);
+
+        lineEdit_5 = new QLineEdit(formBoxModify);
+        lineEdit_5->setObjectName("lineEdit_5");
+
+        formLayoutModify->setWidget(1, QFormLayout::FieldRole, lineEdit_5);
+
+        label_12 = new QLabel(formBoxModify);
+        label_12->setObjectName("label_12");
+
+        formLayoutModify->setWidget(2, QFormLayout::LabelRole, label_12);
+
+        lineEdit_9 = new QLineEdit(formBoxModify);
+        lineEdit_9->setObjectName("lineEdit_9");
+
+        formLayoutModify->setWidget(2, QFormLayout::FieldRole, lineEdit_9);
+
+        label_15 = new QLabel(formBoxModify);
+        label_15->setObjectName("label_15");
+
+        formLayoutModify->setWidget(3, QFormLayout::LabelRole, label_15);
+
+        lineEdit_8 = new QLineEdit(formBoxModify);
+        lineEdit_8->setObjectName("lineEdit_8");
+
+        formLayoutModify->setWidget(3, QFormLayout::FieldRole, lineEdit_8);
+
+        label_16 = new QLabel(formBoxModify);
+        label_16->setObjectName("label_16");
+
+        formLayoutModify->setWidget(4, QFormLayout::LabelRole, label_16);
+
+        dateEdit_4 = new QDateEdit(formBoxModify);
+        dateEdit_4->setObjectName("dateEdit_4");
+
+        formLayoutModify->setWidget(4, QFormLayout::FieldRole, dateEdit_4);
+
+        label_14 = new QLabel(formBoxModify);
+        label_14->setObjectName("label_14");
+
+        formLayoutModify->setWidget(5, QFormLayout::LabelRole, label_14);
+
+        dateEdit_3 = new QDateEdit(formBoxModify);
+        dateEdit_3->setObjectName("dateEdit_3");
+
+        formLayoutModify->setWidget(5, QFormLayout::FieldRole, dateEdit_3);
+
+        label_11 = new QLabel(formBoxModify);
+        label_11->setObjectName("label_11");
+
+        formLayoutModify->setWidget(6, QFormLayout::LabelRole, label_11);
+
+        lineEdit_7 = new QLineEdit(formBoxModify);
+        lineEdit_7->setObjectName("lineEdit_7");
+
+        formLayoutModify->setWidget(6, QFormLayout::FieldRole, lineEdit_7);
+
+
+        tabModifyLayout->addWidget(formBoxModify);
+
+        pushButton_2 = new QPushButton(tabModify);
+        pushButton_2->setObjectName("pushButton_2");
+
+        tabModifyLayout->addWidget(pushButton_2);
+
+        sponsorTabWidget->addTab(tabModify, QString());
+
+        sponsorLayout->addWidget(sponsorTabWidget);
+
+        sponsorTable = new QTableWidget(sponsorPage);
+        if (sponsorTable->columnCount() < 7)
+            sponsorTable->setColumnCount(7);
+        QTableWidgetItem *__qtablewidgetitem9 = new QTableWidgetItem();
+        sponsorTable->setHorizontalHeaderItem(0, __qtablewidgetitem9);
+        QTableWidgetItem *__qtablewidgetitem10 = new QTableWidgetItem();
+        sponsorTable->setHorizontalHeaderItem(1, __qtablewidgetitem10);
+        QTableWidgetItem *__qtablewidgetitem11 = new QTableWidgetItem();
+        sponsorTable->setHorizontalHeaderItem(2, __qtablewidgetitem11);
+        QTableWidgetItem *__qtablewidgetitem12 = new QTableWidgetItem();
+        sponsorTable->setHorizontalHeaderItem(3, __qtablewidgetitem12);
+        QTableWidgetItem *__qtablewidgetitem13 = new QTableWidgetItem();
+        sponsorTable->setHorizontalHeaderItem(4, __qtablewidgetitem13);
+        QTableWidgetItem *__qtablewidgetitem14 = new QTableWidgetItem();
+        sponsorTable->setHorizontalHeaderItem(5, __qtablewidgetitem14);
+        QTableWidgetItem *__qtablewidgetitem15 = new QTableWidgetItem();
+        sponsorTable->setHorizontalHeaderItem(6, __qtablewidgetitem15);
+        sponsorTable->setObjectName("sponsorTable");
+        sizePolicy.setHeightForWidth(sponsorTable->sizePolicy().hasHeightForWidth());
+        sponsorTable->setSizePolicy(sizePolicy);
+
+        sponsorLayout->addWidget(sponsorTable);
 
         stackedWidget->addWidget(sponsorPage);
         dealPage = new QWidget();
@@ -434,10 +836,18 @@ public:
         mainLayout->addWidget(stackedWidget);
 
         MainWindow->setCentralWidget(centralwidget);
+        menubar = new QMenuBar(MainWindow);
+        menubar->setObjectName("menubar");
+        menubar->setGeometry(QRect(0, 0, 1000, 21));
+        MainWindow->setMenuBar(menubar);
+        statusbar = new QStatusBar(MainWindow);
+        statusbar->setObjectName("statusbar");
+        MainWindow->setStatusBar(statusbar);
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(0);
+        stackedWidget->setCurrentIndex(1);
+        sponsorTabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -446,12 +856,41 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Content Creator Manager", nullptr));
-        sidebarButton->setText(QCoreApplication::translate("MainWindow", "Management", nullptr));
-        sidebarButton1->setText(QCoreApplication::translate("MainWindow", "Finance", nullptr));
-        sidebarButton2->setText(QCoreApplication::translate("MainWindow", "Content Creator", nullptr));
-        sidebarButton3->setText(QCoreApplication::translate("MainWindow", "Sponsor", nullptr));
-        sidebarButton4->setText(QCoreApplication::translate("MainWindow", "Deal", nullptr));
-        sidebarButton5->setText(QCoreApplication::translate("MainWindow", "Employee", nullptr));
+        financeButton->setText(QCoreApplication::translate("MainWindow", "Finance", nullptr));
+        contentCreatorButton->setText(QCoreApplication::translate("MainWindow", "Content Creator", nullptr));
+        sponsorButton->setText(QCoreApplication::translate("MainWindow", "Sponsor", nullptr));
+        dealButton->setText(QCoreApplication::translate("MainWindow", "Deal", nullptr));
+        employeeButton->setText(QCoreApplication::translate("MainWindow", "Employee", nullptr));
+        managementLabel->setText(QCoreApplication::translate("MainWindow", "Management Page", nullptr));
+        searchBox->setPlaceholderText(QCoreApplication::translate("MainWindow", "Search...", nullptr));
+        btnSearchById->setText(QCoreApplication::translate("MainWindow", "Rechercher", nullptr));
+        btnDarkTheme->setText(QCoreApplication::translate("MainWindow", "Dark Theme", nullptr));
+        btnSortByMontant->setText(QCoreApplication::translate("MainWindow", "Trier par Montant", nullptr));
+        btnExportCSV->setText(QCoreApplication::translate("MainWindow", "Export to CSV", nullptr));
+        formBox->setTitle(QCoreApplication::translate("MainWindow", "Manage Finance - Factures", nullptr));
+        labelId->setText(QCoreApplication::translate("MainWindow", "ID Facture :", nullptr));
+        labelMontant->setText(QCoreApplication::translate("MainWindow", "Montant :", nullptr));
+        labelDateEmission->setText(QCoreApplication::translate("MainWindow", "Date \303\251mission :", nullptr));
+        labelDateEcheance->setText(QCoreApplication::translate("MainWindow", "Date \303\251ch\303\251ance :", nullptr));
+        labelStatut->setText(QCoreApplication::translate("MainWindow", "Statut :", nullptr));
+        comboStatut->setItemText(0, QCoreApplication::translate("MainWindow", "Pay\303\251e", nullptr));
+        comboStatut->setItemText(1, QCoreApplication::translate("MainWindow", "En attente", nullptr));
+        comboStatut->setItemText(2, QCoreApplication::translate("MainWindow", "Annul\303\251e", nullptr));
+
+        btnAdd->setText(QCoreApplication::translate("MainWindow", "Add", nullptr));
+        btnEdit->setText(QCoreApplication::translate("MainWindow", "Edit", nullptr));
+        btnDelete->setText(QCoreApplication::translate("MainWindow", "Delete", nullptr));
+        btnClear->setText(QCoreApplication::translate("MainWindow", "Clear Form", nullptr));
+        QTableWidgetItem *___qtablewidgetitem = tableFactures->horizontalHeaderItem(0);
+        ___qtablewidgetitem->setText(QCoreApplication::translate("MainWindow", "ID Facture", nullptr));
+        QTableWidgetItem *___qtablewidgetitem1 = tableFactures->horizontalHeaderItem(1);
+        ___qtablewidgetitem1->setText(QCoreApplication::translate("MainWindow", "Montant", nullptr));
+        QTableWidgetItem *___qtablewidgetitem2 = tableFactures->horizontalHeaderItem(2);
+        ___qtablewidgetitem2->setText(QCoreApplication::translate("MainWindow", "Date \303\251mission", nullptr));
+        QTableWidgetItem *___qtablewidgetitem3 = tableFactures->horizontalHeaderItem(3);
+        ___qtablewidgetitem3->setText(QCoreApplication::translate("MainWindow", "Date \303\251ch\303\251ance", nullptr));
+        QTableWidgetItem *___qtablewidgetitem4 = tableFactures->horizontalHeaderItem(4);
+        ___qtablewidgetitem4->setText(QCoreApplication::translate("MainWindow", "Statut", nullptr));
         label_search->setText(QCoreApplication::translate("MainWindow", "Search:", nullptr));
         searchEdit->setPlaceholderText(QCoreApplication::translate("MainWindow", "Search by name or platform", nullptr));
         themeButton->setText(QCoreApplication::translate("MainWindow", "Dark Theme", nullptr));
@@ -473,17 +912,48 @@ public:
         label_3->setText(QCoreApplication::translate("MainWindow", "Subscribers:", nullptr));
         titleLabel->setText(QCoreApplication::translate("MainWindow", "Content Creator Details", nullptr));
         clearButton->setText(QCoreApplication::translate("MainWindow", "Clear Form", nullptr));
-        QTableWidgetItem *___qtablewidgetitem = creatorTable->horizontalHeaderItem(0);
-        ___qtablewidgetitem->setText(QCoreApplication::translate("MainWindow", "Name", nullptr));
-        QTableWidgetItem *___qtablewidgetitem1 = creatorTable->horizontalHeaderItem(1);
-        ___qtablewidgetitem1->setText(QCoreApplication::translate("MainWindow", "Platform", nullptr));
-        QTableWidgetItem *___qtablewidgetitem2 = creatorTable->horizontalHeaderItem(2);
-        ___qtablewidgetitem2->setText(QCoreApplication::translate("MainWindow", "Subscribers", nullptr));
-        QTableWidgetItem *___qtablewidgetitem3 = creatorTable->horizontalHeaderItem(3);
-        ___qtablewidgetitem3->setText(QCoreApplication::translate("MainWindow", "Content Type", nullptr));
-        managementLabel->setText(QCoreApplication::translate("MainWindow", "Management Page", nullptr));
-        financeLabel->setText(QCoreApplication::translate("MainWindow", "Finance Page", nullptr));
-        sponsorLabel->setText(QCoreApplication::translate("MainWindow", "Sponsor Page", nullptr));
+        QTableWidgetItem *___qtablewidgetitem5 = creatorTable->horizontalHeaderItem(0);
+        ___qtablewidgetitem5->setText(QCoreApplication::translate("MainWindow", "Name", nullptr));
+        QTableWidgetItem *___qtablewidgetitem6 = creatorTable->horizontalHeaderItem(1);
+        ___qtablewidgetitem6->setText(QCoreApplication::translate("MainWindow", "Platform", nullptr));
+        QTableWidgetItem *___qtablewidgetitem7 = creatorTable->horizontalHeaderItem(2);
+        ___qtablewidgetitem7->setText(QCoreApplication::translate("MainWindow", "Subscribers", nullptr));
+        QTableWidgetItem *___qtablewidgetitem8 = creatorTable->horizontalHeaderItem(3);
+        ___qtablewidgetitem8->setText(QCoreApplication::translate("MainWindow", "Content Type", nullptr));
+        formBoxAdd->setTitle(QCoreApplication::translate("MainWindow", "Add Sponsor", nullptr));
+        label_5->setText(QCoreApplication::translate("MainWindow", "ID", nullptr));
+        label1->setText(QCoreApplication::translate("MainWindow", "Sponsor Name", nullptr));
+        label_21->setText(QCoreApplication::translate("MainWindow", "Category", nullptr));
+        label_31->setText(QCoreApplication::translate("MainWindow", "Email", nullptr));
+        label_41->setText(QCoreApplication::translate("MainWindow", "Start of Contract", nullptr));
+        label_9->setText(QCoreApplication::translate("MainWindow", "End of Contract", nullptr));
+        label_10->setText(QCoreApplication::translate("MainWindow", "Budget", nullptr));
+        pushButton->setText(QCoreApplication::translate("MainWindow", "Add", nullptr));
+        sponsorTabWidget->setTabText(sponsorTabWidget->indexOf(tabAdd), QCoreApplication::translate("MainWindow", "Add", nullptr));
+        formBoxModify->setTitle(QCoreApplication::translate("MainWindow", "Modify Sponsor", nullptr));
+        label_18->setText(QCoreApplication::translate("MainWindow", "ID", nullptr));
+        label_13->setText(QCoreApplication::translate("MainWindow", "Sponsor Name", nullptr));
+        label_12->setText(QCoreApplication::translate("MainWindow", "Category", nullptr));
+        label_15->setText(QCoreApplication::translate("MainWindow", "Email", nullptr));
+        label_16->setText(QCoreApplication::translate("MainWindow", "Start of Contract", nullptr));
+        label_14->setText(QCoreApplication::translate("MainWindow", "End of Contract", nullptr));
+        label_11->setText(QCoreApplication::translate("MainWindow", "Budget", nullptr));
+        pushButton_2->setText(QCoreApplication::translate("MainWindow", "To Modify", nullptr));
+        sponsorTabWidget->setTabText(sponsorTabWidget->indexOf(tabModify), QCoreApplication::translate("MainWindow", "To Modify", nullptr));
+        QTableWidgetItem *___qtablewidgetitem9 = sponsorTable->horizontalHeaderItem(0);
+        ___qtablewidgetitem9->setText(QCoreApplication::translate("MainWindow", "ID", nullptr));
+        QTableWidgetItem *___qtablewidgetitem10 = sponsorTable->horizontalHeaderItem(1);
+        ___qtablewidgetitem10->setText(QCoreApplication::translate("MainWindow", "Sponsor Name", nullptr));
+        QTableWidgetItem *___qtablewidgetitem11 = sponsorTable->horizontalHeaderItem(2);
+        ___qtablewidgetitem11->setText(QCoreApplication::translate("MainWindow", "Category", nullptr));
+        QTableWidgetItem *___qtablewidgetitem12 = sponsorTable->horizontalHeaderItem(3);
+        ___qtablewidgetitem12->setText(QCoreApplication::translate("MainWindow", "Email", nullptr));
+        QTableWidgetItem *___qtablewidgetitem13 = sponsorTable->horizontalHeaderItem(4);
+        ___qtablewidgetitem13->setText(QCoreApplication::translate("MainWindow", "Start of Contract", nullptr));
+        QTableWidgetItem *___qtablewidgetitem14 = sponsorTable->horizontalHeaderItem(5);
+        ___qtablewidgetitem14->setText(QCoreApplication::translate("MainWindow", "End of Contract", nullptr));
+        QTableWidgetItem *___qtablewidgetitem15 = sponsorTable->horizontalHeaderItem(6);
+        ___qtablewidgetitem15->setText(QCoreApplication::translate("MainWindow", "Budget", nullptr));
         dealLabel->setText(QCoreApplication::translate("MainWindow", "Deal Page", nullptr));
         employeeLabel->setText(QCoreApplication::translate("MainWindow", "Employee Page", nullptr));
     } // retranslateUi

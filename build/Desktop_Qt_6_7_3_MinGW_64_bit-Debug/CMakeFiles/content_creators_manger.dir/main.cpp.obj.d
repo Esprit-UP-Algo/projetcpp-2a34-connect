@@ -400,6 +400,8 @@ CMakeFiles/content_creators_manger.dir/main.cpp.obj: \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qlist.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QStackedWidget \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstackedwidget.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/QSettings \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qsettings.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QApplication \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qapplication.h \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qcoreapplication.h \
