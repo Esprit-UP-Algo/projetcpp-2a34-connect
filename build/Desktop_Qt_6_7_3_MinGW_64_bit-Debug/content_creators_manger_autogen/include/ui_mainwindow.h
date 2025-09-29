@@ -123,6 +123,9 @@ public:
     QLabel *label_10;
     QLineEdit *lineEdit_6;
     QPushButton *pushButton;
+    QPushButton *pushButton_6;
+    QPushButton *pushButton_7;
+    QPushButton *pushButton_8;
     QWidget *tabModify;
     QVBoxLayout *tabModifyLayout;
     QGroupBox *formBoxModify;
@@ -141,7 +144,11 @@ public:
     QDateEdit *dateEdit_3;
     QLabel *label_11;
     QLineEdit *lineEdit_7;
+    QGridLayout *gridLayout;
     QPushButton *pushButton_2;
+    QPushButton *pushButton_4;
+    QPushButton *pushButton_3;
+    QPushButton *pushButton_5;
     QTableWidget *sponsorTable;
     QWidget *dealPage;
     QVBoxLayout *dealLayout;
@@ -695,6 +702,21 @@ public:
 
         tabAddLayout->addWidget(pushButton);
 
+        pushButton_6 = new QPushButton(tabAdd);
+        pushButton_6->setObjectName("pushButton_6");
+
+        tabAddLayout->addWidget(pushButton_6);
+
+        pushButton_7 = new QPushButton(tabAdd);
+        pushButton_7->setObjectName("pushButton_7");
+
+        tabAddLayout->addWidget(pushButton_7);
+
+        pushButton_8 = new QPushButton(tabAdd);
+        pushButton_8->setObjectName("pushButton_8");
+
+        tabAddLayout->addWidget(pushButton_8);
+
         sponsorTabWidget->addTab(tabAdd, QString());
         tabModify = new QWidget();
         tabModify->setObjectName("tabModify");
@@ -777,10 +799,30 @@ public:
 
         tabModifyLayout->addWidget(formBoxModify);
 
+        gridLayout = new QGridLayout();
+        gridLayout->setObjectName("gridLayout");
+
+        tabModifyLayout->addLayout(gridLayout);
+
         pushButton_2 = new QPushButton(tabModify);
         pushButton_2->setObjectName("pushButton_2");
 
         tabModifyLayout->addWidget(pushButton_2);
+
+        pushButton_4 = new QPushButton(tabModify);
+        pushButton_4->setObjectName("pushButton_4");
+
+        tabModifyLayout->addWidget(pushButton_4);
+
+        pushButton_3 = new QPushButton(tabModify);
+        pushButton_3->setObjectName("pushButton_3");
+
+        tabModifyLayout->addWidget(pushButton_3);
+
+        pushButton_5 = new QPushButton(tabModify);
+        pushButton_5->setObjectName("pushButton_5");
+
+        tabModifyLayout->addWidget(pushButton_5);
 
         sponsorTabWidget->addTab(tabModify, QString());
 
@@ -846,8 +888,8 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(1);
-        sponsorTabWidget->setCurrentIndex(1);
+        stackedWidget->setCurrentIndex(3);
+        sponsorTabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -929,6 +971,9 @@ public:
         label_9->setText(QCoreApplication::translate("MainWindow", "End of Contract", nullptr));
         label_10->setText(QCoreApplication::translate("MainWindow", "Budget", nullptr));
         pushButton->setText(QCoreApplication::translate("MainWindow", "Add", nullptr));
+        pushButton_6->setText(QCoreApplication::translate("MainWindow", "PDF", nullptr));
+        pushButton_7->setText(QCoreApplication::translate("MainWindow", "Sort by name", nullptr));
+        pushButton_8->setText(QCoreApplication::translate("MainWindow", "Delete", nullptr));
         sponsorTabWidget->setTabText(sponsorTabWidget->indexOf(tabAdd), QCoreApplication::translate("MainWindow", "Add", nullptr));
         formBoxModify->setTitle(QCoreApplication::translate("MainWindow", "Modify Sponsor", nullptr));
         label_18->setText(QCoreApplication::translate("MainWindow", "ID", nullptr));
@@ -939,6 +984,9 @@ public:
         label_14->setText(QCoreApplication::translate("MainWindow", "End of Contract", nullptr));
         label_11->setText(QCoreApplication::translate("MainWindow", "Budget", nullptr));
         pushButton_2->setText(QCoreApplication::translate("MainWindow", "To Modify", nullptr));
+        pushButton_4->setText(QCoreApplication::translate("MainWindow", "PDF", nullptr));
+        pushButton_3->setText(QCoreApplication::translate("MainWindow", "Delete", nullptr));
+        pushButton_5->setText(QCoreApplication::translate("MainWindow", "Sort by name", nullptr));
         sponsorTabWidget->setTabText(sponsorTabWidget->indexOf(tabModify), QCoreApplication::translate("MainWindow", "To Modify", nullptr));
         QTableWidgetItem *___qtablewidgetitem9 = sponsorTable->horizontalHeaderItem(0);
         ___qtablewidgetitem9->setText(QCoreApplication::translate("MainWindow", "ID", nullptr));
