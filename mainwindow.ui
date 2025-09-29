@@ -639,7 +639,7 @@
         <item>
          <widget class="QTabWidget" name="sponsorTabWidget">
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tabAdd">
            <attribute name="title">
@@ -740,16 +740,16 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_7">
+             <widget class="QPushButton" name="pushButton_8">
               <property name="text">
-               <string>Sort by name</string>
+               <string>Delete</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_8">
+             <widget class="QPushButton" name="pushButton_7">
               <property name="text">
-               <string>Delete</string>
+               <string>Sort by name</string>
               </property>
              </widget>
             </item>
