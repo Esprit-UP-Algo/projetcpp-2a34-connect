@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1300</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Project Manager</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="mainLayout">
+    <!-- ================= SIDEBAR MENU ================= -->
+    <item>
+     <widget class="QFrame" name="menuFrame">
+      <property name="objectName">
+       <string>menuFrame</string>
+      </property>
+      <layout class="QVBoxLayout" name="menuLayout">
+       <item>
+        <widget class="QPushButton" name="btnManagement">
+         <property name="objectName">
+          <string>sidebarButton</string>
+         </property>
+         <property name="text">
+          <string>Management</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnFinance">
+         <property name="objectName">
+          <string>sidebarButton</string>
+         </property>
+         <property name="text">
+          <string>Finance</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnContentCreator">
+         <property name="objectName">
+          <string>sidebarButton</string>
+         </property>
+         <property name="text">
+          <string>Content Creator</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnSponsor">
+         <property name="objectName">
+          <string>sidebarButton</string>
+         </property>
+         <property name="text">
+          <string>Sponsor</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnDeal">
+         <property name="objectName">
+          <string>sidebarButton</string>
+         </property>
+         <property name="text">
+          <string>Deal</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnEmployee">
+         <property name="objectName">
+          <string>sidebarButton</string>
+         </property>
+         <property name="text">
+          <string>Employee</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+
+    <!-- ================= CONTENT (STACKED WIDGET) ================= -->
+    <item>
+     <widget class="QStackedWidget" name="stackedWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+
+      <!-- Management Page -->
+      <widget class="QWidget" name="managementPage">
+       <layout class="QVBoxLayout" name="managementLayout">
+        <item>
+         <widget class="QLabel" name="managementLabel">
+          <property name="text">
+           <string>Management Page</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- ================== Finance Page ================== -->
+      <widget class="QWidget" name="financePage">
+       <layout class="QHBoxLayout" name="financeLayout">
+        <!-- Left side: Invoice Management -->
+        <item>
+         <layout class="QVBoxLayout" name="leftLayout">
+          <item>
+           <layout class="QHBoxLayout" name="topBar">
+            <item>
+             <widget class="QLineEdit" name="searchBox">
+              <property name="placeholderText">
+               <string>Search...</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btnSearchById">
+              <property name="text">
+               <string>Search</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btnDarkTheme">
+              <property name="text">
+               <string>Dark Theme</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btnSortByMontant">
+              <property name="text">
+               <string>Sort by Amount</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btnExportCSV">
+              <property name="text">
+               <string>Export to CSV</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="formBox">
+            <property name="title">
+             <string>Manage Invoices</string>
+            </property>
+            <layout class="QFormLayout" name="formLayout">
+             <item row="0" column="0">
+              <widget class="QLabel" name="labelId">
+               <property name="text">
+                <string>Invoice ID:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="lineId"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="labelMontant">
+               <property name="text">
+                <string>Amount:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="lineMontant"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="labelDateEmission">
+               <property name="text">
+                <string>Issue Date:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QDateEdit" name="dateEmission"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="labelDateEcheance">
+               <property name="text">
+                <string>Due Date:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QDateEdit" name="dateEcheance"/>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="labelStatut">
+               <property name="text">
+                <string>Status:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QComboBox" name="comboStatut">
+               <item><property name="text"><string>Paid</string></property></item>
+               <item><property name="text"><string>Pending</string></property></item>
+               <item><property name="text"><string>Cancelled</string></property></item>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="actionLayout">
+            <item><widget class="QPushButton" name="btnAdd"><property name="text"><string>Add</string></property></widget></item>
+            <item><widget class="QPushButton" name="btnEdit"><property name="text"><string>Edit</string></property></widget></item>
+            <item><widget class="QPushButton" name="btnDelete"><property name="text"><string>Delete</string></property></widget></item>
+            <item><widget class="QPushButton" name="btnClear"><property name="text"><string>Clear Form</string></property></widget></item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QTableWidget" name="tableFactures">
+            <column><property name="text"><string>Invoice ID</string></property></column>
+            <column><property name="text"><string>Amount</string></property></column>
+            <column><property name="text"><string>Issue Date</string></property></column>
+            <column><property name="text"><string>Due Date</string></property></column>
+            <column><property name="text"><string>Status</string></property></column>
+           </widget>
+          </item>
+         </layout>
+        </item>
+
+        <!-- Right side: Statistics Table -->
+        <item>
+         <widget class="QGroupBox" name="statsBox">
+          <property name="title">
+           <string>Financial Statistics</string>
+          </property>
+          <layout class="QVBoxLayout" name="statsLayout">
+           <item>
+            <widget class="QTableWidget" name="tableStats">
+             <column><property name="text"><string>Metric</string></property></column>
+             <column><property name="text"><string>Value</string></property></column>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- Content Creator Page -->
+      <widget class="QWidget" name="contentCreatorPage">
+       <layout class="QVBoxLayout" name="contentCreatorLayout">
+        <item>
+         <widget class="QLabel" name="labelContent">
+          <property name="text">
+           <string>Content Creator Page</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- Sponsor Page -->
+      <widget class="QWidget" name="sponsorPage">
+       <layout class="QVBoxLayout" name="sponsorLayout">
+        <item>
+         <widget class="QLabel" name="sponsorLabel">
+          <property name="text">
+           <string>Sponsor Page</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+      <!-- Employee Page -->
+      <widget class="QWidget" name="employeePage">
+       <layout class="QVBoxLayout" name="employeeLayout">
+        <item>
+         <widget class="QLabel" name="employeeLabel">
+          <property name="text">
+           <string>Employee Page</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
