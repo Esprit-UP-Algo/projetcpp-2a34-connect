@@ -1,0 +1,1090 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>998</width>
+    <height>627</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QFrame" name="menuFrame">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>-40</y>
+      <width>132</width>
+      <height>688</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+     QMainWindow {
+         background-color: #FFFFFF;
+         border-radius: 10px;
+     }
+     QMainWindow[darkTheme=&quot;true&quot;] {
+         background-color: #000000;
+     }
+     QGroupBox {
+         background-color: #FFFFFF;
+         border: 2px solid #7D4FEE;
+         border-radius: 10px;
+         font: bold 14pt &quot;Arial&quot;;
+         color: #7D4FEE;
+         margin: 10px;
+     }
+     QGroupBox[darkTheme=&quot;true&quot;] {
+         background-color: #000000;
+         border: 2px solid #7D4FEE;
+         color: #7D4FEE;
+     }
+     QGroupBox::title {
+         color: #7D4FEE;
+         padding: 0 5px;
+         subcontrol-origin: margin;
+         subcontrol-position: top left;
+     }
+     QPushButton {
+         background-color: #7D4FEE;
+         color: #FFFFFF;
+         border-radius: 10px;
+         padding: 8px;
+         min-width: 100px;
+         font: 10pt &quot;Arial&quot;;
+         border: 2px solid #7D4FEE;
+     }
+     QPushButton:hover {
+         background-color: #FFFFFF;
+         color: #7D4FEE;
+         border: 2px solid #7D4FEE;
+     }
+     QLineEdit, QComboBox, QSpinBox, QDateEdit {
+         background-color: #FFFFFF;
+         border: 2px solid #7D4FEE;
+         border-radius: 10px;
+         padding: 6px;
+         font: 10pt &quot;Arial&quot;;
+         color: #7D4FEE;
+     }
+     QLineEdit[darkTheme=&quot;true&quot;], QComboBox[darkTheme=&quot;true&quot;], QSpinBox[darkTheme=&quot;true&quot;], QDateEdit[darkTheme=&quot;true&quot;] {
+         background-color: #000000;
+         border: 2px solid #7D4FEE;
+         color: #7D4FEE;
+     }
+     QTableWidget {
+         background-color: #FFFFFF;
+         border: 2px solid #7D4FEE;
+         border-radius: 10px;
+         gridline-color: #7D4FEE;
+         font: 10pt &quot;Arial&quot;;
+         color: #7D4FEE;
+     }
+     QTableWidget[darkTheme=&quot;true&quot;] {
+         background-color: #1A1A1A;
+         border: 2px solid #7D4FEE;
+         color: #7D4FEE;
+     }
+     QTableWidget::item:selected {
+         background-color: #7D4FEE;
+         color: #FFFFFF;
+     }
+     QLabel {
+         color: #7D4FEE;
+         font: 10pt &quot;Arial&quot;;
+     }
+     QLabel[darkTheme=&quot;true&quot;] {
+         color: #7D4FEE;
+     }
+     QWidget#sidebar {
+         background-color: #7D4FEE;
+         border-radius: 10px 0 0 10px;
+     }
+     QPushButton#sidebarButton {
+         background-color: #7D4FEE;
+         color: #FFFFFF;
+         border: none;
+         border-radius: 10px;
+         padding: 10px;
+         font: 10pt &quot;Arial&quot;;
+         width: 100%;
+         text-align: left;
+     }
+     QPushButton#sidebarButton:hover {
+         background-color: #FFFFFF;
+         color: #7D4FEE;
+         border: 2px solid #7D4FEE;
+     }
+   </string>
+    </property>
+    <layout class="QVBoxLayout" name="menuLayout">
+     <item>
+      <widget class="QPushButton" name="sidebarButton">
+       <property name="text">
+        <string>Management</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="sidebarButton_2">
+       <property name="text">
+        <string>Finance</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="sidebarButton_3">
+       <property name="text">
+        <string>Content Creator</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="sidebarButton_4">
+       <property name="text">
+        <string>Sponsor</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="sidebarButton_5">
+       <property name="text">
+        <string>Deal</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="sidebarButton_6">
+       <property name="text">
+        <string>Employee</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QStackedWidget" name="stackedWidget">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>0</y>
+      <width>1152</width>
+      <height>688</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+     QMainWindow {
+         background-color: #FFFFFF;
+         border-radius: 10px;
+     }
+     QMainWindow[darkTheme=&quot;true&quot;] {
+         background-color: #000000;
+     }
+     QGroupBox {
+         background-color: #FFFFFF;
+         border: 2px solid #7D4FEE;
+         border-radius: 10px;
+         font: bold 14pt &quot;Arial&quot;;
+         color: #7D4FEE;
+         margin: 10px;
+     }
+     QGroupBox[darkTheme=&quot;true&quot;] {
+         background-color: #000000;
+         border: 2px solid #7D4FEE;
+         color: #7D4FEE;
+     }
+     QGroupBox::title {
+         color: #7D4FEE;
+         padding: 0 5px;
+         subcontrol-origin: margin;
+         subcontrol-position: top left;
+     }
+     QPushButton {
+         background-color: #7D4FEE;
+         color: #FFFFFF;
+         border-radius: 10px;
+         padding: 8px;
+         min-width: 100px;
+         font: 10pt &quot;Arial&quot;;
+         border: 2px solid #7D4FEE;
+     }
+     QPushButton:hover {
+         background-color: #FFFFFF;
+         color: #7D4FEE;
+         border: 2px solid #7D4FEE;
+     }
+     QLineEdit, QComboBox, QSpinBox, QDateEdit {
+         background-color: #FFFFFF;
+         border: 2px solid #7D4FEE;
+         border-radius: 10px;
+         padding: 6px;
+         font: 10pt &quot;Arial&quot;;
+         color: #7D4FEE;
+     }
+     QLineEdit[darkTheme=&quot;true&quot;], QComboBox[darkTheme=&quot;true&quot;], QSpinBox[darkTheme=&quot;true&quot;], QDateEdit[darkTheme=&quot;true&quot;] {
+         background-color: #000000;
+         border: 2px solid #7D4FEE;
+         color: #7D4FEE;
+     }
+     QTableWidget {
+         background-color: #FFFFFF;
+         border: 2px solid #7D4FEE;
+         border-radius: 10px;
+         gridline-color: #7D4FEE;
+         font: 10pt &quot;Arial&quot;;
+         color: #7D4FEE;
+     }
+     QTableWidget[darkTheme=&quot;true&quot;] {
+         background-color: #1A1A1A;
+         border: 2px solid #7D4FEE;
+         color: #7D4FEE;
+     }
+     QTableWidget::item:selected {
+         background-color: #7D4FEE;
+         color: #FFFFFF;
+     }
+     QLabel {
+         color: #7D4FEE;
+         font: 10pt &quot;Arial&quot;;
+     }
+     QLabel[darkTheme=&quot;true&quot;] {
+         color: #7D4FEE;
+     }
+     QWidget#sidebar {
+         background-color: #7D4FEE;
+         border-radius: 10px 0 0 10px;
+     }
+     QPushButton#sidebarButton {
+         background-color: #7D4FEE;
+         color: #FFFFFF;
+         border: none;
+         border-radius: 10px;
+         padding: 10px;
+         font: 10pt &quot;Arial&quot;;
+         width: 100%;
+         text-align: left;
+     }
+     QPushButton#sidebarButton:hover {
+         background-color: #FFFFFF;
+         color: #7D4FEE;
+         border: 2px solid #7D4FEE;
+     }
+   </string>
+    </property>
+    <property name="currentIndex">
+     <number>3</number>
+    </property>
+    <widget class="QWidget" name="managementPage">
+     <layout class="QVBoxLayout" name="managementLayout">
+      <item>
+       <widget class="QLabel" name="managementLabel">
+        <property name="text">
+         <string>Management Page</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="financePage">
+     <layout class="QHBoxLayout" name="financeLayout">
+      <item>
+       <layout class="QVBoxLayout" name="leftLayout">
+        <item>
+         <layout class="QHBoxLayout" name="topBar">
+          <item>
+           <widget class="QLineEdit" name="searchBox">
+            <property name="placeholderText">
+             <string>Search...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnSearchById">
+            <property name="text">
+             <string>Search</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnDarkTheme">
+            <property name="text">
+             <string>Dark Theme</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnSortByMontant">
+            <property name="text">
+             <string>Sort by Amount</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnExportCSV">
+            <property name="text">
+             <string>Export to CSV</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="formBox">
+          <property name="title">
+           <string>Manage Invoices</string>
+          </property>
+          <layout class="QFormLayout" name="formLayout">
+           <item row="0" column="0">
+            <widget class="QLabel" name="labelId">
+             <property name="text">
+              <string>Invoice ID:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="lineId"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="labelMontant">
+             <property name="text">
+              <string>Amount:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="lineMontant"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="labelDateEmission">
+             <property name="text">
+              <string>Issue Date:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QDateEdit" name="dateEmission"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="labelDateEcheance">
+             <property name="text">
+              <string>Due Date:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QDateEdit" name="dateEcheance"/>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="labelStatut">
+             <property name="text">
+              <string>Status:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QComboBox" name="comboStatut">
+             <item>
+              <property name="text">
+               <string>Paid</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Pending</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Cancelled</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="actionLayout">
+          <item>
+           <widget class="QPushButton" name="btnAdd">
+            <property name="text">
+             <string>Add</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnEdit">
+            <property name="text">
+             <string>Edit</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnDelete">
+            <property name="text">
+             <string>Delete</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btnClear">
+            <property name="text">
+             <string>Clear Form</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="tableFactures">
+          <column>
+           <property name="text">
+            <string>Invoice ID</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Amount</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Issue Date</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Due Date</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Status</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="statsBox">
+        <property name="title">
+         <string>Financial Statistics</string>
+        </property>
+        <layout class="QVBoxLayout" name="statsLayout">
+         <item>
+          <widget class="QTableWidget" name="tableStats">
+           <column>
+            <property name="text">
+             <string>Metric</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Value</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="contentCreatorPage">
+     <layout class="QVBoxLayout" name="contentCreatorLayout">
+      <item>
+       <widget class="QLabel" name="labelContent">
+        <property name="text">
+         <string>Content Creator Page</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="sponsorPage">
+     <widget class="QTabWidget" name="sponsorTabWidget_3">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>10</y>
+        <width>1201</width>
+        <height>571</height>
+       </rect>
+      </property>
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <widget class="QWidget" name="tabAdd_4">
+       <attribute name="title">
+        <string>Add</string>
+       </attribute>
+       <widget class="QGroupBox" name="formBoxAdd_3">
+        <property name="geometry">
+         <rect>
+          <x>-4</x>
+          <y>35</y>
+          <width>631</width>
+          <height>261</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Add Sponsor</string>
+        </property>
+        <layout class="QFormLayout" name="formLayoutAdd_3">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_63">
+           <property name="text">
+            <string>ID</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="lineEdit_22"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_64">
+           <property name="text">
+            <string>Sponsor Name</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="lineEdit_23"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_65">
+           <property name="text">
+            <string>Category</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="lineEdit_24"/>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_66">
+           <property name="text">
+            <string>Email</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="lineEdit_25"/>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_67">
+           <property name="text">
+            <string>Start of Contract</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QDateEdit" name="dateEdit_9"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_68">
+           <property name="text">
+            <string>End of Contract</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QDateEdit" name="dateEdit_10"/>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="label_69">
+           <property name="text">
+            <string>Budget</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QLineEdit" name="lineEdit_33"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QTableWidget" name="sponsorTable_8">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>450</y>
+          <width>601</width>
+          <height>189</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <column>
+         <property name="text">
+          <string>ID</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Sponsor Name</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Category</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Email</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Start of Contract</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>End of Contract</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Budget</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QPushButton" name="pushButton_23">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>290</y>
+          <width>601</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Add</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_35">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>330</y>
+          <width>601</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>PDF</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_36">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>370</y>
+          <width>601</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Delete</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_37">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>410</y>
+          <width>601</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Sort by name</string>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="sponsorTable_9">
+        <property name="geometry">
+         <rect>
+          <x>640</x>
+          <y>390</y>
+          <width>161</width>
+          <height>151</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_70">
+        <property name="geometry">
+         <rect>
+          <x>650</x>
+          <y>370</y>
+          <width>37</width>
+          <height>12</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>stat</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="searchEdit_7">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>0</y>
+          <width>241</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>search by name .....</string>
+        </property>
+        <property name="placeholderText">
+         <string>Search by name or platform</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_24">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>0</y>
+          <width>121</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>search</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tabModify_4">
+       <attribute name="title">
+        <string>To Modify</string>
+       </attribute>
+       <widget class="QGroupBox" name="formBoxModify_5">
+        <property name="geometry">
+         <rect>
+          <x>-4</x>
+          <y>35</y>
+          <width>631</width>
+          <height>261</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Modify Sponsor</string>
+        </property>
+        <layout class="QFormLayout" name="formLayoutModify_4">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_71">
+           <property name="text">
+            <string>ID</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="lineEdit_34"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_72">
+           <property name="text">
+            <string>Sponsor Name</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="lineEdit_35"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_73">
+           <property name="text">
+            <string>Category</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="lineEdit_36"/>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_74">
+           <property name="text">
+            <string>Email</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="lineEdit_37"/>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_75">
+           <property name="text">
+            <string>Start of Contract</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QDateEdit" name="dateEdit_13"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_76">
+           <property name="text">
+            <string>End of Contract</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QDateEdit" name="dateEdit_14"/>
+         </item>
+         <item row="6" column="0">
+          <widget class="QLabel" name="label_77">
+           <property name="text">
+            <string>Budget</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QLineEdit" name="lineEdit_38"/>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QPushButton" name="pushButton_27">
+        <property name="geometry">
+         <rect>
+          <x>6</x>
+          <y>565</y>
+          <width>120</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Delete</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_28">
+        <property name="geometry">
+         <rect>
+          <x>6</x>
+          <y>601</y>
+          <width>120</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Sort by name</string>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="sponsorTable_10">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>450</y>
+          <width>601</width>
+          <height>193</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <column>
+         <property name="text">
+          <string>ID</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Sponsor Name</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Category</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Email</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Start of Contract</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>End of Contract</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Budget</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QPushButton" name="pushButton_38">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>290</y>
+          <width>601</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>to modify</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_39">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>330</y>
+          <width>601</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>PDF</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_40">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>370</y>
+          <width>601</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Delete</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_41">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>410</y>
+          <width>601</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Sort by name</string>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="sponsorTable_11">
+        <property name="geometry">
+         <rect>
+          <x>640</x>
+          <y>390</y>
+          <width>161</width>
+          <height>151</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_78">
+        <property name="geometry">
+         <rect>
+          <x>650</x>
+          <y>370</y>
+          <width>37</width>
+          <height>12</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>stat</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="searchEdit_8">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>0</y>
+          <width>241</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>search by name .....</string>
+        </property>
+        <property name="placeholderText">
+         <string>Search by name or platform</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_42">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>0</y>
+          <width>121</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>search</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="employeePage">
+     <layout class="QVBoxLayout" name="employeeLayout">
+      <item>
+       <widget class="QLabel" name="employeeLabel">
+        <property name="text">
+         <string>Employee Page</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>998</width>
+     <height>17</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
