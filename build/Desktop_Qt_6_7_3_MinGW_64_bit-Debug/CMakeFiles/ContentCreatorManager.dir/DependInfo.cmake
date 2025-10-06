@@ -8,7 +8,10 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "" "ContentCreatorManager_autogen/timestamp" "custom" "ContentCreatorManager_autogen/deps"
   "C:/Users/Selim Fekih/Documents/content_creators_manger/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/ContentCreatorManager_autogen/mocs_compilation.cpp" "CMakeFiles/ContentCreatorManager.dir/ContentCreatorManager_autogen/mocs_compilation.cpp.obj" "gcc" "CMakeFiles/ContentCreatorManager.dir/ContentCreatorManager_autogen/mocs_compilation.cpp.obj.d"
+  "C:/Users/Selim Fekih/Documents/content_creators_manger/main.cpp" "CMakeFiles/ContentCreatorManager.dir/main.cpp.obj" "gcc" "CMakeFiles/ContentCreatorManager.dir/main.cpp.obj.d"
+  "C:/Users/Selim Fekih/Documents/content_creators_manger/mainwindow.cpp" "CMakeFiles/ContentCreatorManager.dir/mainwindow.cpp.obj" "gcc" "CMakeFiles/ContentCreatorManager.dir/mainwindow.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

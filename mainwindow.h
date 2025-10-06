@@ -2,25 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QTableWidget>
-#include <QLineEdit>
-#include <QComboBox>
-#include <QSpinBox>
-#include <QPushButton>
-#include <QList>
-#include <QStackedWidget>
-#include <QSettings>
+#include <QTableWidgetItem>
+#include <QDate>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
-
-struct Creator {
-    QString name;
-    QString platform;
-    int subscribers;
-    QString contentType;
-};
 
 class MainWindow : public QMainWindow
 {
@@ -31,52 +18,33 @@ public:
     ~MainWindow();
 
 private slots:
-    void handleAddButtonClicked();
-    void handleUpdateButtonClicked();
-    void handleDeleteButtonClicked();
-    void handleTableRowSelected(int row, int column);
-    void handleSearchTextChanged(const QString &text);
-    void handleExportButtonClicked();
-    void handleThemeButtonClicked();
-    void handleClearButtonClicked();
-
-    // Navigation slots for sidebar
+    // Menu
     void showManagementPage();
     void showFinancePage();
     void showContentCreatorPage();
     void showSponsorPage();
-    void showDealPage();
     void showEmployeePage();
 
-private:
-    void updateTable(const QString &searchText = ""); // Updated declaration
-    bool isNameUnique(const QString &name, const QString &oldName = "");
-    void loadTheme();
-    void saveTheme();
+    // Finance Page
+    void addInvoice();
+    void editInvoice();
+    void deleteInvoice();
+    void clearForm();
+    void sortByAmount();
+    void searchById();
+    void exportToCSV();
+    void toggleDarkTheme();
+    void updateStatistics();
 
+private:
     Ui::MainWindow *ui;
-    QLineEdit *nameEdit;
-    QComboBox *platformCombo;
-    QSpinBox *subscribersSpin;
-    QLineEdit *contentTypeEdit;
-    QLineEdit *searchEdit;
-    QPushButton *addButton;
-    QPushButton *updateButton;
-    QPushButton *deleteButton;
-    QPushButton *themeButton;
-    QPushButton *exportButton;
-    QPushButton *clearButton;
-    QTableWidget *creatorTable;
-    QStackedWidget *stackedWidget;
-    QPushButton *managementButton;
-    QPushButton *financeButton;
-    QPushButton *contentCreatorButton;
-    QPushButton *sponsorButton;
-    QPushButton *dealButton;
-    QPushButton *employeeButton;
-    QList<Creator> creators;
-    int selectedRow;
-    bool darkTheme;
+    bool darkTheme = false;
+
+    // Helper function to add invoice to table
+    void insertInvoiceInTable(QString id, double amount, QDate issueDate, QDate dueDate, QString status);
+    void applyLightTheme();
+    void applyDarkTheme();
+    void initializeStatisticsTable();
 };
 
-#endif
+#endif // MAINWINDOW_H

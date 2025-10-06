@@ -7,7 +7,6 @@
 *****************************************************************************/
 
 #include "../../../../mainwindow.h"
-#include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -37,24 +36,21 @@ namespace {
 struct qt_meta_stringdata_CLASSMainWindowENDCLASS_t {};
 constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::stringData(
     "MainWindow",
-    "handleAddButtonClicked",
-    "",
-    "handleUpdateButtonClicked",
-    "handleDeleteButtonClicked",
-    "handleTableRowSelected",
-    "row",
-    "column",
-    "handleSearchTextChanged",
-    "text",
-    "handleExportButtonClicked",
-    "handleThemeButtonClicked",
-    "handleClearButtonClicked",
     "showManagementPage",
+    "",
     "showFinancePage",
     "showContentCreatorPage",
     "showSponsorPage",
-    "showDealPage",
-    "showEmployeePage"
+    "showEmployeePage",
+    "addInvoice",
+    "editInvoice",
+    "deleteInvoice",
+    "clearForm",
+    "sortByAmount",
+    "searchById",
+    "exportToCSV",
+    "toggleDarkTheme",
+    "updateStatistics"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -78,24 +74,24 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
        1,    0,   98,    2, 0x08,    1 /* Private */,
        3,    0,   99,    2, 0x08,    2 /* Private */,
        4,    0,  100,    2, 0x08,    3 /* Private */,
-       5,    2,  101,    2, 0x08,    4 /* Private */,
-       8,    1,  106,    2, 0x08,    7 /* Private */,
-      10,    0,  109,    2, 0x08,    9 /* Private */,
-      11,    0,  110,    2, 0x08,   10 /* Private */,
-      12,    0,  111,    2, 0x08,   11 /* Private */,
-      13,    0,  112,    2, 0x08,   12 /* Private */,
-      14,    0,  113,    2, 0x08,   13 /* Private */,
-      15,    0,  114,    2, 0x08,   14 /* Private */,
-      16,    0,  115,    2, 0x08,   15 /* Private */,
-      17,    0,  116,    2, 0x08,   16 /* Private */,
-      18,    0,  117,    2, 0x08,   17 /* Private */,
+       5,    0,  101,    2, 0x08,    4 /* Private */,
+       6,    0,  102,    2, 0x08,    5 /* Private */,
+       7,    0,  103,    2, 0x08,    6 /* Private */,
+       8,    0,  104,    2, 0x08,    7 /* Private */,
+       9,    0,  105,    2, 0x08,    8 /* Private */,
+      10,    0,  106,    2, 0x08,    9 /* Private */,
+      11,    0,  107,    2, 0x08,   10 /* Private */,
+      12,    0,  108,    2, 0x08,   11 /* Private */,
+      13,    0,  109,    2, 0x08,   12 /* Private */,
+      14,    0,  110,    2, 0x08,   13 /* Private */,
+      15,    0,  111,    2, 0x08,   14 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int,    6,    7,
-    QMetaType::Void, QMetaType::QString,    9,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -118,25 +114,6 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
     qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSMainWindowENDCLASS_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<MainWindow, std::true_type>,
-        // method 'handleAddButtonClicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'handleUpdateButtonClicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'handleDeleteButtonClicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'handleTableRowSelected'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<int, std::false_type>,
-        QtPrivate::TypeAndForceComplete<int, std::false_type>,
-        // method 'handleSearchTextChanged'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
-        // method 'handleExportButtonClicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'handleThemeButtonClicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'handleClearButtonClicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'showManagementPage'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'showFinancePage'
@@ -145,9 +122,25 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'showSponsorPage'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'showDealPage'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'showEmployeePage'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'addInvoice'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'editInvoice'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'deleteInvoice'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'clearForm'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'sortByAmount'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'searchById'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'exportToCSV'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'toggleDarkTheme'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'updateStatistics'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -159,23 +152,24 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         auto *_t = static_cast<MainWindow *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->handleAddButtonClicked(); break;
-        case 1: _t->handleUpdateButtonClicked(); break;
-        case 2: _t->handleDeleteButtonClicked(); break;
-        case 3: _t->handleTableRowSelected((*reinterpret_cast< std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<int>>(_a[2]))); break;
-        case 4: _t->handleSearchTextChanged((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 5: _t->handleExportButtonClicked(); break;
-        case 6: _t->handleThemeButtonClicked(); break;
-        case 7: _t->handleClearButtonClicked(); break;
-        case 8: _t->showManagementPage(); break;
-        case 9: _t->showFinancePage(); break;
-        case 10: _t->showContentCreatorPage(); break;
-        case 11: _t->showSponsorPage(); break;
-        case 12: _t->showDealPage(); break;
-        case 13: _t->showEmployeePage(); break;
+        case 0: _t->showManagementPage(); break;
+        case 1: _t->showFinancePage(); break;
+        case 2: _t->showContentCreatorPage(); break;
+        case 3: _t->showSponsorPage(); break;
+        case 4: _t->showEmployeePage(); break;
+        case 5: _t->addInvoice(); break;
+        case 6: _t->editInvoice(); break;
+        case 7: _t->deleteInvoice(); break;
+        case 8: _t->clearForm(); break;
+        case 9: _t->sortByAmount(); break;
+        case 10: _t->searchById(); break;
+        case 11: _t->exportToCSV(); break;
+        case 12: _t->toggleDarkTheme(); break;
+        case 13: _t->updateStatistics(); break;
         default: ;
         }
     }
+    (void)_a;
 }
 
 const QMetaObject *MainWindow::metaObject() const

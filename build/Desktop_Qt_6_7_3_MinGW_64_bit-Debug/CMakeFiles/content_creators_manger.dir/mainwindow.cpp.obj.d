@@ -362,7 +362,7 @@ CMakeFiles/content_creators_manger.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.3/mingw_64/include/QtGui/qcursor.h \
  C:/Qt/6.7.3/mingw_64/include/QtGui/qbitmap.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidget \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidgetItem \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtablewidget.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtableview.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
@@ -381,27 +381,9 @@ CMakeFiles/content_creators_manger.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLineEdit \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlineedit.h \
- C:/Qt/6.7.3/mingw_64/include/QtGui/qtextcursor.h \
- C:/Qt/6.7.3/mingw_64/include/QtGui/qtextdocument.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qurl.h \
- C:/Qt/6.7.3/mingw_64/include/QtGui/qtextformat.h \
- C:/Qt/6.7.3/mingw_64/include/QtGui/qpen.h \
- C:/Qt/6.7.3/mingw_64/include/QtGui/qtextoption.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/QComboBox \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qcombobox.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/QSpinBox \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qspinbox.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/QPushButton \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qpushbutton.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractbutton.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/QList \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qlist.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/QStackedWidget \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstackedwidget.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/QSettings \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qsettings.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/QDate \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
  C:/Users/SELIMF~1/DOCUME~1/CONTEN~1/build/DESKTO~1/CONTEN~1/include/ui_mainwindow.h \
  C:/Qt/6.7.3/mingw_64/include/QtCore/QVariant \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qvariant.h \
@@ -418,11 +400,11 @@ CMakeFiles/content_creators_manger.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.3/mingw_64/include/QtGui/qinputmethod.h \
  C:/Qt/6.7.3/mingw_64/include/QtGui/qguiapplication_platform.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QComboBox \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qcombobox.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QDateEdit \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdatetimeedit.h \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qtimezone.h \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QFormLayout \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qformlayout.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLayout \
@@ -431,6 +413,8 @@ CMakeFiles/content_creators_manger.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qboxlayout.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlayout.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qgridlayout.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/QFrame \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QGridLayout \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qgridlayout.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QGroupBox \
@@ -443,31 +427,37 @@ CMakeFiles/content_creators_manger.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlabel.h \
  C:/Qt/6.7.3/mingw_64/include/QtGui/qpicture.h \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qiodevice.h \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/qtextdocument.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qurl.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLineEdit \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlineedit.h \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/qtextcursor.h \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/qtextformat.h \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/qpen.h \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/qtextoption.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMainWindow \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMenuBar \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmenubar.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmenu.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QPushButton \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qpushbutton.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractbutton.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QSpacerItem \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlayoutitem.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QSpinBox \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qspinbox.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QStackedWidget \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/QStatusBar \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstatusbar.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstackedwidget.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTabWidget \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidget \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QVBoxLayout \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QWidget \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qwidget.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/QtGlobal \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qglobal.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMessageBox \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmessagebox.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialog.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/QFile \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/QFileDialog \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qfiledialog.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qdir.h \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qfile.h \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qfiledevice.h \
  C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/filesystem \
@@ -500,5 +490,6 @@ CMakeFiles/content_creators_manger.dir/mainwindow.cpp.obj: \
  C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/codecvt \
  C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/fs_dir.h \
  C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/fs_ops.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qfileinfo.h \
  C:/Qt/6.7.3/mingw_64/include/QtCore/QTextStream \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qtextstream.h

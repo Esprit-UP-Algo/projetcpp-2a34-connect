@@ -363,7 +363,7 @@ CMakeFiles/content_creators_manger.dir/content_creators_manger_autogen/mocs_comp
  C:/Qt/6.7.3/mingw_64/include/QtGui/qcursor.h \
  C:/Qt/6.7.3/mingw_64/include/QtGui/qbitmap.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidget \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidgetItem \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtablewidget.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtableview.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
@@ -382,25 +382,7 @@ CMakeFiles/content_creators_manger.dir/content_creators_manger_autogen/mocs_comp
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLineEdit \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlineedit.h \
- C:/Qt/6.7.3/mingw_64/include/QtGui/qtextcursor.h \
- C:/Qt/6.7.3/mingw_64/include/QtGui/qtextdocument.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qurl.h \
- C:/Qt/6.7.3/mingw_64/include/QtGui/qtextformat.h \
- C:/Qt/6.7.3/mingw_64/include/QtGui/qpen.h \
- C:/Qt/6.7.3/mingw_64/include/QtGui/qtextoption.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/QComboBox \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qcombobox.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/QSpinBox \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qspinbox.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/QPushButton \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qpushbutton.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractbutton.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/QList \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qlist.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/QStackedWidget \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstackedwidget.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/QSettings \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qsettings.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/QDate \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qtmochelpers.h

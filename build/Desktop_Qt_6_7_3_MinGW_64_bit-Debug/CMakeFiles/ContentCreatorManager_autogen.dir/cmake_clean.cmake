@@ -1,6 +1,5 @@
 file(REMOVE_RECURSE
   "CMakeFiles/ContentCreatorManager_autogen"
-  "ContentCreatorManager_autogen/include/ui_mainwindow.h"
   "ContentCreatorManager_autogen/mocs_compilation.cpp"
   "ContentCreatorManager_autogen/timestamp"
 )
