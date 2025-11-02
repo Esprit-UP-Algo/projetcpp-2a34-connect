@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "sponsor.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -17,7 +18,17 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_pushButton_23_clicked();
+
+    void on_pushButton_38_clicked();
+
+    void on_pushButton_40_clicked();
+
+    void on_refreshbtn_clicked();
+
 private:
     Ui::MainWindow *ui;
+    sponsor S;
 };
 #endif // MAINWINDOW_H

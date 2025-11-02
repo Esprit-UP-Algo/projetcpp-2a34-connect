@@ -1,9 +1,9 @@
-C:/Users/pc/Documents/gestion_sponsor/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/CMakeFiles/gestion_sponsor.dir
-C:/Users/pc/Documents/gestion_sponsor/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
-C:/Users/pc/Documents/gestion_sponsor/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
-C:/Users/pc/Documents/gestion_sponsor/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/CMakeFiles/list_install_components.dir
-C:/Users/pc/Documents/gestion_sponsor/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/CMakeFiles/install.dir
-C:/Users/pc/Documents/gestion_sponsor/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/CMakeFiles/install/local.dir
-C:/Users/pc/Documents/gestion_sponsor/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/CMakeFiles/install/strip.dir
-C:/Users/pc/Documents/gestion_sponsor/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/CMakeFiles/gestion_sponsor_autogen_timestamp_deps.dir
-C:/Users/pc/Documents/gestion_sponsor/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/CMakeFiles/gestion_sponsor_autogen.dir
+C:/Users/pc/Desktop/Nouveau dossier (6)/interface23/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/CMakeFiles/interface23.dir
+C:/Users/pc/Desktop/Nouveau dossier (6)/interface23/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
+C:/Users/pc/Desktop/Nouveau dossier (6)/interface23/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/pc/Desktop/Nouveau dossier (6)/interface23/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/CMakeFiles/list_install_components.dir
+C:/Users/pc/Desktop/Nouveau dossier (6)/interface23/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/CMakeFiles/install.dir
+C:/Users/pc/Desktop/Nouveau dossier (6)/interface23/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/CMakeFiles/install/local.dir
+C:/Users/pc/Desktop/Nouveau dossier (6)/interface23/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/CMakeFiles/install/strip.dir
+C:/Users/pc/Desktop/Nouveau dossier (6)/interface23/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/CMakeFiles/interface23_autogen_timestamp_deps.dir
+C:/Users/pc/Desktop/Nouveau dossier (6)/interface23/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/CMakeFiles/interface23_autogen.dir

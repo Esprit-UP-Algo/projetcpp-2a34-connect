@@ -1,27 +1,17 @@
 # ninja log v6
-79	1905	7798406391195168	gestion_sponsor_autogen/timestamp	7090fc9b549a716a
-79	1905	7798406391195168	gestion_sponsor_autogen/mocs_compilation.cpp	7090fc9b549a716a
-79	1905	7798406391195168	C:/Users/pc/Documents/gestion_sponsor/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/gestion_sponsor_autogen/timestamp	7090fc9b549a716a
-79	1905	7798406391195168	C:/Users/pc/Documents/gestion_sponsor/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/gestion_sponsor_autogen/mocs_compilation.cpp	7090fc9b549a716a
-1911	4679	7798406392699230	CMakeFiles/gestion_sponsor.dir/gestion_sponsor_autogen/mocs_compilation.cpp.obj	55cf9c32d61c08f4
-2076	4964	7798406394299382	CMakeFiles/gestion_sponsor.dir/main.cpp.obj	98dce3e7e89d03e6
-2217	5479	7798406395751443	CMakeFiles/gestion_sponsor.dir/mainwindow.cpp.obj	6584de4f0635ad1a
-5480	8028	7798406428402693	gestion_sponsor.exe	a2b9ed77138b5759
-55	1090	7802502905115752	gestion_sponsor_autogen/timestamp	7090fc9b549a716a
-55	1090	7802502905115752	gestion_sponsor_autogen/mocs_compilation.cpp	7090fc9b549a716a
-55	1090	7802502905115752	C:/Users/pc/Documents/gestion_sponsor/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/gestion_sponsor_autogen/timestamp	7090fc9b549a716a
-55	1090	7802502905115752	C:/Users/pc/Documents/gestion_sponsor/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/gestion_sponsor_autogen/mocs_compilation.cpp	7090fc9b549a716a
-1095	12036	7802502915548823	CMakeFiles/gestion_sponsor.dir/mainwindow.cpp.obj	6584de4f0635ad1a
-12037	15626	7802503024971325	gestion_sponsor.exe	a2b9ed77138b5759
-36	556	7802522789727357	gestion_sponsor_autogen/timestamp	7090fc9b549a716a
-36	556	7802522789727357	gestion_sponsor_autogen/mocs_compilation.cpp	7090fc9b549a716a
-36	556	7802522789727357	C:/Users/pc/Documents/gestion_sponsor/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/gestion_sponsor_autogen/timestamp	7090fc9b549a716a
-36	556	7802522789727357	C:/Users/pc/Documents/gestion_sponsor/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/gestion_sponsor_autogen/mocs_compilation.cpp	7090fc9b549a716a
-558	5322	7802522794945297	CMakeFiles/gestion_sponsor.dir/mainwindow.cpp.obj	6584de4f0635ad1a
-5322	6806	7802522842594361	gestion_sponsor.exe	a2b9ed77138b5759
-24	722	7802577302834692	gestion_sponsor_autogen/timestamp	7090fc9b549a716a
-24	722	7802577302834692	gestion_sponsor_autogen/mocs_compilation.cpp	7090fc9b549a716a
-24	722	7802577302834692	C:/Users/pc/Documents/gestion_sponsor/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/gestion_sponsor_autogen/timestamp	7090fc9b549a716a
-24	722	7802577302834692	C:/Users/pc/Documents/gestion_sponsor/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/gestion_sponsor_autogen/mocs_compilation.cpp	7090fc9b549a716a
-723	3708	7802577309825956	CMakeFiles/gestion_sponsor.dir/mainwindow.cpp.obj	6584de4f0635ad1a
-3709	6356	7802577339633600	gestion_sponsor.exe	a2b9ed77138b5759
+13	1745	7812764563105677	interface23_autogen/timestamp	c80448ad548f2594
+13	1745	7812764563105677	C:/Users/pc/Desktop/Nouveau dossier (6)/interface23/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/interface23_autogen/timestamp	c80448ad548f2594
+7464	8888	7812764622668043	interface23.exe	9f7f8309607bcdf3
+13	1745	7812764563105677	interface23_autogen/mocs_compilation.cpp	c80448ad548f2594
+1945	7464	7812764567424030	CMakeFiles/interface23.dir/mainwindow.cpp.obj	e9a6a61059ab301e
+13	1745	7812764563105677	C:/Users/pc/Desktop/Nouveau dossier (6)/interface23/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/interface23_autogen/mocs_compilation.cpp	c80448ad548f2594
+1759	5798	7812764565527864	CMakeFiles/interface23.dir/interface23_autogen/mocs_compilation.cpp.obj	f3221b3cfa4b9bd0
+1839	6084	7812764566379868	CMakeFiles/interface23.dir/main.cpp.obj	2dfd337ba9ae3821
+66	1404	7812909077593636	interface23_autogen/timestamp	c80448ad548f2594
+66	1404	7812909077593636	interface23_autogen/mocs_compilation.cpp	c80448ad548f2594
+66	1404	7812909077593636	C:/Users/pc/Desktop/Nouveau dossier (6)/interface23/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/interface23_autogen/timestamp	c80448ad548f2594
+66	1404	7812909077593636	C:/Users/pc/Desktop/Nouveau dossier (6)/interface23/build/Desktop_Qt_6_9_2_MinGW_64_bit-Debug/interface23_autogen/mocs_compilation.cpp	c80448ad548f2594
+1406	5535	7812909079409917	CMakeFiles/interface23.dir/interface23_autogen/mocs_compilation.cpp.obj	f3221b3cfa4b9bd0
+1490	5704	7812909080248950	CMakeFiles/interface23.dir/main.cpp.obj	2dfd337ba9ae3821
+1564	7403	7812909080981633	CMakeFiles/interface23.dir/mainwindow.cpp.obj	e9a6a61059ab301e
+7403	8830	7812909139387297	interface23.exe	9f7f8309607bcdf3
