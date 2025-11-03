@@ -63,7 +63,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btnDeal">
+        <widget class="QPushButton" name="btnsponsor">
          <property name="objectName">
           <string>sidebarButton</string>
          </property>

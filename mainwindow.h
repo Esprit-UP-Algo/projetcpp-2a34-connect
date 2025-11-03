@@ -2,8 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QTableWidgetItem>
-#include <QDate>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -40,7 +38,7 @@ private:
     Ui::MainWindow *ui;
     bool darkTheme = false;
 
-    // Helper function to add invoice to table
+    // Helper functions
     void insertInvoiceInTable(QString id, double amount, QDate issueDate, QDate dueDate, QString status);
     void applyLightTheme();
     void applyDarkTheme();
