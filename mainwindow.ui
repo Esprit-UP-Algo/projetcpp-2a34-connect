@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>998</width>
+    <width>1459</width>
     <height>715</height>
    </rect>
   </property>
@@ -173,8 +173,8 @@
      <rect>
       <x>190</x>
       <y>-30</y>
-      <width>1152</width>
-      <height>688</height>
+      <width>1281</width>
+      <height>801</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -520,12 +520,12 @@
        <rect>
         <x>0</x>
         <y>30</y>
-        <width>1201</width>
+        <width>1451</width>
         <height>471</height>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabAdd_4">
        <attribute name="title">
@@ -536,8 +536,8 @@
          <rect>
           <x>0</x>
           <y>30</y>
-          <width>631</width>
-          <height>261</height>
+          <width>881</width>
+          <height>291</height>
          </rect>
         </property>
         <property name="title">
@@ -547,7 +547,7 @@
          <item row="1" column="0">
           <widget class="QLabel" name="label_64">
            <property name="text">
-            <string>Sponsor prenom</string>
+            <string>last name</string>
            </property>
           </widget>
          </item>
@@ -610,7 +610,7 @@
          <item row="0" column="0">
           <widget class="QLabel" name="label_63">
            <property name="text">
-            <string>Nom</string>
+            <string>name</string>
            </property>
           </widget>
          </item>
@@ -620,8 +620,8 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>290</y>
-          <width>601</width>
+          <y>320</y>
+          <width>861</width>
           <height>31</height>
          </rect>
         </property>
@@ -633,8 +633,8 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>330</y>
-          <width>601</width>
+          <y>360</y>
+          <width>861</width>
           <height>32</height>
          </rect>
         </property>
@@ -646,8 +646,8 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>370</y>
-          <width>601</width>
+          <y>400</y>
+          <width>861</width>
           <height>32</height>
          </rect>
         </property>
@@ -655,41 +655,12 @@
          <string>Sort by name</string>
         </property>
        </widget>
-       <widget class="QTableWidget" name="sponsorTable_9">
-        <property name="geometry">
-         <rect>
-          <x>640</x>
-          <y>290</y>
-          <width>161</width>
-          <height>151</height>
-         </rect>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_70">
-        <property name="geometry">
-         <rect>
-          <x>650</x>
-          <y>270</y>
-          <width>37</width>
-          <height>12</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>stat</string>
-        </property>
-       </widget>
        <widget class="QLineEdit" name="searchEdit_7">
         <property name="geometry">
          <rect>
           <x>10</x>
           <y>0</y>
-          <width>241</width>
+          <width>351</width>
           <height>31</height>
          </rect>
         </property>
@@ -703,7 +674,7 @@
        <widget class="QPushButton" name="pushButton_24">
         <property name="geometry">
          <rect>
-          <x>260</x>
+          <x>370</x>
           <y>0</y>
           <width>121</width>
           <height>31</height>
@@ -722,9 +693,9 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>40</y>
-          <width>631</width>
-          <height>261</height>
+          <y>30</y>
+          <width>871</width>
+          <height>301</height>
          </rect>
         </property>
         <property name="title">
@@ -800,14 +771,14 @@
          <item row="2" column="0">
           <widget class="QLabel" name="label_72">
            <property name="text">
-            <string>Sponsor prenom</string>
+            <string>last name</string>
            </property>
           </widget>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="label_79">
            <property name="text">
-            <string>Nom</string>
+            <string>name</string>
            </property>
           </widget>
          </item>
@@ -843,8 +814,8 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>300</y>
-          <width>601</width>
+          <y>330</y>
+          <width>841</width>
           <height>31</height>
          </rect>
         </property>
@@ -856,8 +827,8 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>340</y>
-          <width>601</width>
+          <y>370</y>
+          <width>841</width>
           <height>32</height>
          </rect>
         </property>
@@ -869,29 +840,13 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>380</y>
-          <width>601</width>
+          <y>410</y>
+          <width>841</width>
           <height>32</height>
          </rect>
         </property>
         <property name="text">
          <string>Sort by name</string>
-        </property>
-       </widget>
-       <widget class="QTableWidget" name="sponsorTable_11">
-        <property name="geometry">
-         <rect>
-          <x>640</x>
-          <y>270</y>
-          <width>161</width>
-          <height>151</height>
-         </rect>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
         </property>
        </widget>
        <widget class="QLabel" name="label_78">
@@ -904,7 +859,7 @@
          </rect>
         </property>
         <property name="text">
-         <string>stat</string>
+         <string/>
         </property>
        </widget>
        <widget class="QLineEdit" name="searchEdit_8">
@@ -912,7 +867,7 @@
          <rect>
           <x>10</x>
           <y>0</y>
-          <width>241</width>
+          <width>351</width>
           <height>31</height>
          </rect>
         </property>
@@ -926,7 +881,7 @@
        <widget class="QPushButton" name="pushButton_42">
         <property name="geometry">
          <rect>
-          <x>260</x>
+          <x>370</x>
           <y>0</y>
           <width>121</width>
           <height>31</height>
@@ -941,9 +896,9 @@
      <widget class="QTableView" name="tableView">
       <property name="geometry">
        <rect>
-        <x>40</x>
+        <x>20</x>
         <y>510</y>
-        <width>561</width>
+        <width>741</width>
         <height>171</height>
        </rect>
       </property>
@@ -951,7 +906,7 @@
      <widget class="QPushButton" name="pushButton_40">
       <property name="geometry">
        <rect>
-        <x>640</x>
+        <x>770</x>
         <y>530</y>
         <width>120</width>
         <height>32</height>
@@ -964,7 +919,7 @@
      <widget class="QPushButton" name="refreshbtn">
       <property name="geometry">
        <rect>
-        <x>640</x>
+        <x>770</x>
         <y>580</y>
         <width>120</width>
         <height>32</height>
@@ -972,6 +927,22 @@
       </property>
       <property name="text">
        <string>refresh</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="sponsorTable_9">
+      <property name="geometry">
+       <rect>
+        <x>940</x>
+        <y>560</y>
+        <width>191</width>
+        <height>141</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
      </widget>
     </widget>
@@ -996,7 +967,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>998</width>
+     <width>1459</width>
      <height>17</height>
     </rect>
    </property>
