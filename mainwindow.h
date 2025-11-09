@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "sponsor.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -19,20 +18,40 @@ public:
     ~MainWindow();
 
 private slots:
+    void on_pushButton_11_clicked();
+    void on_pushButton_8_clicked();
+    void on_pushButton_10_clicked();
+    void on_pushButton_12_clicked();
+    void on_lineEdit_6_textChanged(const QString &arg1);
+    void on_tableWidget_clicked(const QModelIndex &index);
+    void on_sidebarButton_clicked();
+    void on_sidebarButton_2_clicked();
+    void on_sidebarButton_3_clicked();
+    void on_sidebarButton_4_clicked();
+    void on_sidebarButton_5_clicked();
+    void on_sidebarButton12_clicked();
     void on_pushButton_23_clicked();
     void on_pushButton_38_clicked();
     void on_pushButton_40_clicked();
+    void on_sponsorTable_9_clicked(const QModelIndex &index);
     void on_refreshbtn_clicked();
-    void on_tableView_selectionChanged();
+    void on_pushButton_stats_clicked();
 
 private:
     Ui::MainWindow *ui;
-    sponsor S;
+    int idEmployeSelectionne;
+    int idSponsorSelectionne;
 
-    bool isValidName(const QString &name);
-    bool isValidEmail(const QString &email);
-    bool isValidBudget(const QString &budgetStr);
-    bool isFieldEmpty(const QString &field, const QString &fieldName);
+    void checkDrivers();
+    void testSimpleConnection();
+    bool connecterOracle();
+    void connecterSignaux();
+    void initEmployesTable();
+    void initSponsorsTable();
+    void afficherEmployes();
+    void afficherSponsors();
+    void clearEmployeFields();
+    void clearSponsorFields();
 };
 
 #endif // MAINWINDOW_H
