@@ -32,7 +32,7 @@ private slots:
     void searchById();
     void exportToCSV();
     void toggleDarkTheme();
-    void updateStatistics();
+    void onInvoiceSelected();
 
 private:
     Ui::MainWindow *ui;
@@ -40,9 +40,11 @@ private:
 
     // Helper functions
     void insertInvoiceInTable(QString id, double amount, QDate issueDate, QDate dueDate, QString status);
+    void loadInvoicesFromDatabase();
+    void initializeVisualStatistics();
+    void updateVisualStatistics();
     void applyLightTheme();
     void applyDarkTheme();
-    void initializeStatisticsTable();
 };
 
 #endif // MAINWINDOW_H

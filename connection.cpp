@@ -4,7 +4,7 @@
 #include <QSqlError>
 
 Connection::Connection() {
-    // Utiliser un driver disponible - QODBC pour Oracle
+    // Use an available driver - QODBC for Oracle
     db = QSqlDatabase::addDatabase("QODBC");
 }
 
@@ -20,45 +20,45 @@ Connection& Connection::getInstance() {
 }
 
 bool Connection::createconnect() {
-    qDebug() << "=== TENTATIVE DE CONNEXION ORACLE VIA ODBC ===";
-    qDebug() << "Drivers disponibles:" << QSqlDatabase::drivers();
+    qDebug() << "=== ORACLE CONNECTION ATTEMPT VIA ODBC ===";
+    qDebug() << "Available drivers:" << QSqlDatabase::drivers();
 
-    // Configuration ODBC pour Oracle
+    // ODBC configuration for Oracle
     QString connectionString = "DRIVER={Oracle dans OraClient11g_home1};SERVER=DESKTOP-BUIGG3M:1521/XE;UID=system;PWD=05032005";
     db.setDatabaseName(connectionString);
 
-    qDebug() << "Configuration ODBC utilisée...";
+    qDebug() << "Using ODBC configuration...";
 
     if (db.open()) {
-        qDebug() << "✅ CONNEXION ORACLE VIA ODBC RÉUSSIE!";
+        qDebug() << "✅ ORACLE CONNECTION VIA ODBC SUCCESSFUL!";
 
-        // Test d'une requête simple
+        // Test a simple query
         QSqlQuery query;
         if (query.exec("SELECT sysdate FROM dual")) {
             if (query.next()) {
-                qDebug() << "✅ Test requête réussi. Date système:" << query.value(0).toString();
+                qDebug() << "✅ Query test successful. System date:" << query.value(0).toString();
             }
             return true;
         } else {
-            qDebug() << "⚠️ Connexion OK mais erreur requête:" << query.lastError().text();
-            return true; // La connexion est bonne même si la requête échoue
+            qDebug() << "⚠️ Connection OK but query error:" << query.lastError().text();
+            return true; // Connection is good even if query fails
         }
     } else {
-        qDebug() << "❌ ÉCHEC connexion ODBC:" << db.lastError().text();
+        qDebug() << "❌ ODBC connection failed:" << db.lastError().text();
 
-        // Fallback SQLite
-        qDebug() << "=== UTILISATION SQLITE DE SECOURS ===";
+        // SQLite fallback
+        qDebug() << "=== USING SQLITE FALLBACK ===";
         QSqlDatabase::removeDatabase(QSqlDatabase::defaultConnection);
         db = QSqlDatabase::addDatabase("QSQLITE");
         db.setDatabaseName("project_manager.db");
 
         if (db.open()) {
-            qDebug() << "✅ CONNEXION SQLITE RÉUSSIE!";
+            qDebug() << "✅ SQLITE CONNECTION SUCCESSFUL!";
 
-            // Créer les tables nécessaires
+            // Create necessary tables
             QSqlQuery query;
 
-            // Table Facture
+            // Facture table
             query.exec("CREATE TABLE IF NOT EXISTS Facture ("
                        "id_facture VARCHAR(20) PRIMARY KEY, "
                        "montant DECIMAL(10,2), "
@@ -67,14 +67,14 @@ bool Connection::createconnect() {
                        "statut VARCHAR(20), "
                        "id_employe INTEGER)");
 
-            // Insérer des données de test
+            // Insert test data
             query.exec("INSERT OR IGNORE INTO Facture VALUES ('FACT001', 1500.00, '2025-01-01', '2025-02-01', 'Paid', 1)");
             query.exec("INSERT OR IGNORE INTO Facture VALUES ('FACT002', 2500.50, '2025-01-15', '2025-02-15', 'Pending', 1)");
 
-            qDebug() << "✅ Base SQLite initialisée avec données de test";
+            qDebug() << "✅ SQLite database initialized with test data";
             return true;
         } else {
-            qDebug() << "❌ ÉCHEC SQLite:" << db.lastError().text();
+            qDebug() << "❌ SQLite failed:" << db.lastError().text();
             return false;
         }
     }

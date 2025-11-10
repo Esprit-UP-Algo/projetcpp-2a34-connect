@@ -7,7 +7,6 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    // ✅ UTILISATION DU SINGLETON
     Connection& c = Connection::getInstance();
     bool test = c.createconnect();
 
@@ -15,12 +14,12 @@ int main(int argc, char *argv[])
 
     if(test) {
         w.show();
-        QMessageBox::information(nullptr, QObject::tr("Base de données ouverte"),
-                                 QObject::tr("Connexion Oracle réussie!\n"
+        QMessageBox::information(nullptr, QObject::tr("Database Connection"),
+                                 QObject::tr("Oracle connection successful!\n"
                                              "Click Cancel to exit."), QMessageBox::Cancel);
     } else {
-        QMessageBox::critical(nullptr, QObject::tr("Base de données fermée"),
-                              QObject::tr("Échec de connexion Oracle.\n"
+        QMessageBox::critical(nullptr, QObject::tr("Database Connection"),
+                              QObject::tr("Oracle connection failed.\n"
                                           "Click Cancel to exit."), QMessageBox::Cancel);
     }
 
