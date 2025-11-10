@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/images/connect_plus_logo.png"/>
+    <qresource prefix="/new/prefix1"/>
+    <qresource prefix="/:/images/connect_plus_logo.png"/>
+</RCC>

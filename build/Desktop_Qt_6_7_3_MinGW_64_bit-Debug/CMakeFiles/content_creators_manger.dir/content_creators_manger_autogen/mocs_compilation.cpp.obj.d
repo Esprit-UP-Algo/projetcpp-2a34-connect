@@ -1,9 +1,9 @@
 CMakeFiles/content_creators_manger.dir/content_creators_manger_autogen/mocs_compilation.cpp.obj: \
  C:\Users\Selim\ Fekih\Documents\content_creators_manger\build\Desktop_Qt_6_7_3_MinGW_64_bit-Debug\content_creators_manger_autogen\mocs_compilation.cpp \
- C:\Users\Selim\ Fekih\Documents\content_creators_manger\build\Desktop_Qt_6_7_3_MinGW_64_bit-Debug\content_creators_manger_autogen\EWIEGA46WW/moc_mainwindow.cpp \
- C:/Users/Selim\ Fekih/Documents/content_creators_manger/mainwindow.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMainWindow \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmainwindow.h \
+ C:\Users\Selim\ Fekih\Documents\content_creators_manger\build\Desktop_Qt_6_7_3_MinGW_64_bit-Debug\content_creators_manger_autogen\EWIEGA46WW/moc_logindialog.cpp \
+ C:/Users/Selim\ Fekih/Documents/content_creators_manger/logindialog.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/QDialog \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialog.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
  C:/Qt/6.7.3/mingw_64/include/QtGui/qtguiglobal.h \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qglobal.h \
@@ -362,27 +362,13 @@ CMakeFiles/content_creators_manger.dir/content_creators_manger_autogen/mocs_comp
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qsizepolicy.h \
  C:/Qt/6.7.3/mingw_64/include/QtGui/qcursor.h \
  C:/Qt/6.7.3/mingw_64/include/QtGui/qbitmap.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qtmochelpers.h \
+ C:\Users\Selim\ Fekih\Documents\content_creators_manger\build\Desktop_Qt_6_7_3_MinGW_64_bit-Debug\content_creators_manger_autogen\EWIEGA46WW/moc_mainwindow.cpp \
+ C:/Users/Selim\ Fekih/Documents/content_creators_manger/mainwindow.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMainWindow \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmainwindow.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidgetItem \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtablewidget.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtableview.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qlocale.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
- C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/QDate \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qtmochelpers.h
+ C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qstring.h \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/QPixmap \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/qpixmap.h

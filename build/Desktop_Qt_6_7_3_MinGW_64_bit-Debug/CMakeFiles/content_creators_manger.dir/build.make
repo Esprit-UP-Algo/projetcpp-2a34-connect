@@ -120,11 +120,75 @@ CMakeFiles/content_creators_manger.dir/mainwindow.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/content_creators_manger.dir/mainwindow.cpp.s"
 	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\Selim Fekih\Documents\content_creators_manger\mainwindow.cpp" -o CMakeFiles\content_creators_manger.dir\mainwindow.cpp.s
 
+CMakeFiles/content_creators_manger.dir/logindialog.cpp.obj: CMakeFiles/content_creators_manger.dir/flags.make
+CMakeFiles/content_creators_manger.dir/logindialog.cpp.obj: CMakeFiles/content_creators_manger.dir/includes_CXX.rsp
+CMakeFiles/content_creators_manger.dir/logindialog.cpp.obj: C:/Users/Selim\ Fekih/Documents/content_creators_manger/logindialog.cpp
+CMakeFiles/content_creators_manger.dir/logindialog.cpp.obj: CMakeFiles/content_creators_manger.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="C:\Users\Selim Fekih\Documents\content_creators_manger\build\Desktop_Qt_6_7_3_MinGW_64_bit-Debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/content_creators_manger.dir/logindialog.cpp.obj"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/content_creators_manger.dir/logindialog.cpp.obj -MF CMakeFiles\content_creators_manger.dir\logindialog.cpp.obj.d -o CMakeFiles\content_creators_manger.dir\logindialog.cpp.obj -c "C:\Users\Selim Fekih\Documents\content_creators_manger\logindialog.cpp"
+
+CMakeFiles/content_creators_manger.dir/logindialog.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/content_creators_manger.dir/logindialog.cpp.i"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\Selim Fekih\Documents\content_creators_manger\logindialog.cpp" > CMakeFiles\content_creators_manger.dir\logindialog.cpp.i
+
+CMakeFiles/content_creators_manger.dir/logindialog.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/content_creators_manger.dir/logindialog.cpp.s"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\Selim Fekih\Documents\content_creators_manger\logindialog.cpp" -o CMakeFiles\content_creators_manger.dir\logindialog.cpp.s
+
+CMakeFiles/content_creators_manger.dir/qrcodegenerator.cpp.obj: CMakeFiles/content_creators_manger.dir/flags.make
+CMakeFiles/content_creators_manger.dir/qrcodegenerator.cpp.obj: CMakeFiles/content_creators_manger.dir/includes_CXX.rsp
+CMakeFiles/content_creators_manger.dir/qrcodegenerator.cpp.obj: C:/Users/Selim\ Fekih/Documents/content_creators_manger/qrcodegenerator.cpp
+CMakeFiles/content_creators_manger.dir/qrcodegenerator.cpp.obj: CMakeFiles/content_creators_manger.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="C:\Users\Selim Fekih\Documents\content_creators_manger\build\Desktop_Qt_6_7_3_MinGW_64_bit-Debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/content_creators_manger.dir/qrcodegenerator.cpp.obj"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/content_creators_manger.dir/qrcodegenerator.cpp.obj -MF CMakeFiles\content_creators_manger.dir\qrcodegenerator.cpp.obj.d -o CMakeFiles\content_creators_manger.dir\qrcodegenerator.cpp.obj -c "C:\Users\Selim Fekih\Documents\content_creators_manger\qrcodegenerator.cpp"
+
+CMakeFiles/content_creators_manger.dir/qrcodegenerator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/content_creators_manger.dir/qrcodegenerator.cpp.i"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\Selim Fekih\Documents\content_creators_manger\qrcodegenerator.cpp" > CMakeFiles\content_creators_manger.dir\qrcodegenerator.cpp.i
+
+CMakeFiles/content_creators_manger.dir/qrcodegenerator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/content_creators_manger.dir/qrcodegenerator.cpp.s"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\Selim Fekih\Documents\content_creators_manger\qrcodegenerator.cpp" -o CMakeFiles\content_creators_manger.dir\qrcodegenerator.cpp.s
+
+CMakeFiles/content_creators_manger.dir/qrcodegen.cpp.obj: CMakeFiles/content_creators_manger.dir/flags.make
+CMakeFiles/content_creators_manger.dir/qrcodegen.cpp.obj: CMakeFiles/content_creators_manger.dir/includes_CXX.rsp
+CMakeFiles/content_creators_manger.dir/qrcodegen.cpp.obj: C:/Users/Selim\ Fekih/Documents/content_creators_manger/qrcodegen.cpp
+CMakeFiles/content_creators_manger.dir/qrcodegen.cpp.obj: CMakeFiles/content_creators_manger.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="C:\Users\Selim Fekih\Documents\content_creators_manger\build\Desktop_Qt_6_7_3_MinGW_64_bit-Debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/content_creators_manger.dir/qrcodegen.cpp.obj"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/content_creators_manger.dir/qrcodegen.cpp.obj -MF CMakeFiles\content_creators_manger.dir\qrcodegen.cpp.obj.d -o CMakeFiles\content_creators_manger.dir\qrcodegen.cpp.obj -c "C:\Users\Selim Fekih\Documents\content_creators_manger\qrcodegen.cpp"
+
+CMakeFiles/content_creators_manger.dir/qrcodegen.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/content_creators_manger.dir/qrcodegen.cpp.i"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\Selim Fekih\Documents\content_creators_manger\qrcodegen.cpp" > CMakeFiles\content_creators_manger.dir\qrcodegen.cpp.i
+
+CMakeFiles/content_creators_manger.dir/qrcodegen.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/content_creators_manger.dir/qrcodegen.cpp.s"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\Selim Fekih\Documents\content_creators_manger\qrcodegen.cpp" -o CMakeFiles\content_creators_manger.dir\qrcodegen.cpp.s
+
+CMakeFiles/content_creators_manger.dir/connection.cpp.obj: CMakeFiles/content_creators_manger.dir/flags.make
+CMakeFiles/content_creators_manger.dir/connection.cpp.obj: CMakeFiles/content_creators_manger.dir/includes_CXX.rsp
+CMakeFiles/content_creators_manger.dir/connection.cpp.obj: C:/Users/Selim\ Fekih/Documents/content_creators_manger/connection.cpp
+CMakeFiles/content_creators_manger.dir/connection.cpp.obj: CMakeFiles/content_creators_manger.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="C:\Users\Selim Fekih\Documents\content_creators_manger\build\Desktop_Qt_6_7_3_MinGW_64_bit-Debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/content_creators_manger.dir/connection.cpp.obj"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/content_creators_manger.dir/connection.cpp.obj -MF CMakeFiles\content_creators_manger.dir\connection.cpp.obj.d -o CMakeFiles\content_creators_manger.dir\connection.cpp.obj -c "C:\Users\Selim Fekih\Documents\content_creators_manger\connection.cpp"
+
+CMakeFiles/content_creators_manger.dir/connection.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/content_creators_manger.dir/connection.cpp.i"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\Selim Fekih\Documents\content_creators_manger\connection.cpp" > CMakeFiles\content_creators_manger.dir\connection.cpp.i
+
+CMakeFiles/content_creators_manger.dir/connection.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/content_creators_manger.dir/connection.cpp.s"
+	C:\Qt\Tools\mingw1120_64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\Selim Fekih\Documents\content_creators_manger\connection.cpp" -o CMakeFiles\content_creators_manger.dir\connection.cpp.s
+
 # Object files for target content_creators_manger
 content_creators_manger_OBJECTS = \
 "CMakeFiles/content_creators_manger.dir/content_creators_manger_autogen/mocs_compilation.cpp.obj" \
 "CMakeFiles/content_creators_manger.dir/main.cpp.obj" \
-"CMakeFiles/content_creators_manger.dir/mainwindow.cpp.obj"
+"CMakeFiles/content_creators_manger.dir/mainwindow.cpp.obj" \
+"CMakeFiles/content_creators_manger.dir/logindialog.cpp.obj" \
+"CMakeFiles/content_creators_manger.dir/qrcodegenerator.cpp.obj" \
+"CMakeFiles/content_creators_manger.dir/qrcodegen.cpp.obj" \
+"CMakeFiles/content_creators_manger.dir/connection.cpp.obj"
 
 # External object files for target content_creators_manger
 content_creators_manger_EXTERNAL_OBJECTS =
@@ -132,14 +196,19 @@ content_creators_manger_EXTERNAL_OBJECTS =
 content_creators_manger.exe: CMakeFiles/content_creators_manger.dir/content_creators_manger_autogen/mocs_compilation.cpp.obj
 content_creators_manger.exe: CMakeFiles/content_creators_manger.dir/main.cpp.obj
 content_creators_manger.exe: CMakeFiles/content_creators_manger.dir/mainwindow.cpp.obj
+content_creators_manger.exe: CMakeFiles/content_creators_manger.dir/logindialog.cpp.obj
+content_creators_manger.exe: CMakeFiles/content_creators_manger.dir/qrcodegenerator.cpp.obj
+content_creators_manger.exe: CMakeFiles/content_creators_manger.dir/qrcodegen.cpp.obj
+content_creators_manger.exe: CMakeFiles/content_creators_manger.dir/connection.cpp.obj
 content_creators_manger.exe: CMakeFiles/content_creators_manger.dir/build.make
 content_creators_manger.exe: C:/Qt/6.7.3/mingw_64/lib/libQt6Widgets.a
+content_creators_manger.exe: C:/Qt/6.7.3/mingw_64/lib/libQt6Sql.a
 content_creators_manger.exe: C:/Qt/6.7.3/mingw_64/lib/libQt6Gui.a
 content_creators_manger.exe: C:/Qt/6.7.3/mingw_64/lib/libQt6Core.a
 content_creators_manger.exe: CMakeFiles/content_creators_manger.dir/linkLibs.rsp
 content_creators_manger.exe: CMakeFiles/content_creators_manger.dir/objects1.rsp
 content_creators_manger.exe: CMakeFiles/content_creators_manger.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="C:\Users\Selim Fekih\Documents\content_creators_manger\build\Desktop_Qt_6_7_3_MinGW_64_bit-Debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable content_creators_manger.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir="C:\Users\Selim Fekih\Documents\content_creators_manger\build\Desktop_Qt_6_7_3_MinGW_64_bit-Debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable content_creators_manger.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\content_creators_manger.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

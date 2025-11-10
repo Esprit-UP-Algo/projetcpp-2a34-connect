@@ -154,6 +154,30 @@ content_creators_manger_autogen/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\content_creators_manger_autogen.dir\build.make CMakeFiles/content_creators_manger_autogen.dir/build
 .PHONY : content_creators_manger_autogen/fast
 
+connection.obj: connection.cpp.obj
+.PHONY : connection.obj
+
+# target to build an object file
+connection.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\content_creators_manger.dir\build.make CMakeFiles/content_creators_manger.dir/connection.cpp.obj
+.PHONY : connection.cpp.obj
+
+connection.i: connection.cpp.i
+.PHONY : connection.i
+
+# target to preprocess a source file
+connection.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\content_creators_manger.dir\build.make CMakeFiles/content_creators_manger.dir/connection.cpp.i
+.PHONY : connection.cpp.i
+
+connection.s: connection.cpp.s
+.PHONY : connection.s
+
+# target to generate assembly for a file
+connection.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\content_creators_manger.dir\build.make CMakeFiles/content_creators_manger.dir/connection.cpp.s
+.PHONY : connection.cpp.s
+
 content_creators_manger_autogen/mocs_compilation.obj: content_creators_manger_autogen/mocs_compilation.cpp.obj
 .PHONY : content_creators_manger_autogen/mocs_compilation.obj
 
@@ -177,6 +201,30 @@ content_creators_manger_autogen/mocs_compilation.s: content_creators_manger_auto
 content_creators_manger_autogen/mocs_compilation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\content_creators_manger.dir\build.make CMakeFiles/content_creators_manger.dir/content_creators_manger_autogen/mocs_compilation.cpp.s
 .PHONY : content_creators_manger_autogen/mocs_compilation.cpp.s
+
+logindialog.obj: logindialog.cpp.obj
+.PHONY : logindialog.obj
+
+# target to build an object file
+logindialog.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\content_creators_manger.dir\build.make CMakeFiles/content_creators_manger.dir/logindialog.cpp.obj
+.PHONY : logindialog.cpp.obj
+
+logindialog.i: logindialog.cpp.i
+.PHONY : logindialog.i
+
+# target to preprocess a source file
+logindialog.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\content_creators_manger.dir\build.make CMakeFiles/content_creators_manger.dir/logindialog.cpp.i
+.PHONY : logindialog.cpp.i
+
+logindialog.s: logindialog.cpp.s
+.PHONY : logindialog.s
+
+# target to generate assembly for a file
+logindialog.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\content_creators_manger.dir\build.make CMakeFiles/content_creators_manger.dir/logindialog.cpp.s
+.PHONY : logindialog.cpp.s
 
 main.obj: main.cpp.obj
 .PHONY : main.obj
@@ -226,6 +274,54 @@ mainwindow.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\content_creators_manger.dir\build.make CMakeFiles/content_creators_manger.dir/mainwindow.cpp.s
 .PHONY : mainwindow.cpp.s
 
+qrcodegen.obj: qrcodegen.cpp.obj
+.PHONY : qrcodegen.obj
+
+# target to build an object file
+qrcodegen.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\content_creators_manger.dir\build.make CMakeFiles/content_creators_manger.dir/qrcodegen.cpp.obj
+.PHONY : qrcodegen.cpp.obj
+
+qrcodegen.i: qrcodegen.cpp.i
+.PHONY : qrcodegen.i
+
+# target to preprocess a source file
+qrcodegen.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\content_creators_manger.dir\build.make CMakeFiles/content_creators_manger.dir/qrcodegen.cpp.i
+.PHONY : qrcodegen.cpp.i
+
+qrcodegen.s: qrcodegen.cpp.s
+.PHONY : qrcodegen.s
+
+# target to generate assembly for a file
+qrcodegen.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\content_creators_manger.dir\build.make CMakeFiles/content_creators_manger.dir/qrcodegen.cpp.s
+.PHONY : qrcodegen.cpp.s
+
+qrcodegenerator.obj: qrcodegenerator.cpp.obj
+.PHONY : qrcodegenerator.obj
+
+# target to build an object file
+qrcodegenerator.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\content_creators_manger.dir\build.make CMakeFiles/content_creators_manger.dir/qrcodegenerator.cpp.obj
+.PHONY : qrcodegenerator.cpp.obj
+
+qrcodegenerator.i: qrcodegenerator.cpp.i
+.PHONY : qrcodegenerator.i
+
+# target to preprocess a source file
+qrcodegenerator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\content_creators_manger.dir\build.make CMakeFiles/content_creators_manger.dir/qrcodegenerator.cpp.i
+.PHONY : qrcodegenerator.cpp.i
+
+qrcodegenerator.s: qrcodegenerator.cpp.s
+.PHONY : qrcodegenerator.s
+
+# target to generate assembly for a file
+qrcodegenerator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\content_creators_manger.dir\build.make CMakeFiles/content_creators_manger.dir/qrcodegenerator.cpp.s
+.PHONY : qrcodegenerator.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -237,15 +333,27 @@ help:
 	@echo ... content_creators_manger_autogen
 	@echo ... content_creators_manger_autogen_timestamp_deps
 	@echo ... content_creators_manger
+	@echo ... connection.obj
+	@echo ... connection.i
+	@echo ... connection.s
 	@echo ... content_creators_manger_autogen/mocs_compilation.obj
 	@echo ... content_creators_manger_autogen/mocs_compilation.i
 	@echo ... content_creators_manger_autogen/mocs_compilation.s
+	@echo ... logindialog.obj
+	@echo ... logindialog.i
+	@echo ... logindialog.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
 	@echo ... mainwindow.obj
 	@echo ... mainwindow.i
 	@echo ... mainwindow.s
+	@echo ... qrcodegen.obj
+	@echo ... qrcodegen.i
+	@echo ... qrcodegen.s
+	@echo ... qrcodegenerator.obj
+	@echo ... qrcodegenerator.i
+	@echo ... qrcodegenerator.s
 .PHONY : help
 
 

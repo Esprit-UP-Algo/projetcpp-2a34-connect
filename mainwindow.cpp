@@ -1,366 +1,353 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "connection.h"
 #include <QMessageBox>
 #include <QFileDialog>
-#include <QTextStream>
+#include <QClipboard>
+#include <QApplication>
+#include <QSqlQuery>
+#include <QRegularExpression>
+#include <QFont>
+#include "qrcodegenerator.h"  // ← ALREADY THERE
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    : QMainWindow(parent), ui(new Ui::MainWindow), darkTheme(false)
 {
     ui->setupUi(this);
 
-    // =================== Menu Buttons ===================
-    connect(ui->sidebarButton, &QPushButton::clicked, this, &MainWindow::showManagementPage);
-    connect(ui->sidebarButton, &QPushButton::clicked, this, &MainWindow::showFinancePage);
-    connect(ui->sidebarButton_3, &QPushButton::clicked, this, &MainWindow::showContentCreatorPage);
-    connect(ui->sidebarButton_2, &QPushButton::clicked, this, &MainWindow::showSponsorPage);
-    connect(ui->sidebarButton_4, &QPushButton::clicked, this, &MainWindow::showEmployeePage);
+    if (!connectDB()) {
+        QMessageBox::critical(this, "DB Error", "Failed to connect to database!");
+        return;
+    }
 
-    // =================== Finance Buttons ===================
-    connect(ui->btnAdd, &QPushButton::clicked, this, &MainWindow::addInvoice);
-    connect(ui->btnEdit, &QPushButton::clicked, this, &MainWindow::editInvoice);
-    connect(ui->btnDelete, &QPushButton::clicked, this, &MainWindow::deleteInvoice);
-    connect(ui->btnClear, &QPushButton::clicked, this, &MainWindow::clearForm);
-    connect(ui->btnSortByMontant, &QPushButton::clicked, this, &MainWindow::sortByAmount);
-    connect(ui->btnSearchById, &QPushButton::clicked, this, &MainWindow::searchById);
-    connect(ui->btnExportCSV, &QPushButton::clicked, this, &MainWindow::exportToCSV);
-    connect(ui->btnDarkTheme, &QPushButton::clicked, this, &MainWindow::toggleDarkTheme);
-
-    // Initialize statistics table
-    initializeStatisticsTable();
-
-    // Apply initial style
+    ui->platformCombo_6->setCurrentText("YouTube");
+    ui->comboBox_6->setCurrentText("male");
     applyLightTheme();
+
+    // Navigation
+    connect(ui->sidebarButton,    &QPushButton::clicked, this, &MainWindow::showFinancePage);
+    connect(ui->sidebarButton_3,  &QPushButton::clicked, this, &MainWindow::showContentCreatorPage);
+    connect(ui->sidebarButton_2,  &QPushButton::clicked, this, &MainWindow::showSponsorPage);
+    connect(ui->sidebarButton_5,  &QPushButton::clicked, this, &MainWindow::showManagementPage);
+    connect(ui->sidebarButton_4,  &QPushButton::clicked, this, &MainWindow::showEmployeePage);
+
+    // Content Creator
+    connect(ui->searchEdit_6,    &QLineEdit::textChanged, this, &MainWindow::on_searchEdit_6_textChanged);
+    connect(ui->creatorTable_6,  &QTableWidget::itemSelectionChanged, this, &MainWindow::fillFormFromTable);
+    connect(ui->addButton_6,     &QPushButton::clicked, this, &MainWindow::on_addButton_6_clicked);
+    connect(ui->updateButton_6,  &QPushButton::clicked, this, &MainWindow::on_updateButton_6_clicked);
+    connect(ui->deleteButton_6,  &QPushButton::clicked, this, &MainWindow::on_deleteButton_6_clicked);
+    connect(ui->clearButton_6,   &QPushButton::clicked, this, &MainWindow::on_clearButton_6_clicked);
+    connect(ui->exportButton_6,  &QPushButton::clicked, this, &MainWindow::on_exportButton_6_clicked);
+    connect(ui->themeButton_6,   &QPushButton::clicked, this, &MainWindow::on_themeButton_6_clicked);
+
+    // QR Code
+    connect(ui->btnGenerateQR, &QPushButton::clicked, this, &MainWindow::generateQR);
+    connect(ui->btnSaveQR,     &QPushButton::clicked, this, &MainWindow::saveQR);
+    connect(ui->btnCopyQR,     &QPushButton::clicked, this, &MainWindow::copyQR);
+
+    loadCreateurs();
 }
 
+MainWindow::~MainWindow() { delete ui; }
+
+// ———————————————————————— DATABASE ————————————————————————
+bool MainWindow::connectDB()
+{
+    Connection conn;
+    return conn.createconnect();
+}
+
+// ———————————————————————— THEME ————————————————————————
 void MainWindow::applyLightTheme()
 {
-    this->setStyleSheet(R"(
-        QMainWindow {
-            background-color: #FFFFFF;
-            border-radius: 10px;
-        }
-        QGroupBox {
-            background-color: #FFFFFF;
-            border: 2px solid #7D4FEE;
-            border-radius: 10px;
-            font: bold 14pt "Arial";
-            color: #7D4FEE;
-            margin: 10px;
-        }
-        QGroupBox::title {
-            color: #7D4FEE;
-            padding: 0 5px;
-            subcontrol-origin: margin;
-            subcontrol-position: top left;
-        }
-        QPushButton {
-            background-color: #7D4FEE;
-            color: #FFFFFF;
-            border-radius: 10px;
-            padding: 8px;
-            min-width: 100px;
-            font: 10pt "Arial";
-            border: 2px solid #7D4FEE;
-        }
-        QPushButton:hover {
-            background-color: #FFFFFF;
-            color: #7D4FEE;
-            border: 2px solid #7D4FEE;
-        }
-        QLineEdit, QComboBox, QDateEdit {
-            background-color: #FFFFFF;
-            border: 2px solid #7D4FEE;
-            border-radius: 10px;
-            padding: 6px;
-            font: 10pt "Arial";
-            color: #7D4FEE;
-        }
-        QTableWidget {
-            background-color: #FFFFFF;
-            border: 2px solid #7D4FEE;
-            border-radius: 10px;
-            gridline-color: #7D4FEE;
-            font: 10pt "Arial";
-            color: #7D4FEE;
-        }
-        QTableWidget::item:selected {
-            background-color: #7D4FEE;
-            color: #FFFFFF;
-        }
-        QLabel {
-            color: #7D4FEE;
-            font: 10pt "Arial";
-        }
-        QWidget#menuFrame {
-            background-color: #7D4FEE;
-            border-radius: 10px 0 0 10px;
-        }
-        QPushButton#sidebarButton {
-            background-color: #7D4FEE;
-            color: #FFFFFF;
-            border: none;
-            border-radius: 10px;
-            padding: 10px;
-            font: 10pt "Arial";
-            width: 100%;
-            text-align: left;
-        }
-        QPushButton#sidebarButton:hover {
-            background-color: #FFFFFF;
-            color: #7D4FEE;
-            border: 2px solid #7D4FEE;
-        }
-    )");
+    setStyleSheet("background-color: #f0f0f0; color: black;");
+    ui->themeButton_6->setText("Dark Theme");
 }
 
 void MainWindow::applyDarkTheme()
 {
-    this->setStyleSheet(R"(
-        QMainWindow {
-            background-color: #000000;
-        }
-        QGroupBox {
-            background-color: #000000;
-            border: 2px solid #7D4FEE;
-            color: #7D4FEE;
-        }
-        QLineEdit, QComboBox, QDateEdit {
-            background-color: #000000;
-            border: 2px solid #7D4FEE;
-            color: #7D4FEE;
-        }
-        QTableWidget {
-            background-color: #1A1A1A;
-            border: 2px solid #7D4FEE;
-            color: #7D4FEE;
-        }
-        QLabel {
-            color: #7D4FEE;
-        }
-        QPushButton {
-            background-color: #7D4FEE;
-            color: #FFFFFF;
-            border-radius: 10px;
-            padding: 8px;
-            min-width: 100px;
-            font: 10pt "Arial";
-            border: 2px solid #7D4FEE;
-        }
-        QPushButton:hover {
-            background-color: #FFFFFF;
-            color: #7D4FEE;
-            border: 2px solid #7D4FEE;
-        }
-        QWidget#menuFrame {
-            background-color: #7D4FEE;
-            border-radius: 10px 0 0 10px;
-        }
-        QPushButton#sidebarButton {
-            background-color: #7D4FEE;
-            color: #FFFFFF;
-            border: none;
-            border-radius: 10px;
-            padding: 10px;
-            font: 10pt "Arial";
-            width: 100%;
-            text-align: left;
-        }
-        QPushButton#sidebarButton:hover {
-            background-color: #FFFFFF;
-            color: #7D4FEE;
-            border: 2px solid #7D4FEE;
-        }
-    )");
+    setStyleSheet("background-color: #2b2b2b; color: white;");
+    ui->themeButton_6->setText("Light Theme");
 }
 
-void MainWindow::initializeStatisticsTable()
-{
-    // Configure statistics table
-    ui->tableStats->setRowCount(6);
-    ui->tableStats->setColumnCount(2);
-
-    // Set headers
-    QStringList headers;
-    headers << "Metric" << "Value";
-    ui->tableStats->setHorizontalHeaderLabels(headers);
-
-    // Set rows
-    QStringList metrics;
-    metrics << "Total Invoices" << "Total Amount" << "Paid Invoices"
-            << "Pending Invoices" << "Cancelled Invoices" << "Average Amount";
-
-    for(int i = 0; i < metrics.size(); ++i) {
-        ui->tableStats->setItem(i, 0, new QTableWidgetItem(metrics[i]));
-        ui->tableStats->setItem(i, 1, new QTableWidgetItem("0"));
-    }
-
-    // Make the table read-only
-    ui->tableStats->setEditTriggers(QAbstractItemView::NoEditTriggers);
-}
-
-void MainWindow::updateStatistics()
-{
-    int totalInvoices = ui->tableFactures->rowCount();
-    double totalAmount = 0.0;
-    int paidCount = 0;
-    int pendingCount = 0;
-    int cancelledCount = 0;
-
-    // Calculate statistics
-    for(int i = 0; i < totalInvoices; ++i) {
-        double amount = ui->tableFactures->item(i, 1)->text().toDouble();
-        totalAmount += amount;
-
-        QString status = ui->tableFactures->item(i, 4)->text();
-        if(status == "Paid") paidCount++;
-        else if(status == "Pending") pendingCount++;
-        else if(status == "Cancelled") cancelledCount++;
-    }
-
-    double averageAmount = totalInvoices > 0 ? totalAmount / totalInvoices : 0.0;
-
-    // Update statistics table
-    ui->tableStats->item(0, 1)->setText(QString::number(totalInvoices));
-    ui->tableStats->item(1, 1)->setText(QString::number(totalAmount, 'f', 2));
-    ui->tableStats->item(2, 1)->setText(QString::number(paidCount));
-    ui->tableStats->item(3, 1)->setText(QString::number(pendingCount));
-    ui->tableStats->item(4, 1)->setText(QString::number(cancelledCount));
-    ui->tableStats->item(5, 1)->setText(QString::number(averageAmount, 'f', 2));
-}
-
-// =================== Menu Page Functions ===================
-void MainWindow::showManagementPage() { ui->stackedWidget->setCurrentWidget(ui->managementPage); }
-void MainWindow::showFinancePage() { ui->stackedWidget->setCurrentWidget(ui->financePage); }
-void MainWindow::showContentCreatorPage() { ui->stackedWidget->setCurrentWidget(ui->contentCreatorPage); }
-void MainWindow::showSponsorPage() { ui->stackedWidget->setCurrentWidget(ui->sponsorPage); }
-void MainWindow::showEmployeePage() { ui->stackedWidget->setCurrentWidget(ui->employeePage); }
-
-// =================== Finance Page Functions ===================
-void MainWindow::insertInvoiceInTable(QString id, double amount, QDate issueDate, QDate dueDate, QString status)
-{
-    int row = ui->tableFactures->rowCount();
-    ui->tableFactures->insertRow(row);
-    ui->tableFactures->setItem(row, 0, new QTableWidgetItem(id));
-    ui->tableFactures->setItem(row, 1, new QTableWidgetItem(QString::number(amount)));
-    ui->tableFactures->setItem(row, 2, new QTableWidgetItem(issueDate.toString("dd/MM/yyyy")));
-    ui->tableFactures->setItem(row, 3, new QTableWidgetItem(dueDate.toString("dd/MM/yyyy")));
-    ui->tableFactures->setItem(row, 4, new QTableWidgetItem(status));
-
-    // Update statistics after adding invoice
-    updateStatistics();
-}
-
-void MainWindow::addInvoice()
-{
-    QString id = ui->lineId->text();
-    double amount = ui->lineMontant->text().toDouble();
-    QDate issueDate = ui->dateEmission->date();
-    QDate dueDate = ui->dateEcheance->date();
-    QString status = ui->comboStatut->currentText();
-
-    if(id.isEmpty() || amount <= 0) {
-        QMessageBox::warning(this, "Error", "Invoice ID and Amount are required!");
-        return;
-    }
-
-    insertInvoiceInTable(id, amount, issueDate, dueDate, status);
-    clearForm();
-}
-
-void MainWindow::editInvoice()
-{
-    int row = ui->tableFactures->currentRow();
-    if(row < 0) {
-        QMessageBox::warning(this, "Error", "Please select an invoice to edit.");
-        return;
-    }
-
-    ui->tableFactures->item(row, 0)->setText(ui->lineId->text());
-    ui->tableFactures->item(row, 1)->setText(ui->lineMontant->text());
-    ui->tableFactures->item(row, 2)->setText(ui->dateEmission->date().toString("dd/MM/yyyy"));
-    ui->tableFactures->item(row, 3)->setText(ui->dateEcheance->date().toString("dd/MM/yyyy"));
-    ui->tableFactures->item(row, 4)->setText(ui->comboStatut->currentText());
-
-    // Update statistics after editing invoice
-    updateStatistics();
-}
-
-void MainWindow::deleteInvoice()
-{
-    int row = ui->tableFactures->currentRow();
-    if(row >= 0) {
-        ui->tableFactures->removeRow(row);
-        // Update statistics after deleting invoice
-        updateStatistics();
-    } else {
-        QMessageBox::warning(this, "Error", "Please select an invoice to delete.");
-    }
-}
-
-void MainWindow::clearForm()
-{
-    ui->lineId->clear();
-    ui->lineMontant->clear();
-    ui->dateEmission->setDate(QDate::currentDate());
-    ui->dateEcheance->setDate(QDate::currentDate());
-    ui->comboStatut->setCurrentIndex(0);
-}
-
-void MainWindow::sortByAmount()
-{
-    ui->tableFactures->sortItems(1, Qt::AscendingOrder); // Amount column
-}
-
-void MainWindow::searchById()
-{
-    QString searchId = ui->searchBox->text();
-    for(int i = 0; i < ui->tableFactures->rowCount(); ++i) {
-        ui->tableFactures->setRowHidden(i, ui->tableFactures->item(i,0)->text() != searchId);
-    }
-}
-
-void MainWindow::exportToCSV()
-{
-    QString fileName = QFileDialog::getSaveFileName(this, "Export to CSV", "", "CSV Files (*.csv)");
-    if(fileName.isEmpty()) return;
-
-    QFile file(fileName);
-    if(file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QTextStream stream(&file);
-
-        // Headers
-        stream << "Invoice ID;Amount;Issue Date;Due Date;Status\n";
-
-        // Data
-        for(int i = 0; i < ui->tableFactures->rowCount(); ++i) {
-            for(int j = 0; j < ui->tableFactures->columnCount(); ++j) {
-                stream << ui->tableFactures->item(i, j)->text();
-                if(j < ui->tableFactures->columnCount() - 1) stream << ";";
-            }
-            stream << "\n";
-        }
-        file.close();
-        QMessageBox::information(this, "Success", "Data exported successfully to CSV!");
-    } else {
-        QMessageBox::warning(this, "Error", "Could not export to CSV file.");
-    }
-}
-
-void MainWindow::toggleDarkTheme()
+void MainWindow::on_themeButton_6_clicked()
 {
     darkTheme = !darkTheme;
-    if(darkTheme) {
-        applyDarkTheme();
-        ui->btnDarkTheme->setText("Light Theme");
-    } else {
-        applyLightTheme();
-        ui->btnDarkTheme->setText("Dark Theme");
+    if (darkTheme) applyDarkTheme();
+    else applyLightTheme();
+}
+
+// ———————————————————————— NAVIGATION ————————————————————————
+void MainWindow::showFinancePage()        { ui->stackedWidget->setCurrentWidget(ui->financePage); }
+void MainWindow::showContentCreatorPage() { ui->stackedWidget->setCurrentWidget(ui->contentCreatorPage); }
+void MainWindow::showSponsorPage()        { ui->stackedWidget->setCurrentWidget(ui->sponsorPage); }
+void MainWindow::showManagementPage()     { ui->stackedWidget->setCurrentWidget(ui->managementPage); }
+void MainWindow::showEmployeePage()       { ui->stackedWidget->setCurrentWidget(ui->employeePage); }
+
+// ———————————————————————— CONTENT CREATOR ————————————————————————
+void MainWindow::loadCreateurs()
+{
+    ui->creatorTable_6->blockSignals(true);
+    ui->creatorTable_6->clearContents();
+    ui->creatorTable_6->setRowCount(0);
+    ui->creatorTable_6->setColumnCount(7);
+    ui->creatorTable_6->setHorizontalHeaderLabels({
+        "ID", "Name", "Platform", "Gender", "Subscribers", "Content Type", "ID Employee"
+    });
+
+    QSqlQuery query("SELECT * FROM \"MY_USER\".\"CREATEUR\" ORDER BY IDCREATEUR");
+    int row = 0;
+    while (query.next()) {
+        ui->creatorTable_6->insertRow(row);
+        for (int col = 0; col < 7; ++col) {
+            QTableWidgetItem *item = new QTableWidgetItem();
+            QVariant val = query.value(col);
+            item->setText(val.isNull() ? "" : val.toString());
+            if (col == 4) {
+                item->setData(Qt::UserRole, val.toInt());
+                item->setTextAlignment(Qt::AlignCenter);
+            }
+            ui->creatorTable_6->setItem(row, col, item);
+        }
+        ++row;
+    }
+
+    ui->creatorTable_6->resizeColumnsToContents();
+    ui->creatorTable_6->setSortingEnabled(true);
+    ui->creatorTable_6->sortItems(4, Qt::DescendingOrder);
+    ui->creatorTable_6->blockSignals(false);
+}
+
+void MainWindow::on_searchEdit_6_textChanged(const QString &text)
+{
+    QString search = text.toLower().trimmed();
+    for (int i = 0; i < ui->creatorTable_6->rowCount(); ++i) {
+        auto *name = ui->creatorTable_6->item(i, 1);
+        auto *plat = ui->creatorTable_6->item(i, 2);
+        if (!name || !plat) continue;
+        bool match = name->text().toLower().contains(search) || plat->text().toLower().contains(search);
+        ui->creatorTable_6->setRowHidden(i, !match && !search.isEmpty());
+    }
+    if (!search.isEmpty()) {
+        ui->creatorTable_6->sortItems(4, Qt::DescendingOrder);
     }
 }
 
-MainWindow::~MainWindow()
+void MainWindow::fillFormFromTable()
 {
-    delete ui;
+    int row = ui->creatorTable_6->currentRow();
+    if (row < 0) return;
+    auto get = [this, row](int col) { return ui->creatorTable_6->item(row, col); };
+    if (!get(1) || !get(2) || !get(3) || !get(4) || !get(5)) return;
+
+    ui->nameEdit_6->setText(get(1)->text());
+    ui->platformCombo_6->setCurrentText(get(2)->text());
+    ui->comboBox_6->setCurrentText(get(3)->text());
+    ui->subscribersSpin_6->setValue(get(4)->text().toInt());
+    ui->contentTypeEdit_6->setText(get(5)->text());
+}
+
+bool MainWindow::isValidName(const QString &name) const
+{
+    if (name.length() < 2 || name.length() > 50) return false;
+    QRegularExpression re("^[a-zA-ZÀ-ÿ\\s'-]+$");
+    return re.match(name).hasMatch();
+}
+
+void MainWindow::clearCreateurFields()
+{
+    ui->nameEdit_6->clear();
+    ui->platformCombo_6->setCurrentIndex(0);
+    ui->comboBox_6->setCurrentIndex(0);
+    ui->subscribersSpin_6->setValue(0);
+    ui->contentTypeEdit_6->clear();
+    ui->nameEdit_6->setFocus();
+}
+
+// ———————————————————————— ROLE SYSTEM ————————————————————————
+void MainWindow::disableAllInputs()
+{
+    auto disable = [this](auto w) { if (w) w->setEnabled(false); };
+    disable(ui->addButton_6); disable(ui->updateButton_6); disable(ui->deleteButton_6);
+    disable(ui->clearButton_6); disable(ui->exportButton_6);
+    disable(ui->nameEdit_6); disable(ui->platformCombo_6); disable(ui->comboBox_6);
+    disable(ui->subscribersSpin_6); disable(ui->contentTypeEdit_6);
+    disable(ui->searchEdit_6); disable(ui->btnGenerateQR); disable(ui->btnSaveQR); disable(ui->btnCopyQR);
+}
+
+void MainWindow::applyRoleRestrictions()
+{
+    if (m_userRole == "viewer") {
+        disableAllInputs();
+        ui->creatorTable_6->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    }
+    else if (m_userRole == "editor") {
+        ui->sidebarButton->setEnabled(false);
+    }
+    else if (m_userRole == "manager") {
+        ui->sidebarButton_4->setEnabled(false);
+    }
+}
+
+void MainWindow::setUserRole(const QString &role)
+{
+    m_userRole = role;
+    applyRoleRestrictions();
+}
+
+// ———————————————————————— QR CODE ————————————————————————
+void MainWindow::generateQR()
+{
+    int row = ui->creatorTable_6->currentRow();
+    if (row < 0) {
+        QMessageBox::warning(this, "Error", "Select a creator.");
+        return;
+    }
+
+    Creator c;
+    c.id = ui->creatorTable_6->item(row, 0)->text().toInt();
+    c.name = ui->creatorTable_6->item(row, 1)->text();
+    c.platform = ui->creatorTable_6->item(row, 2)->text();
+    c.subscribers = ui->creatorTable_6->item(row, 4)->text().toInt();
+    c.type = ui->creatorTable_6->item(row, 5)->text();
+    c.photo = QPixmap(":/icons/default_avatar.png");
+
+    QPixmap logo(":/icons/logo.png");
+    m_currentQR = QRCodeGenerator::generate(c, logo);
+    ui->qrLabel->setPixmap(m_currentQR.scaled(300, 400, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+}
+
+void MainWindow::saveQR()
+{
+    if (m_currentQR.isNull()) return;
+    QString file = QFileDialog::getSaveFileName(this, "Save QR", "", "PNG (*.png)");
+    if (!file.isEmpty()) m_currentQR.save(file, "PNG");
+}
+
+void MainWindow::copyQR()
+{
+    if (m_currentQR.isNull()) return;
+    QApplication::clipboard()->setPixmap(m_currentQR);
+    QMessageBox::information(this, "Copied", "QR copied to clipboard!");
+}
+void MainWindow::on_addButton_6_clicked()
+{
+    QString name = ui->nameEdit_6->text().trimmed();
+    QString platform = ui->platformCombo_6->currentText();
+    QString gender = ui->comboBox_6->currentText();
+    int subs = ui->subscribersSpin_6->value();
+    QString type = ui->contentTypeEdit_6->text().trimmed();
+
+    if (name.isEmpty() || !isValidName(name)) {
+        QMessageBox::warning(this, "Error", "Invalid name!");
+        return;
+    }
+
+    QSqlQuery q;
+    q.prepare("INSERT INTO \"MY_USER\".\"CREATEUR\" (NOM, PLATEFORME, SEXE, ABONNES, TYPE_CONTENU) "
+              "VALUES (:name, :plat, :sex, :subs, :type)");
+    q.bindValue(":name", name);
+    q.bindValue(":plat", platform);
+    q.bindValue(":sex", gender);
+    q.bindValue(":subs", subs);
+    q.bindValue(":type", type);
+
+    if (q.exec()) {
+        loadCreateurs();
+        clearCreateurFields();
+        QMessageBox::information(this, "Success", "Creator added!");
+    } else {
+        QMessageBox::critical(this, "Error", q.lastError().text());
+    }
+}
+
+void MainWindow::on_updateButton_6_clicked()
+{
+    int row = ui->creatorTable_6->currentRow();
+    if (row < 0) {
+        QMessageBox::warning(this, "Error", "Select a creator!");
+        return;
+    }
+
+    int id = ui->creatorTable_6->item(row, 0)->text().toInt();
+    QString name = ui->nameEdit_6->text().trimmed();
+    if (!isValidName(name)) {
+        QMessageBox::warning(this, "Error", "Invalid name!");
+        return;
+    }
+
+    QSqlQuery q;
+    q.prepare("UPDATE \"MY_USER\".\"CREATEUR\" SET "
+              "NOM = :name, PLATEFORME = :plat, SEXE = :sex, "
+              "ABONNES = :subs, TYPE_CONTENU = :type "
+              "WHERE IDCREATEUR = :id");
+    q.bindValue(":name", name);
+    q.bindValue(":plat", ui->platformCombo_6->currentText());
+    q.bindValue(":sex", ui->comboBox_6->currentText());
+    q.bindValue(":subs", ui->subscribersSpin_6->value());
+    q.bindValue(":type", ui->contentTypeEdit_6->text().trimmed());
+    q.bindValue(":id", id);
+
+    if (q.exec()) {
+        loadCreateurs();
+        QMessageBox::information(this, "Success", "Updated!");
+    } else {
+        QMessageBox::critical(this, "Error", q.lastError().text());
+    }
+}
+
+void MainWindow::on_deleteButton_6_clicked()
+{
+    int row = ui->creatorTable_6->currentRow();
+    if (row < 0) {
+        QMessageBox::warning(this, "Error", "Select a creator!");
+        return;
+    }
+
+    if (QMessageBox::question(this, "Confirm", "Delete this creator?") != QMessageBox::Yes)
+        return;
+
+    int id = ui->creatorTable_6->item(row, 0)->text().toInt();
+    QSqlQuery q;
+    q.prepare("DELETE FROM \"MY_USER\".\"CREATEUR\" WHERE IDCREATEUR = :id");
+    q.bindValue(":id", id);
+
+    if (q.exec()) {
+        loadCreateurs();
+        clearCreateurFields();
+        QMessageBox::information(this, "Success", "Deleted!");
+    } else {
+        QMessageBox::critical(this, "Error", q.lastError().text());
+    }
+}
+
+void MainWindow::on_clearButton_6_clicked()
+{
+    clearCreateurFields();
+}
+
+void MainWindow::on_exportButton_6_clicked()
+{
+    QString file = QFileDialog::getSaveFileName(this, "Export CSV", "", "CSV (*.csv)");
+    if (file.isEmpty()) return;
+
+    QFile f(file);
+    if (!f.open(QIODevice::WriteOnly)) {
+        QMessageBox::critical(this, "Error", "Cannot write file!");
+        return;
+    }
+
+    QTextStream out(&f);
+    out << "ID,Name,Platform,Gender,Subscribers,Type\n";
+    for (int i = 0; i < ui->creatorTable_6->rowCount(); ++i) {
+        if (ui->creatorTable_6->isRowHidden(i)) continue;
+        for (int c = 0; c < 6; ++c) {
+            out << ui->creatorTable_6->item(i, c)->text();
+            if (c < 5) out << ",";
+        }
+        out << "\n";
+    }
+    f.close();
+    QMessageBox::information(this, "Success", "Exported to " + file);
 }

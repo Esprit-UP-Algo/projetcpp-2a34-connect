@@ -15,95 +15,95 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QGroupBox {
-         background-color: #FFFFFF;
-         border: 2px solid #7D4FEE;
-         border-radius: 10px;
-         font: bold 14pt &quot;Arial&quot;;
-         color: #7D4FEE;
-         margin: 10px;
-     }
-     QGroupBox[darkTheme=&quot;true&quot;] {
-         background-color: #000000;
-         border: 2px solid #7D4FEE;
-         color: #7D4FEE;
-     }
-     QGroupBox::title {
-         color: #7D4FEE;
-         padding: 0 5px;
-         subcontrol-origin: margin;
-         subcontrol-position: top left;
-     }
-     QPushButton {
-         background-color: #7D4FEE;
-         color: #FFFFFF;
-         border-radius: 10px;
-         padding: 8px;
-         min-width: 100px;
-         font: 10pt &quot;Arial&quot;;
-         border: 2px solid #7D4FEE;
-     }
-     QPushButton:hover {
-         background-color: #FFFFFF;
-         color: #7D4FEE;
-         border: 2px solid #7D4FEE;
-     }
-     QLineEdit, QComboBox, QSpinBox, QDateEdit {
-         background-color: #FFFFFF;
-         border: 2px solid #7D4FEE;
-         border-radius: 10px;
-         padding: 6px;
-         font: 10pt &quot;Arial&quot;;
-         color: #7D4FEE;
-     }
-     QLineEdit[darkTheme=&quot;true&quot;], QComboBox[darkTheme=&quot;true&quot;], QSpinBox[darkTheme=&quot;true&quot;], QDateEdit[darkTheme=&quot;true&quot;] {
-         background-color: #000000;
-         border: 2px solid #7D4FEE;
-         color: #7D4FEE;
-     }
-     QTableWidget {
-         background-color: #FFFFFF;
-         border: 2px solid #7D4FEE;
-         border-radius: 10px;
-         gridline-color: #7D4FEE;
-         font: 10pt &quot;Arial&quot;;
-         color: #7D4FEE;
-     }
-     QTableWidget[darkTheme=&quot;true&quot;] {
-         background-color: #1A1A1A;
-         border: 2px solid #7D4FEE;
-         color: #7D4FEE;
-     }
-     QTableWidget::item:selected {
-         background-color: #7D4FEE;
-         color: #FFFFFF;
-     }
-     QLabel {
-         color: #7D4FEE;
-         font: 10pt &quot;Arial&quot;;
-     }
-     QLabel[darkTheme=&quot;true&quot;] {
-         color: #7D4FEE;
-     }
-     QWidget#sidebar {
-         background-color: #7D4FEE;
-         border-radius: 10px 0 0 10px;
-     }
-     QPushButton#sidebarButton {
-         background-color: #7D4FEE;
-         color: #FFFFFF;
-         border: none;
-         border-radius: 10px;
-         padding: 10px;
-         font: 10pt &quot;Arial&quot;;
-         width: 100%;
-         text-align: left;
-     }
-     QPushButton#sidebarButton:hover {
-         background-color: #FFFFFF;
-         color: #7D4FEE;
-         border: 2px solid #7D4FEE;
-     }
-   </string>
+          background-color: #FFFFFF;
+          border: 2px solid #7D4FEE;
+          border-radius: 10px;
+          font: bold 14pt &quot;Arial&quot;;
+          color: #7D4FEE;
+          margin: 10px;
+      }
+      QGroupBox[darkTheme=&quot;true&quot;] {
+          background-color: #000000;
+          border: 2px solid #7D4FEE;
+          color: #7D4FEE;
+      }
+      QGroupBox::title {
+          color: #7D4FEE;
+          padding: 0 5px;
+          subcontrol-origin: margin;
+          subcontrol-position: top left;
+      }
+      QPushButton {
+          background-color: #7D4FEE;
+          color: #FFFFFF;
+          border-radius: 10px;
+          padding: 8px;
+          min-width: 100px;
+          font: 10pt &quot;Arial&quot;;
+          border: 2px solid #7D4FEE;
+      }
+      QPushButton:hover {
+          background-color: #FFFFFF;
+          color: #7D4FEE;
+          border: 2px solid #7D4FEE;
+      }
+      QLineEdit, QComboBox, QSpinBox, QDateEdit {
+          background-color: #FFFFFF;
+          border: 2px solid #7D4FEE;
+          border-radius: 10px;
+          padding: 6px;
+          font: 10pt &quot;Arial&quot;;
+          color: #7D4FEE;
+      }
+      QLineEdit[darkTheme=&quot;true&quot;], QComboBox[darkTheme=&quot;true&quot;], QSpinBox[darkTheme=&quot;true&quot;], QDateEdit[darkTheme=&quot;true&quot;] {
+          background-color: #000000;
+          border: 2px solid #7D4FEE;
+          color: #7D4FEE;
+      }
+      QTableWidget {
+          background-color: #FFFFFF;
+          border: 2px solid #7D4FEE;
+          border-radius: 10px;
+          gridline-color: #7D4FEE;
+          font: 10pt &quot;Arial&quot;;
+          color: #7D4FEE;
+      }
+      QTableWidget[darkTheme=&quot;true&quot;] {
+          background-color: #1A1A1A;
+          border: 2px solid #7D4FEE;
+          color: #7D4FEE;
+      }
+      QTableWidget::item:selected {
+          background-color: #7D4FEE;
+          color: #FFFFFF;
+      }
+      QLabel {
+          color: #7D4FEE;
+          font: 10pt &quot;Arial&quot;;
+      }
+      QLabel[darkTheme=&quot;true&quot;] {
+          color: #7D4FEE;
+      }
+      QWidget#sidebar {
+          background-color: #7D4FEE;
+          border-radius: 10px 0 0 10px;
+      }
+      QPushButton#sidebarButton {
+          background-color: #7D4FEE;
+          color: #FFFFFF;
+          border: none;
+          border-radius: 10px;
+          padding: 10px;
+          font: 10pt &quot;Arial&quot;;
+          width: 100%;
+          text-align: left;
+      }
+      QPushButton#sidebarButton:hover {
+          background-color: #FFFFFF;
+          color: #7D4FEE;
+          border: 2px solid #7D4FEE;
+      }
+    </string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QFrame" name="menuFrame">
@@ -456,253 +456,8 @@
          </sizepolicy>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>0</number>
         </property>
-        <widget class="QWidget" name="managementPage_12">
-         <layout class="QVBoxLayout" name="managementLayout_12">
-          <item>
-           <widget class="QLabel" name="managementLabel_12">
-            <property name="text">
-             <string>Management Page</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignmentFlag::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="financePage_12">
-         <layout class="QVBoxLayout" name="financeLayout_12">
-          <item>
-           <layout class="QHBoxLayout" name="topBar_12">
-            <item>
-             <widget class="QLineEdit" name="searchBox_12">
-              <property name="styleSheet">
-               <string notr="true">border: 1px solid #ccc; border-radius: 5px; padding: 4px; background: #f9f9f9;</string>
-              </property>
-              <property name="placeholderText">
-               <string>Search...</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="btnSearchById_12">
-              <property name="styleSheet">
-               <string notr="true">background-color: #7D4FEE; color: white; border-radius: 8px; padding: 6px 12px; font-weight: bold;</string>
-              </property>
-              <property name="text">
-               <string>Rechercher</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="btnDarkTheme_12">
-              <property name="styleSheet">
-               <string notr="true">background-color: #7D4FEE; color: white; border-radius: 8px; padding: 6px 12px; font-weight: bold;</string>
-              </property>
-              <property name="text">
-               <string>Dark Theme</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="btnSortByMontant_12">
-              <property name="styleSheet">
-               <string notr="true">background-color: #7D4FEE; color: white; border-radius: 8px; padding: 6px 12px; font-weight: bold;</string>
-              </property>
-              <property name="text">
-               <string>Trier par Montant</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="btnExportCSV_12">
-              <property name="styleSheet">
-               <string notr="true">background-color: #7D4FEE; color: white; border-radius: 8px; padding: 6px 12px; font-weight: bold;</string>
-              </property>
-              <property name="text">
-               <string>Export to CSV</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QGroupBox" name="formBox_12">
-            <property name="styleSheet">
-             <string notr="true">font-weight: bold; border: 2px solid #7D4FEE; border-radius: 10px; margin-top: 10px;</string>
-            </property>
-            <property name="title">
-             <string>Manage Finance - Factures</string>
-            </property>
-            <layout class="QFormLayout" name="formLayout_12">
-             <item row="0" column="0">
-              <widget class="QLabel" name="labelId_12">
-               <property name="text">
-                <string>ID Facture :</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QLineEdit" name="lineId_12">
-               <property name="styleSheet">
-                <string notr="true">border: 2px solid #7D4FEE; border-radius: 10px; padding: 6px; background: #FFFFFF;</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="labelMontant_12">
-               <property name="text">
-                <string>Price :</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QLineEdit" name="lineMontant_12">
-               <property name="styleSheet">
-                <string notr="true">border: 2px solid #7D4FEE; border-radius: 10px; padding: 6px; background: #FFFFFF;</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="labelDateEmission_12">
-               <property name="text">
-                <string>Date emission :</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QDateEdit" name="dateEmission_12">
-               <property name="styleSheet">
-                <string notr="true">border: 2px solid #7D4FEE; border-radius: 10px; padding: 6px; background: #FFFFFF;</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="labelDateEcheance_12">
-               <property name="text">
-                <string>Date echeance :</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QDateEdit" name="dateEcheance_12">
-               <property name="styleSheet">
-                <string notr="true">border: 2px solid #7D4FEE; border-radius: 10px; padding: 6px; background: #FFFFFF;</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="labelStatut_12">
-               <property name="text">
-                <string>Statuts :</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="1">
-              <widget class="QComboBox" name="comboStatut_12">
-               <property name="styleSheet">
-                <string notr="true">border: 2px solid #7D4FEE; border-radius: 10px; padding: 6px; background: #FFFFFF;</string>
-               </property>
-               <item>
-                <property name="text">
-                 <string>Payed</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>On hold</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Canceled</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="actionLayout_12">
-            <item>
-             <widget class="QPushButton" name="btnAdd_12">
-              <property name="styleSheet">
-               <string notr="true">background-color: #7D4FEE; color: white; border-radius: 8px; padding: 6px 12px; font-weight: bold;</string>
-              </property>
-              <property name="text">
-               <string>Add</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="btnEdit_12">
-              <property name="styleSheet">
-               <string notr="true">background-color: #7D4FEE; color: white; border-radius: 8px; padding: 6px 12px; font-weight: bold;</string>
-              </property>
-              <property name="text">
-               <string>Edit</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="btnDelete_12">
-              <property name="styleSheet">
-               <string notr="true">background-color: #7D4FEE; color: white; border-radius: 8px; padding: 6px 12px; font-weight: bold;</string>
-              </property>
-              <property name="text">
-               <string>Delete</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="btnClear_12">
-              <property name="styleSheet">
-               <string notr="true">background-color: #7D4FEE; color: white; border-radius: 8px; padding: 6px 12px; font-weight: bold;</string>
-              </property>
-              <property name="text">
-               <string>Clear Form</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QTableWidget" name="tableFactures_12">
-            <property name="styleSheet">
-             <string notr="true">border: 2px solid #7D4FEE; gridline-color: #7D4FEE; selection-background-color: #7D4FEE; selection-color: white;</string>
-            </property>
-            <column>
-             <property name="text">
-              <string>ID Facture</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Price</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Date emission</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Date echeance</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Statuts</string>
-             </property>
-            </column>
-           </widget>
-          </item>
-         </layout>
-        </widget>
         <widget class="QWidget" name="contentCreatorPage_12">
          <layout class="QVBoxLayout" name="contentCreatorLayout_12">
           <item>
@@ -783,11 +538,11 @@
                 <widget class="QSpinBox" name="subscribersSpin_6">
                  <property name="styleSheet">
                   <string notr="true"> background-color: #FFFFFF;
-         border: 2px solid #7D4FEE;
-         border-radius: 10px;
-         padding: 6px;
-         font: 10pt &quot;Arial&quot;;
-         color: #7D4FEE;</string>
+          border: 2px solid #7D4FEE;
+          border-radius: 10px;
+          padding: 6px;
+          font: 10pt &quot;Arial&quot;;
+          color: #7D4FEE;</string>
                  </property>
                  <property name="minimum">
                   <number>100</number>
@@ -931,290 +686,69 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <widget class="QWidget" name="widget_12" native="true">
+             <widget class="QPushButton" name="btnGenerateQR">
               <property name="geometry">
                <rect>
-                <x>10</x>
+                <x>90</x>
                 <y>0</y>
-                <width>371</width>
-                <height>251</height>
+                <width>120</width>
+                <height>31</height>
                </rect>
               </property>
-              <property name="styleSheet">
-               <string notr="true">QWidget#widget_3 {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    font: bold 14pt &quot;Arial&quot;;
-    color: #7D4FEE;
-    margin: 10px;
-}
-</string>
+              <property name="text">
+               <string>Generate QR</string>
               </property>
-              <widget class="QFrame" name="frame_76">
-               <property name="geometry">
-                <rect>
-                 <x>30</x>
-                 <y>80</y>
-                 <width>21</width>
-                 <height>151</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QFrame#frame_76 {
-    background-color: black;  /* black color */
-    border-radius: 5px;       /* optional rounded edges */
-}</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::Shape::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Shadow::Raised</enum>
-               </property>
-              </widget>
-              <widget class="QFrame" name="frame_77">
-               <property name="geometry">
-                <rect>
-                 <x>70</x>
-                 <y>160</y>
-                 <width>21</width>
-                 <height>71</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QFrame#frame_37 {
-    background-color: yellow;
-    border-radius: 5px;   /* optional rounded corners */
-}
-QFrame#frame_77 {
-
-        background-color: rgb(43, 0, 65);
-    border-radius: 5px;   /* optional rounded corners */
-}
-</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::Shape::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Shadow::Raised</enum>
-               </property>
-              </widget>
-              <widget class="QFrame" name="frame_78">
-               <property name="geometry">
-                <rect>
-                 <x>160</x>
-                 <y>120</y>
-                 <width>21</width>
-                 <height>111</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QFrame#frame_3 {
-    background-color: yellow;
-    border-radius: 5px;   /* optional rounded corners */
-}
-QFrame#frame_78 {
-    background-color: yellow;
-    border-radius: 5px;   /* optional rounded corners */
-}
-</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::Shape::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Shadow::Raised</enum>
-               </property>
-              </widget>
-              <widget class="QFrame" name="frame_79">
-               <property name="geometry">
-                <rect>
-                 <x>120</x>
-                 <y>40</y>
-                 <width>21</width>
-                 <height>191</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QFrame#frame_4 {
-    background-color: #7D4FEE;   /* purple */
-    border-radius: 5px;          /* optional rounded corners */
-    border: 1px solid #333;      /* optional border */
-}
-QFrame#frame_79 {
-    background-color: #7D4FEE;   /* purple */
-    border-radius: 5px;          /* optional rounded corners */
-    border: 1px solid #333;      /* optional border */
-}
-</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::Shape::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Shadow::Raised</enum>
-               </property>
-              </widget>
-              <widget class="QFrame" name="frame_34">
-               <property name="geometry">
-                <rect>
-                 <x>230</x>
-                 <y>150</y>
-                 <width>21</width>
-                 <height>21</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QFrame#frame_34 {
-    background-color: yellow;
-    border-radius: 5px;   /* optional rounded corners */
-}
-</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::Shape::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Shadow::Raised</enum>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_206">
-               <property name="geometry">
-                <rect>
-                 <x>260</x>
-                 <y>90</y>
-                 <width>101</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>total of creators</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_207">
-               <property name="geometry">
-                <rect>
-                 <x>260</x>
-                 <y>120</y>
-                 <width>91</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>total of platforms</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_208">
-               <property name="geometry">
-                <rect>
-                 <x>260</x>
-                 <y>150</y>
-                 <width>121</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>male creator</string>
-               </property>
-              </widget>
-              <widget class="QFrame" name="frame_35">
-               <property name="geometry">
-                <rect>
-                 <x>230</x>
-                 <y>120</y>
-                 <width>21</width>
-                 <height>21</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QFrame#frame_35 {
-    background-color: #7D4FEE;   /* purple */
-    border-radius: 5px;          /* optional rounded corners */
-    border: 1px solid #333;      /* optional border */
-}
-</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::Shape::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Shadow::Raised</enum>
-               </property>
-              </widget>
-              <widget class="QFrame" name="frame_36">
-               <property name="geometry">
-                <rect>
-                 <x>230</x>
-                 <y>90</y>
-                 <width>21</width>
-                 <height>21</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QFrame#frame_36 {
-    background-color: black;  /* black color */
-    border-radius: 5px;       /* optional rounded edges */
-}
-</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::Shape::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Shadow::Raised</enum>
-               </property>
-              </widget>
-              <widget class="QFrame" name="frame_37">
-               <property name="geometry">
-                <rect>
-                 <x>230</x>
-                 <y>180</y>
-                 <width>21</width>
-                 <height>21</height>
-                </rect>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QFrame#frame_34 {
-    background-color: yellow;
-    border-radius: 5px;   /* optional rounded corners */
-}
-QFrame#frame_37 {
-    background-color:rgb(43, 0, 65);
-    border-radius: 5px;   /* optional rounded corners */
-}
-</string>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::Shape::StyledPanel</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Shadow::Raised</enum>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label_209">
-               <property name="geometry">
-                <rect>
-                 <x>260</x>
-                 <y>180</y>
-                 <width>121</width>
-                 <height>16</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>female creator</string>
-               </property>
-              </widget>
+             </widget>
+             <widget class="QLabel" name="qrLabel">
+              <property name="geometry">
+               <rect>
+                <x>30</x>
+                <y>40</y>
+                <width>201</width>
+                <height>151</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Scaled contents</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="btnSaveQR">
+              <property name="geometry">
+               <rect>
+                <x>90</x>
+                <y>240</y>
+                <width>120</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Save QR</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="btnCopyQR">
+              <property name="geometry">
+               <rect>
+                <x>90</x>
+                <y>200</y>
+                <width>120</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Copy</string>
+              </property>
              </widget>
             </widget>
             <widget class="QTableWidget" name="creatorTable_6">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
              <property name="geometry">
               <rect>
-               <x>400</x>
-               <y>30</y>
+               <x>270</x>
+               <y>10</y>
                <width>511</width>
-               <height>191</height>
+               <height>261</height>
               </rect>
              </property>
              <property name="sizePolicy">
@@ -1222,6 +756,18 @@ QFrame#frame_37 {
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
              </property>
              <column>
               <property name="text">
@@ -1249,307 +795,19 @@ QFrame#frame_37 {
               </property>
              </column>
             </widget>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="sponsorPage_12">
-         <layout class="QVBoxLayout" name="sponsorLayout_9">
-          <item>
-           <widget class="QTabWidget" name="sponsorTabWidget_9">
-            <property name="currentIndex">
-             <number>1</number>
-            </property>
-            <widget class="QWidget" name="tabAdd_9">
-             <attribute name="title">
-              <string>Add</string>
-             </attribute>
-             <layout class="QVBoxLayout" name="tabAddLayout_6">
-              <item>
-               <widget class="QGroupBox" name="formBoxAdd_9">
-                <property name="title">
-                 <string>Add Sponsor</string>
-                </property>
-                <layout class="QFormLayout" name="formLayoutAdd_9">
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_210">
-                   <property name="text">
-                    <string>ID</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="QLineEdit" name="lineEdit_81"/>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_211">
-                   <property name="text">
-                    <string>Sponsor Name</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="1">
-                  <widget class="QLineEdit" name="lineEdit_82"/>
-                 </item>
-                 <item row="2" column="0">
-                  <widget class="QLabel" name="label_212">
-                   <property name="text">
-                    <string>Category</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="1">
-                  <widget class="QLineEdit" name="lineEdit_83"/>
-                 </item>
-                 <item row="3" column="0">
-                  <widget class="QLabel" name="label_213">
-                   <property name="text">
-                    <string>Email</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="1">
-                  <widget class="QLineEdit" name="lineEdit_84"/>
-                 </item>
-                 <item row="4" column="0">
-                  <widget class="QLabel" name="label_214">
-                   <property name="text">
-                    <string>Start of Contract</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="4" column="1">
-                  <widget class="QDateEdit" name="dateEdit_33"/>
-                 </item>
-                 <item row="5" column="0">
-                  <widget class="QLabel" name="label_215">
-                   <property name="text">
-                    <string>End of Contract</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="5" column="1">
-                  <widget class="QDateEdit" name="dateEdit_34"/>
-                 </item>
-                 <item row="6" column="0">
-                  <widget class="QLabel" name="label_216">
-                   <property name="text">
-                    <string>Budget</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="6" column="1">
-                  <widget class="QLineEdit" name="lineEdit_85"/>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_92">
-                <property name="text">
-                 <string>Add</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_93">
-                <property name="text">
-                 <string>PDF</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_94">
-                <property name="text">
-                 <string>Delete</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_95">
-                <property name="text">
-                 <string>Sort by name</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
+            <widget class="QPushButton" name="themeButton_7">
+             <property name="geometry">
+              <rect>
+               <x>1010</x>
+               <y>10</y>
+               <width>120</width>
+               <height>35</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>stats</string>
+             </property>
             </widget>
-            <widget class="QWidget" name="tabModify_9">
-             <attribute name="title">
-              <string>To Modify</string>
-             </attribute>
-             <layout class="QVBoxLayout" name="tabModifyLayout_6">
-              <item>
-               <widget class="QGroupBox" name="formBoxModify_9">
-                <property name="title">
-                 <string>Modify Sponsor</string>
-                </property>
-                <layout class="QFormLayout" name="formLayoutModify_9">
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_217">
-                   <property name="text">
-                    <string>ID</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="QLineEdit" name="lineEdit_86"/>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QLabel" name="label_218">
-                   <property name="text">
-                    <string>Sponsor Name</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="1" column="1">
-                  <widget class="QLineEdit" name="lineEdit_87"/>
-                 </item>
-                 <item row="2" column="0">
-                  <widget class="QLabel" name="label_219">
-                   <property name="text">
-                    <string>Category</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="1">
-                  <widget class="QLineEdit" name="lineEdit_88"/>
-                 </item>
-                 <item row="3" column="0">
-                  <widget class="QLabel" name="label_220">
-                   <property name="text">
-                    <string>Email</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="1">
-                  <widget class="QLineEdit" name="lineEdit_89"/>
-                 </item>
-                 <item row="4" column="0">
-                  <widget class="QLabel" name="label_221">
-                   <property name="text">
-                    <string>Start of Contract</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="4" column="1">
-                  <widget class="QDateEdit" name="dateEdit_35"/>
-                 </item>
-                 <item row="5" column="0">
-                  <widget class="QLabel" name="label_222">
-                   <property name="text">
-                    <string>End of Contract</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="5" column="1">
-                  <widget class="QDateEdit" name="dateEdit_36"/>
-                 </item>
-                 <item row="6" column="0">
-                  <widget class="QLabel" name="label_223">
-                   <property name="text">
-                    <string>Budget</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="6" column="1">
-                  <widget class="QLineEdit" name="lineEdit_90"/>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item>
-               <layout class="QGridLayout" name="gridLayout_12"/>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_96">
-                <property name="text">
-                 <string>To Modify</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_97">
-                <property name="text">
-                 <string>PDF</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_98">
-                <property name="text">
-                 <string>Delete</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_99">
-                <property name="text">
-                 <string>Sort by name</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </widget>
-          </item>
-          <item>
-           <widget class="QTableWidget" name="sponsorTable_6">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <column>
-             <property name="text">
-              <string>ID</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Sponsor Name</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Category</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Email</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Start of Contract</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>End of Contract</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Budget</string>
-             </property>
-            </column>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="dealPage_6">
-         <layout class="QVBoxLayout" name="dealLayout_6">
-          <item>
-           <widget class="QLabel" name="dealLabel_6">
-            <property name="text">
-             <string>Deal Page</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignmentFlag::AlignCenter</set>
-            </property>
            </widget>
           </item>
          </layout>
@@ -1557,13 +815,286 @@ QFrame#frame_37 {
         <widget class="QWidget" name="employeePage_12">
          <layout class="QVBoxLayout" name="employeeLayout_9">
           <item>
-           <widget class="QLabel" name="employeeLabel_12">
-            <property name="text">
-             <string>Employee Page</string>
+           <widget class="QWidget" name="widget_12" native="true">
+            <property name="styleSheet">
+             <string notr="true">QWidget#widget_3 {
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     font: bold 14pt &quot;Arial&quot;;
+     color: #7D4FEE;
+     margin: 10px;
+ }
+ </string>
             </property>
-            <property name="alignment">
-             <set>Qt::AlignmentFlag::AlignCenter</set>
-            </property>
+            <widget class="QFrame" name="frame_76">
+             <property name="geometry">
+              <rect>
+               <x>30</x>
+               <y>80</y>
+               <width>21</width>
+               <height>151</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QFrame#frame_76 {
+     background-color: black;  /* black color */
+     border-radius: 5px;       /* optional rounded edges */
+ }</string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::Shape::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Shadow::Raised</enum>
+             </property>
+            </widget>
+            <widget class="QFrame" name="frame_77">
+             <property name="geometry">
+              <rect>
+               <x>70</x>
+               <y>160</y>
+               <width>21</width>
+               <height>71</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QFrame#frame_37 {
+     background-color: yellow;
+     border-radius: 5px;   /* optional rounded corners */
+ }
+ QFrame#frame_77 {
+
+         background-color: rgb(43, 0, 65);
+     border-radius: 5px;   /* optional rounded corners */
+ }
+ </string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::Shape::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Shadow::Raised</enum>
+             </property>
+            </widget>
+            <widget class="QFrame" name="frame_78">
+             <property name="geometry">
+              <rect>
+               <x>160</x>
+               <y>120</y>
+               <width>21</width>
+               <height>111</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QFrame#frame_3 {
+     background-color: yellow;
+     border-radius: 5px;   /* optional rounded corners */
+ }
+ QFrame#frame_78 {
+     background-color: yellow;
+     border-radius: 5px;   /* optional rounded corners */
+ }
+ </string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::Shape::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Shadow::Raised</enum>
+             </property>
+            </widget>
+            <widget class="QFrame" name="frame_79">
+             <property name="geometry">
+              <rect>
+               <x>120</x>
+               <y>40</y>
+               <width>21</width>
+               <height>191</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QFrame#frame_4 {
+     background-color: #7D4FEE;   /* purple */
+     border-radius: 5px;          /* optional rounded corners */
+     border: 1px solid #333;      /* optional border */
+ }
+ QFrame#frame_79 {
+     background-color: #7D4FEE;   /* purple */
+     border-radius: 5px;          /* optional rounded corners */
+     border: 1px solid #333;      /* optional border */
+ }
+ </string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::Shape::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Shadow::Raised</enum>
+             </property>
+            </widget>
+            <widget class="QFrame" name="frame_34">
+             <property name="geometry">
+              <rect>
+               <x>230</x>
+               <y>150</y>
+               <width>21</width>
+               <height>21</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QFrame#frame_34 {
+     background-color: yellow;
+     border-radius: 5px;   /* optional rounded corners */
+ }
+ </string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::Shape::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Shadow::Raised</enum>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_206">
+             <property name="geometry">
+              <rect>
+               <x>260</x>
+               <y>90</y>
+               <width>101</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>total of creators</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_207">
+             <property name="geometry">
+              <rect>
+               <x>260</x>
+               <y>120</y>
+               <width>91</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>total of platforms</string>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_208">
+             <property name="geometry">
+              <rect>
+               <x>260</x>
+               <y>150</y>
+               <width>121</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>male creator</string>
+             </property>
+            </widget>
+            <widget class="QFrame" name="frame_35">
+             <property name="geometry">
+              <rect>
+               <x>230</x>
+               <y>120</y>
+               <width>21</width>
+               <height>21</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QFrame#frame_35 {
+     background-color: #7D4FEE;   /* purple */
+     border-radius: 5px;          /* optional rounded corners */
+     border: 1px solid #333;      /* optional border */
+ }
+ </string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::Shape::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Shadow::Raised</enum>
+             </property>
+            </widget>
+            <widget class="QFrame" name="frame_36">
+             <property name="geometry">
+              <rect>
+               <x>230</x>
+               <y>90</y>
+               <width>21</width>
+               <height>21</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QFrame#frame_36 {
+     background-color: black;  /* black color */
+     border-radius: 5px;       /* optional rounded edges */
+ }
+ </string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::Shape::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Shadow::Raised</enum>
+             </property>
+            </widget>
+            <widget class="QFrame" name="frame_37">
+             <property name="geometry">
+              <rect>
+               <x>230</x>
+               <y>180</y>
+               <width>21</width>
+               <height>21</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QFrame#frame_34 {
+     background-color: yellow;
+     border-radius: 5px;   /* optional rounded corners */
+ }
+ QFrame#frame_37 {
+     background-color:rgb(43, 0, 65);
+     border-radius: 5px;   /* optional rounded corners */
+ }
+ </string>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::Shape::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Shadow::Raised</enum>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label_209">
+             <property name="geometry">
+              <rect>
+               <x>260</x>
+               <y>180</y>
+               <width>121</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>female creator</string>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="themeButton_8">
+             <property name="geometry">
+              <rect>
+               <x>1010</x>
+               <y>20</y>
+               <width>120</width>
+               <height>35</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>back</string>
+             </property>
+            </widget>
            </widget>
           </item>
          </layout>
@@ -1578,103 +1109,103 @@ QFrame#frame_37 {
        <widget class="QStackedWidget" name="stackedWidget_2">
         <property name="styleSheet">
          <string notr="true">
-     QMainWindow {
-         background-color: #FFFFFF;
-         border-radius: 10px;
-     }
-     QMainWindow[darkTheme=&quot;true&quot;] {
-         background-color: #000000;
-     }
-     QGroupBox {
-         background-color: #FFFFFF;
-         border: 2px solid #7D4FEE;
-         border-radius: 10px;
-         font: bold 14pt &quot;Arial&quot;;
-         color: #7D4FEE;
-         margin: 10px;
-     }
-     QGroupBox[darkTheme=&quot;true&quot;] {
-         background-color: #000000;
-         border: 2px solid #7D4FEE;
-         color: #7D4FEE;
-     }
-     QGroupBox::title {
-         color: #7D4FEE;
-         padding: 0 5px;
-         subcontrol-origin: margin;
-         subcontrol-position: top left;
-     }
-     QPushButton {
-         background-color: #7D4FEE;
-         color: #FFFFFF;
-         border-radius: 10px;
-         padding: 8px;
-         min-width: 100px;
-         font: 10pt &quot;Arial&quot;;
-         border: 2px solid #7D4FEE;
-     }
-     QPushButton:hover {
-         background-color: #FFFFFF;
-         color: #7D4FEE;
-         border: 2px solid #7D4FEE;
-     }
-     QLineEdit, QComboBox, QSpinBox, QDateEdit {
-         background-color: #FFFFFF;
-         border: 2px solid #7D4FEE;
-         border-radius: 10px;
-         padding: 6px;
-         font: 10pt &quot;Arial&quot;;
-         color: #7D4FEE;
-     }
-     QLineEdit[darkTheme=&quot;true&quot;], QComboBox[darkTheme=&quot;true&quot;], QSpinBox[darkTheme=&quot;true&quot;], QDateEdit[darkTheme=&quot;true&quot;] {
-         background-color: #000000;
-         border: 2px solid #7D4FEE;
-         color: #7D4FEE;
-     }
-     QTableWidget {
-         background-color: #FFFFFF;
-         border: 2px solid #7D4FEE;
-         border-radius: 10px;
-         gridline-color: #7D4FEE;
-         font: 10pt &quot;Arial&quot;;
-         color: #7D4FEE;
-     }
-     QTableWidget[darkTheme=&quot;true&quot;] {
-         background-color: #1A1A1A;
-         border: 2px solid #7D4FEE;
-         color: #7D4FEE;
-     }
-     QTableWidget::item:selected {
-         background-color: #7D4FEE;
-         color: #FFFFFF;
-     }
-     QLabel {
-         color: #7D4FEE;
-         font: 10pt &quot;Arial&quot;;
-     }
-     QLabel[darkTheme=&quot;true&quot;] {
-         color: #7D4FEE;
-     }
-     QWidget#sidebar {
-         background-color: #7D4FEE;
-         border-radius: 10px 0 0 10px;
-     }
-     QPushButton#sidebarButton {
-         background-color: #7D4FEE;
-         color: #FFFFFF;
-         border: none;
-         border-radius: 10px;
-         padding: 10px;
-         font: 10pt &quot;Arial&quot;;
-         width: 100%;
-         text-align: left;
-     }
-     QPushButton#sidebarButton:hover {
-         background-color: #FFFFFF;
-         color: #7D4FEE;
-         border: 2px solid #7D4FEE;
-     }
-   </string>
+      QMainWindow {
+          background-color: #FFFFFF;
+          border-radius: 10px;
+      }
+      QMainWindow[darkTheme=&quot;true&quot;] {
+          background-color: #000000;
+      }
+      QGroupBox {
+          background-color: #FFFFFF;
+          border: 2px solid #7D4FEE;
+          border-radius: 10px;
+          font: bold 14pt &quot;Arial&quot;;
+          color: #7D4FEE;
+          margin: 10px;
+      }
+      QGroupBox[darkTheme=&quot;true&quot;] {
+          background-color: #000000;
+          border: 2px solid #7D4FEE;
+          color: #7D4FEE;
+      }
+      QGroupBox::title {
+          color: #7D4FEE;
+          padding: 0 5px;
+          subcontrol-origin: margin;
+          subcontrol-position: top left;
+      }
+      QPushButton {
+          background-color: #7D4FEE;
+          color: #FFFFFF;
+          border-radius: 10px;
+          padding: 8px;
+          min-width: 100px;
+          font: 10pt &quot;Arial&quot;;
+          border: 2px solid #7D4FEE;
+      }
+      QPushButton:hover {
+          background-color: #FFFFFF;
+          color: #7D4FEE;
+          border: 2px solid #7D4FEE;
+      }
+      QLineEdit, QComboBox, QSpinBox, QDateEdit {
+          background-color: #FFFFFF;
+          border: 2px solid #7D4FEE;
+          border-radius: 10px;
+          padding: 6px;
+          font: 10pt &quot;Arial&quot;;
+          color: #7D4FEE;
+      }
+      QLineEdit[darkTheme=&quot;true&quot;], QComboBox[darkTheme=&quot;true&quot;], QSpinBox[darkTheme=&quot;true&quot;], QDateEdit[darkTheme=&quot;true&quot;] {
+          background-color: #000000;
+          border: 2px solid #7D4FEE;
+          color: #7D4FEE;
+      }
+      QTableWidget {
+          background-color: #FFFFFF;
+          border: 2px solid #7D4FEE;
+          border-radius: 10px;
+          gridline-color: #7D4FEE;
+          font: 10pt &quot;Arial&quot;;
+          color: #7D4FEE;
+      }
+      QTableWidget[darkTheme=&quot;true&quot;] {
+          background-color: #1A1A1A;
+          border: 2px solid #7D4FEE;
+          color: #7D4FEE;
+      }
+      QTableWidget::item:selected {
+          background-color: #7D4FEE;
+          color: #FFFFFF;
+      }
+      QLabel {
+          color: #7D4FEE;
+          font: 10pt &quot;Arial&quot;;
+      }
+      QLabel[darkTheme=&quot;true&quot;] {
+          color: #7D4FEE;
+      }
+      QWidget#sidebar {
+          background-color: #7D4FEE;
+          border-radius: 10px 0 0 10px;
+      }
+      QPushButton#sidebarButton {
+          background-color: #7D4FEE;
+          color: #FFFFFF;
+          border: none;
+          border-radius: 10px;
+          padding: 10px;
+          font: 10pt &quot;Arial&quot;;
+          width: 100%;
+          text-align: left;
+      }
+      QPushButton#sidebarButton:hover {
+          background-color: #FFFFFF;
+          color: #7D4FEE;
+          border: 2px solid #7D4FEE;
+      }
+    </string>
         </property>
         <property name="currentIndex">
          <number>3</number>
@@ -1925,22 +1456,22 @@ QFrame#frame_37 {
           </property>
           <property name="styleSheet">
            <string notr="true">QTabWidget::pane {
-    background: white;
-}
+     background: white;
+ }
 
-QTabBar::tab {
-    background: white;
-    color: black;
-}
+ QTabBar::tab {
+     background: white;
+     color: black;
+ }
 
-QTabBar::tab:selected {
-    background: #dddddd;
-}
-QStackedWidget {
-    background-color: white;
-}
+ QTabBar::tab:selected {
+     background: #dddddd;
+ }
+ QStackedWidget {
+     background-color: white;
+ }
 
-</string>
+ </string>
           </property>
           <property name="currentIndex">
            <number>1</number>
@@ -2531,13 +2062,13 @@ QStackedWidget {
       </property>
       <property name="styleSheet">
        <string notr="true">QLabel#label_6 {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    padding: 6px;
-    font: 10pt &quot;Arial&quot;;
-    color: #7D4FEE;
-}</string>
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     padding: 6px;
+     font: 10pt &quot;Arial&quot;;
+     color: #7D4FEE;
+ }</string>
       </property>
       <property name="text">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;search&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -2554,20 +2085,20 @@ QStackedWidget {
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton#pushButton_11 {
-    background-color: #7D4FEE;
-    color: #FFFFFF;
-    border-radius: 10px;
-    padding: 8px;
-    min-width: 100px;
-    font: 10pt &quot;Arial&quot;;
-    border: 2px solid #7D4FEE;
-}
+     background-color: #7D4FEE;
+     color: #FFFFFF;
+     border-radius: 10px;
+     padding: 8px;
+     min-width: 100px;
+     font: 10pt &quot;Arial&quot;;
+     border: 2px solid #7D4FEE;
+ }
 
-QPushButton#pushButton_11:hover {
-    background-color: #FFFFFF;
-    color: #7D4FEE;
-    border: 2px solid #7D4FEE;
-}</string>
+ QPushButton#pushButton_11:hover {
+     background-color: #FFFFFF;
+     color: #7D4FEE;
+     border: 2px solid #7D4FEE;
+ }</string>
       </property>
       <property name="text">
        <string>Export PDF</string>
@@ -2584,20 +2115,20 @@ QPushButton#pushButton_11:hover {
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton#pushButton_10 {
-    background-color: #7D4FEE;
-    color: #FFFFFF;
-    border-radius: 10px;
-    padding: 8px;
-    min-width: 100px;
-    font: 10pt &quot;Arial&quot;;
-    border: 2px solid #7D4FEE;
-}
+     background-color: #7D4FEE;
+     color: #FFFFFF;
+     border-radius: 10px;
+     padding: 8px;
+     min-width: 100px;
+     font: 10pt &quot;Arial&quot;;
+     border: 2px solid #7D4FEE;
+ }
 
-QPushButton#pushButton_10:hover {
-    background-color: #FFFFFF;
-    color: #7D4FEE;
-    border: 2px solid #7D4FEE;
-}</string>
+ QPushButton#pushButton_10:hover {
+     background-color: #FFFFFF;
+     color: #7D4FEE;
+     border: 2px solid #7D4FEE;
+ }</string>
       </property>
       <property name="text">
        <string>Sort By Salary</string>
@@ -2614,14 +2145,14 @@ QPushButton#pushButton_10:hover {
       </property>
       <property name="styleSheet">
        <string notr="true">QWidget#widget_3 {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    font: bold 14pt &quot;Arial&quot;;
-    color: #7D4FEE;
-    margin: 10px;
-}
-</string>
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     font: bold 14pt &quot;Arial&quot;;
+     color: #7D4FEE;
+     margin: 10px;
+ }
+ </string>
       </property>
       <widget class="QFrame" name="frame_44">
        <property name="geometry">
@@ -2634,9 +2165,9 @@ QPushButton#pushButton_10:hover {
        </property>
        <property name="styleSheet">
         <string notr="true">QFrame#frame_44 {
-    background-color: black;  /* black color */
-    border-radius: 5px;       /* optional rounded edges */
-}</string>
+     background-color: black;  /* black color */
+     border-radius: 5px;       /* optional rounded edges */
+ }</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::Shape::StyledPanel</enum>
@@ -2656,14 +2187,14 @@ QPushButton#pushButton_10:hover {
        </property>
        <property name="styleSheet">
         <string notr="true">QFrame#frame_2 {
-    background-color: yellow;
-    border-radius: 5px;   /* optional rounded corners */
-}
-QFrame#frame_45 {
-    background-color: yellow;
-    border-radius: 5px;   /* optional rounded corners */
-}
-</string>
+     background-color: yellow;
+     border-radius: 5px;   /* optional rounded corners */
+ }
+ QFrame#frame_45 {
+     background-color: yellow;
+     border-radius: 5px;   /* optional rounded corners */
+ }
+ </string>
        </property>
        <property name="frameShape">
         <enum>QFrame::Shape::StyledPanel</enum>
@@ -2683,14 +2214,14 @@ QFrame#frame_45 {
        </property>
        <property name="styleSheet">
         <string notr="true">QFrame#frame_3 {
-    background-color: yellow;
-    border-radius: 5px;   /* optional rounded corners */
-}
-QFrame#frame_46 {
-    background-color: yellow;
-    border-radius: 5px;   /* optional rounded corners */
-}
-</string>
+     background-color: yellow;
+     border-radius: 5px;   /* optional rounded corners */
+ }
+ QFrame#frame_46 {
+     background-color: yellow;
+     border-radius: 5px;   /* optional rounded corners */
+ }
+ </string>
        </property>
        <property name="frameShape">
         <enum>QFrame::Shape::StyledPanel</enum>
@@ -2710,16 +2241,16 @@ QFrame#frame_46 {
        </property>
        <property name="styleSheet">
         <string notr="true">QFrame#frame_4 {
-    background-color: #7D4FEE;   /* purple */
-    border-radius: 5px;          /* optional rounded corners */
-    border: 1px solid #333;      /* optional border */
-}
-QFrame#frame_47 {
-    background-color: #7D4FEE;   /* purple */
-    border-radius: 5px;          /* optional rounded corners */
-    border: 1px solid #333;      /* optional border */
-}
-</string>
+     background-color: #7D4FEE;   /* purple */
+     border-radius: 5px;          /* optional rounded corners */
+     border: 1px solid #333;      /* optional border */
+ }
+ QFrame#frame_47 {
+     background-color: #7D4FEE;   /* purple */
+     border-radius: 5px;          /* optional rounded corners */
+     border: 1px solid #333;      /* optional border */
+ }
+ </string>
        </property>
        <property name="frameShape">
         <enum>QFrame::Shape::StyledPanel</enum>
@@ -2739,10 +2270,10 @@ QFrame#frame_47 {
        </property>
        <property name="styleSheet">
         <string notr="true">QFrame#frame_5 {
-    background-color: yellow;
-    border-radius: 5px;   /* optional rounded corners */
-}
-</string>
+     background-color: yellow;
+     border-radius: 5px;   /* optional rounded corners */
+ }
+ </string>
        </property>
        <property name="frameShape">
         <enum>QFrame::Shape::StyledPanel</enum>
@@ -2801,11 +2332,11 @@ QFrame#frame_47 {
        </property>
        <property name="styleSheet">
         <string notr="true">QFrame#frame_6 {
-    background-color: #7D4FEE;   /* purple */
-    border-radius: 5px;          /* optional rounded corners */
-    border: 1px solid #333;      /* optional border */
-}
-</string>
+     background-color: #7D4FEE;   /* purple */
+     border-radius: 5px;          /* optional rounded corners */
+     border: 1px solid #333;      /* optional border */
+ }
+ </string>
        </property>
        <property name="frameShape">
         <enum>QFrame::Shape::StyledPanel</enum>
@@ -2825,10 +2356,10 @@ QFrame#frame_47 {
        </property>
        <property name="styleSheet">
         <string notr="true">QFrame#frame_7 {
-    background-color: black;  /* black color */
-    border-radius: 5px;       /* optional rounded edges */
-}
-</string>
+     background-color: black;  /* black color */
+     border-radius: 5px;       /* optional rounded edges */
+ }
+ </string>
        </property>
        <property name="frameShape">
         <enum>QFrame::Shape::StyledPanel</enum>
@@ -2849,15 +2380,15 @@ QFrame#frame_47 {
       </property>
       <property name="styleSheet">
        <string notr="true">QWidget#widget {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    font: bold 14pt &quot;Arial&quot;;
-    color: #7D4FEE;
-    margin: 10px;
-}
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     font: bold 14pt &quot;Arial&quot;;
+     color: #7D4FEE;
+     margin: 10px;
+ }
 
-</string>
+ </string>
       </property>
       <widget class="QLabel" name="label_106">
        <property name="geometry">
@@ -2870,14 +2401,14 @@ QFrame#frame_47 {
        </property>
        <property name="styleSheet">
         <string notr="true">QLabel#label {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    padding: 6px;
-    font: 10pt &quot;Arial&quot;;
-    color: #7D4FEE;
-}
-</string>
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     padding: 6px;
+     font: 10pt &quot;Arial&quot;;
+     color: #7D4FEE;
+ }
+ </string>
        </property>
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Name:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -2894,16 +2425,16 @@ QFrame#frame_47 {
        </property>
        <property name="styleSheet">
         <string notr="true">QLabel#label_2 {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    padding: 6px;
-    font: 10pt &quot;Arial&quot;;
-    color: #7D4FEE;
-}
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     padding: 6px;
+     font: 10pt &quot;Arial&quot;;
+     color: #7D4FEE;
+ }
 
 
-</string>
+ </string>
        </property>
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Last Name:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -2920,25 +2451,25 @@ QFrame#frame_47 {
        </property>
        <property name="styleSheet">
         <string notr="true">QLabel#label_3 {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    padding: 6px;
-    font: 10pt &quot;Arial&quot;;
-    color: #7D4FEE;
-}
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     padding: 6px;
+     font: 10pt &quot;Arial&quot;;
+     color: #7D4FEE;
+ }
 
-QLabel#label_3:hover {
-    background-color: #F5F5FF;
-    color: #7D4FEE;
-}
+ QLabel#label_3:hover {
+     background-color: #F5F5FF;
+     color: #7D4FEE;
+ }
 
-QLabel#label_3:disabled {
-    background-color: #F0F0F0;
-    color: #AAAAAA;
-    border: 2px solid #CCCCCC;
-}
-</string>
+ QLabel#label_3:disabled {
+     background-color: #F0F0F0;
+     color: #AAAAAA;
+     border: 2px solid #CCCCCC;
+ }
+ </string>
        </property>
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Position:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -2955,25 +2486,25 @@ QLabel#label_3:disabled {
        </property>
        <property name="styleSheet">
         <string notr="true">QLabel#label_4 {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    padding: 6px;
-    font: 10pt &quot;Arial&quot;;
-    color: #7D4FEE;
-}
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     padding: 6px;
+     font: 10pt &quot;Arial&quot;;
+     color: #7D4FEE;
+ }
 
-QLabel#label_4:hover {
-    background-color: #F5F5FF;
-    color: #7D4FEE;
-}
+ QLabel#label_4:hover {
+     background-color: #F5F5FF;
+     color: #7D4FEE;
+ }
 
-QLabel#label_4:disabled {
-    background-color: #F0F0F0;
-    color: #AAAAAA;
-    border: 2px solid #CCCCCC;
-}
-</string>
+ QLabel#label_4:disabled {
+     background-color: #F0F0F0;
+     color: #AAAAAA;
+     border: 2px solid #CCCCCC;
+ }
+ </string>
        </property>
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Salary:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -2990,25 +2521,25 @@ QLabel#label_4:disabled {
        </property>
        <property name="styleSheet">
         <string notr="true">QLabel#label_5 {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    padding: 6px;
-    font: 10pt &quot;Arial&quot;;
-    color: #7D4FEE;
-}
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     padding: 6px;
+     font: 10pt &quot;Arial&quot;;
+     color: #7D4FEE;
+ }
 
-QLabel#label_5:hover {
-    background-color: #F5F5FF;
-    color: #7D4FEE;
-}
+ QLabel#label_5:hover {
+     background-color: #F5F5FF;
+     color: #7D4FEE;
+ }
 
-QLabel#label_5:disabled {
-    background-color: #F0F0F0;
-    color: #AAAAAA;
-    border: 2px solid #CCCCCC;
-}
-</string>
+ QLabel#label_5:disabled {
+     background-color: #F0F0F0;
+     color: #AAAAAA;
+     border: 2px solid #CCCCCC;
+ }
+ </string>
        </property>
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Gmail:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -3025,24 +2556,24 @@ QLabel#label_5:disabled {
        </property>
        <property name="styleSheet">
         <string notr="true">QLineEdit#lineEdit {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    padding: 6px;
-    font: 10pt &quot;Arial&quot;;
-    color: #7D4FEE;
-}
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     padding: 6px;
+     font: 10pt &quot;Arial&quot;;
+     color: #7D4FEE;
+ }
 
-QLineEdit#lineEdit:focus {
-    border: 2px solid #5A2BE2; /* darker purple when focused */
-}
+ QLineEdit#lineEdit:focus {
+     border: 2px solid #5A2BE2; /* darker purple when focused */
+ }
 
-QLineEdit#lineEdit:disabled {
-    background-color: #F0F0F0;
-    color: #AAAAAA;
-    border: 2px solid #CCCCCC;
-}
-</string>
+ QLineEdit#lineEdit:disabled {
+     background-color: #F0F0F0;
+     color: #AAAAAA;
+     border: 2px solid #CCCCCC;
+ }
+ </string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_92">
@@ -3056,24 +2587,24 @@ QLineEdit#lineEdit:disabled {
        </property>
        <property name="styleSheet">
         <string notr="true">QLineEdit#lineEdit_2 {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    padding: 6px;
-    font: 10pt &quot;Arial&quot;;
-    color: #7D4FEE;
-}
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     padding: 6px;
+     font: 10pt &quot;Arial&quot;;
+     color: #7D4FEE;
+ }
 
-QLineEdit#lineEdit_2:focus {
-    border: 2px solid #5A2BE2; /* darker purple when focused */
-}
+ QLineEdit#lineEdit_2:focus {
+     border: 2px solid #5A2BE2; /* darker purple when focused */
+ }
 
-QLineEdit#lineEdit_2:disabled {
-    background-color: #F0F0F0;
-    color: #AAAAAA;
-    border: 2px solid #CCCCCC;
-}
-</string>
+ QLineEdit#lineEdit_2:disabled {
+     background-color: #F0F0F0;
+     color: #AAAAAA;
+     border: 2px solid #CCCCCC;
+ }
+ </string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_93">
@@ -3087,24 +2618,24 @@ QLineEdit#lineEdit_2:disabled {
        </property>
        <property name="styleSheet">
         <string notr="true">QLineEdit#lineEdit_3 {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    padding: 6px;
-    font: 10pt &quot;Arial&quot;;
-    color: #7D4FEE;
-}
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     padding: 6px;
+     font: 10pt &quot;Arial&quot;;
+     color: #7D4FEE;
+ }
 
-QLineEdit#lineEdit_3:focus {
-    border: 2px solid #5A2BE2; /* darker purple when focused */
-}
+ QLineEdit#lineEdit_3:focus {
+     border: 2px solid #5A2BE2; /* darker purple when focused */
+ }
 
-QLineEdit#lineEdit_3:disabled {
-    background-color: #F0F0F0;
-    color: #AAAAAA;
-    border: 2px solid #CCCCCC;
-}
-</string>
+ QLineEdit#lineEdit_3:disabled {
+     background-color: #F0F0F0;
+     color: #AAAAAA;
+     border: 2px solid #CCCCCC;
+ }
+ </string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_94">
@@ -3118,24 +2649,24 @@ QLineEdit#lineEdit_3:disabled {
        </property>
        <property name="styleSheet">
         <string notr="true">QLineEdit#lineEdit_4 {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    padding: 6px;
-    font: 10pt &quot;Arial&quot;;
-    color: #7D4FEE;
-}
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     padding: 6px;
+     font: 10pt &quot;Arial&quot;;
+     color: #7D4FEE;
+ }
 
-QLineEdit#lineEdit_4:focus {
-    border: 2px solid #5A2BE2; /* darker purple when focused */
-}
+ QLineEdit#lineEdit_4:focus {
+     border: 2px solid #5A2BE2; /* darker purple when focused */
+ }
 
-QLineEdit#lineEdit_4:disabled {
-    background-color: #F0F0F0;
-    color: #AAAAAA;
-    border: 2px solid #CCCCCC;
-}
-</string>
+ QLineEdit#lineEdit_4:disabled {
+     background-color: #F0F0F0;
+     color: #AAAAAA;
+     border: 2px solid #CCCCCC;
+ }
+ </string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_95">
@@ -3149,24 +2680,24 @@ QLineEdit#lineEdit_4:disabled {
        </property>
        <property name="styleSheet">
         <string notr="true">QLineEdit#lineEdit_5 {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    padding: 6px;
-    font: 10pt &quot;Arial&quot;;
-    color: #7D4FEE;
-}
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     padding: 6px;
+     font: 10pt &quot;Arial&quot;;
+     color: #7D4FEE;
+ }
 
-QLineEdit#lineEdit_5:focus {
-    border: 2px solid #5A2BE2; /* darker purple when focused */
-}
+ QLineEdit#lineEdit_5:focus {
+     border: 2px solid #5A2BE2; /* darker purple when focused */
+ }
 
-QLineEdit#lineEdit_5:disabled {
-    background-color: #F0F0F0;
-    color: #AAAAAA;
-    border: 2px solid #CCCCCC;
-}
-</string>
+ QLineEdit#lineEdit_5:disabled {
+     background-color: #F0F0F0;
+     color: #AAAAAA;
+     border: 2px solid #CCCCCC;
+ }
+ </string>
        </property>
       </widget>
       <widget class="QPushButton" name="pushButton_62">
@@ -3180,21 +2711,21 @@ QLineEdit#lineEdit_5:disabled {
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton#pushButton_6 {
-    background-color: #7D4FEE;
-    color: #FFFFFF;
-    border-radius: 10px;
-    padding: 8px;
-    min-width: 100px;
-    font: 10pt &quot;Arial&quot;;
-    border: 2px solid #7D4FEE;
-}
+     background-color: #7D4FEE;
+     color: #FFFFFF;
+     border-radius: 10px;
+     padding: 8px;
+     min-width: 100px;
+     font: 10pt &quot;Arial&quot;;
+     border: 2px solid #7D4FEE;
+ }
 
-QPushButton#pushButton_6:hover {
-    background-color: #FFFFFF;
-    color: #7D4FEE;
-    border: 2px solid #7D4FEE;
-}
-</string>
+ QPushButton#pushButton_6:hover {
+     background-color: #FFFFFF;
+     color: #7D4FEE;
+     border: 2px solid #7D4FEE;
+ }
+ </string>
        </property>
        <property name="text">
         <string>Edit</string>
@@ -3211,21 +2742,21 @@ QPushButton#pushButton_6:hover {
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton#pushButton_7 {
-    background-color: #7D4FEE;
-    color: #FFFFFF;
-    border-radius: 10px;
-    padding: 8px;
-    min-width: 100px;
-    font: 10pt &quot;Arial&quot;;
-    border: 2px solid #7D4FEE;
-}
+     background-color: #7D4FEE;
+     color: #FFFFFF;
+     border-radius: 10px;
+     padding: 8px;
+     min-width: 100px;
+     font: 10pt &quot;Arial&quot;;
+     border: 2px solid #7D4FEE;
+ }
 
-QPushButton#pushButton_7:hover {
-    background-color: #FFFFFF;
-    color: #7D4FEE;
-    border: 2px solid #7D4FEE;
-}
-</string>
+ QPushButton#pushButton_7:hover {
+     background-color: #FFFFFF;
+     color: #7D4FEE;
+     border: 2px solid #7D4FEE;
+ }
+ </string>
        </property>
        <property name="text">
         <string>Delete</string>
@@ -3242,21 +2773,21 @@ QPushButton#pushButton_7:hover {
        </property>
        <property name="styleSheet">
         <string notr="true">QPushButton#pushButton_9 {
-    background-color: #7D4FEE;
-    color: #FFFFFF;
-    border-radius: 10px;
-    padding: 8px;
-    min-width: 100px;
-    font: 10pt &quot;Arial&quot;;
-    border: 2px solid #7D4FEE;
-}
+     background-color: #7D4FEE;
+     color: #FFFFFF;
+     border-radius: 10px;
+     padding: 8px;
+     min-width: 100px;
+     font: 10pt &quot;Arial&quot;;
+     border: 2px solid #7D4FEE;
+ }
 
-QPushButton#pushButton_9:hover {
-    background-color: #FFFFFF;
-    color: #7D4FEE;
-    border: 2px solid #7D4FEE;
-}
-</string>
+ QPushButton#pushButton_9:hover {
+     background-color: #FFFFFF;
+     color: #7D4FEE;
+     border: 2px solid #7D4FEE;
+ }
+ </string>
        </property>
        <property name="text">
         <string>Add</string>
@@ -3273,25 +2804,25 @@ QPushButton#pushButton_9:hover {
        </property>
        <property name="styleSheet">
         <string notr="true">QLabel#label_10 {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    padding: 6px;
-    font: 10pt &quot;Arial&quot;;
-    color: #7D4FEE;
-}
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     padding: 6px;
+     font: 10pt &quot;Arial&quot;;
+     color: #7D4FEE;
+ }
 
-QLabel#label_10:hover {
-    background-color: #F5F5FF;
-    color: #7D4FEE;
-}
+ QLabel#label_10:hover {
+     background-color: #F5F5FF;
+     color: #7D4FEE;
+ }
 
-QLabel#label_10:disabled {
-    background-color: #F0F0F0;
-    color: #AAAAAA;
-    border: 2px solid #CCCCCC;
-}
-</string>
+ QLabel#label_10:disabled {
+     background-color: #F0F0F0;
+     color: #AAAAAA;
+     border: 2px solid #CCCCCC;
+ }
+ </string>
        </property>
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;phone number&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -3308,25 +2839,25 @@ QLabel#label_10:disabled {
        </property>
        <property name="styleSheet">
         <string notr="true">QLabel#label_11 {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    padding: 6px;
-    font: 10pt &quot;Arial&quot;;
-    color: #7D4FEE;
-}
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     padding: 6px;
+     font: 10pt &quot;Arial&quot;;
+     color: #7D4FEE;
+ }
 
-QLabel#label_11:hover {
-    background-color: #F5F5FF;
-    color: #7D4FEE;
-}
+ QLabel#label_11:hover {
+     background-color: #F5F5FF;
+     color: #7D4FEE;
+ }
 
-QLabel#label_11:disabled {
-    background-color: #F0F0F0;
-    color: #AAAAAA;
-    border: 2px solid #CCCCCC;
-}
-</string>
+ QLabel#label_11:disabled {
+     background-color: #F0F0F0;
+     color: #AAAAAA;
+     border: 2px solid #CCCCCC;
+ }
+ </string>
        </property>
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Gender&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -3343,24 +2874,24 @@ QLabel#label_11:disabled {
        </property>
        <property name="styleSheet">
         <string notr="true">QLineEdit#lineEdit_7 {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    padding: 6px;
-    font: 10pt &quot;Arial&quot;;
-    color: #7D4FEE;
-}
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     padding: 6px;
+     font: 10pt &quot;Arial&quot;;
+     color: #7D4FEE;
+ }
 
-QLineEdit#lineEdit_7:focus {
-    border: 2px solid #5A2BE2; /* darker purple when focused */
-}
+ QLineEdit#lineEdit_7:focus {
+     border: 2px solid #5A2BE2; /* darker purple when focused */
+ }
 
-QLineEdit#lineEdit_7:disabled {
-    background-color: #F0F0F0;
-    color: #AAAAAA;
-    border: 2px solid #CCCCCC;
-}
-</string>
+ QLineEdit#lineEdit_7:disabled {
+     background-color: #F0F0F0;
+     color: #AAAAAA;
+     border: 2px solid #CCCCCC;
+ }
+ </string>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_97">
@@ -3374,24 +2905,24 @@ QLineEdit#lineEdit_7:disabled {
        </property>
        <property name="styleSheet">
         <string notr="true">QLineEdit#lineEdit_8 {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    padding: 6px;
-    font: 10pt &quot;Arial&quot;;
-    color: #7D4FEE;
-}
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     padding: 6px;
+     font: 10pt &quot;Arial&quot;;
+     color: #7D4FEE;
+ }
 
-QLineEdit#lineEdit_8:focus {
-    border: 2px solid #5A2BE2; /* darker purple when focused */
-}
+ QLineEdit#lineEdit_8:focus {
+     border: 2px solid #5A2BE2; /* darker purple when focused */
+ }
 
-QLineEdit#lineEdit_8:disabled {
-    background-color: #F0F0F0;
-    color: #AAAAAA;
-    border: 2px solid #CCCCCC;
-}
-</string>
+ QLineEdit#lineEdit_8:disabled {
+     background-color: #F0F0F0;
+     color: #AAAAAA;
+     border: 2px solid #CCCCCC;
+ }
+ </string>
        </property>
       </widget>
       <widget class="QLabel" name="label_113">
@@ -3425,24 +2956,24 @@ QLineEdit#lineEdit_8:disabled {
       </property>
       <property name="styleSheet">
        <string notr="true">QLineEdit#lineEdit_6 {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    padding: 6px;
-    font: 10pt &quot;Arial&quot;;
-    color: #7D4FEE;
-}
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     padding: 6px;
+     font: 10pt &quot;Arial&quot;;
+     color: #7D4FEE;
+ }
 
-QLineEdit#lineEdit_6:focus {
-    border: 2px solid #5A2BE2; /* darker purple when focused */
-}
+ QLineEdit#lineEdit_6:focus {
+     border: 2px solid #5A2BE2; /* darker purple when focused */
+ }
 
-QLineEdit#lineEdit_6:disabled {
-    background-color: #F0F0F0;
-    color: #AAAAAA;
-    border: 2px solid #CCCCCC;
-}
-</string>
+ QLineEdit#lineEdit_6:disabled {
+     background-color: #F0F0F0;
+     color: #AAAAAA;
+     border: 2px solid #CCCCCC;
+ }
+ </string>
       </property>
       <property name="text">
        <string>by name , last name ,position</string>
@@ -3459,14 +2990,14 @@ QLineEdit#lineEdit_6:disabled {
       </property>
       <property name="styleSheet">
        <string notr="true">QTableWidget#tableWidget {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    gridline-color: #7D4FEE;
-    font: 10pt &quot;Arial&quot;;
-    color: #7D4FEE;
-}
-</string>
+     background-color: #FFFFFF;
+     border: 2px solid #7D4FEE;
+     border-radius: 10px;
+     gridline-color: #7D4FEE;
+     font: 10pt &quot;Arial&quot;;
+     color: #7D4FEE;
+ }
+ </string>
       </property>
       <column>
        <property name="text">

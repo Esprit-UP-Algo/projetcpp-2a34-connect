@@ -362,28 +362,10 @@ CMakeFiles/content_creators_manger.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.3/mingw_64/include/QtGui/qcursor.h \
  C:/Qt/6.7.3/mingw_64/include/QtGui/qbitmap.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidgetItem \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtablewidget.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtableview.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qlocale.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
- C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
- C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/QDate \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/QString \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qstring.h \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/QPixmap \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/qpixmap.h \
  C:/Users/SELIMF~1/DOCUME~1/CONTEN~1/build/DESKTO~1/CONTEN~1/include/ui_mainwindow.h \
  C:/Qt/6.7.3/mingw_64/include/QtCore/QVariant \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qvariant.h \
@@ -398,13 +380,27 @@ CMakeFiles/content_creators_manger.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qcoreapplication_platform.h \
  C:/Qt/6.7.3/mingw_64/include/QtGui/qguiapplication.h \
  C:/Qt/6.7.3/mingw_64/include/QtGui/qinputmethod.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qlocale.h \
  C:/Qt/6.7.3/mingw_64/include/QtGui/qguiapplication_platform.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QComboBox \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qcombobox.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyleoption.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/qvalidator.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qslider.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractslider.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qstyle.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabbar.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qrubberband.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qframe.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qabstractitemmodel.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QDateEdit \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdatetimeedit.h \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qtimezone.h \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qdatetime.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qcalendar.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QFormLayout \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qformlayout.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLayout \
@@ -423,6 +419,9 @@ CMakeFiles/content_creators_manger.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qboxlayout.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QHeaderView \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qheaderview.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLabel \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlabel.h \
  C:/Qt/6.7.3/mingw_64/include/QtGui/qpicture.h \
@@ -448,9 +447,25 @@ CMakeFiles/content_creators_manger.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTabWidget \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtabwidget.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QTableWidget \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtablewidget.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qtableview.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QVBoxLayout \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QWidget \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qwidget.h \
+ C:\Users\Selim\ Fekih\Documents\content_creators_manger\connection.h \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/QObject \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qobject.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/QWidget \
+ C:/Qt/6.7.3/mingw_64/include/QtSql/QSqlDatabase \
+ C:/Qt/6.7.3/mingw_64/include/QtSql/qsqldatabase.h \
+ C:/Qt/6.7.3/mingw_64/include/QtSql/qtsqlglobal.h \
+ C:/Qt/6.7.3/mingw_64/include/QtSql/qtsql-config.h \
+ C:/Qt/6.7.3/mingw_64/include/QtSql/qtsqlexports.h \
+ C:/Qt/6.7.3/mingw_64/include/QtSql/QSqlError \
+ C:/Qt/6.7.3/mingw_64/include/QtSql/qsqlerror.h \
+ C:/Qt/6.7.3/mingw_64/include/QtSql/QSqlQuery \
+ C:/Qt/6.7.3/mingw_64/include/QtSql/qsqlquery.h \
+ C:/Qt/6.7.3/mingw_64/include/QtSql/qsqldatabase.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QMessageBox \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qmessagebox.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qdialog.h \
@@ -491,5 +506,11 @@ CMakeFiles/content_creators_manger.dir/mainwindow.cpp.obj: \
  C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/fs_dir.h \
  C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/bits/fs_ops.h \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qfileinfo.h \
- C:/Qt/6.7.3/mingw_64/include/QtCore/QTextStream \
- C:/Qt/6.7.3/mingw_64/include/QtCore/qtextstream.h
+ C:/Qt/6.7.3/mingw_64/include/QtGui/QClipboard \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/qclipboard.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/QApplication \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/QRegularExpression \
+ C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/QFont \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/qfont.h \
+ C:\Users\Selim\ Fekih\Documents\content_creators_manger\qrcodegenerator.h
