@@ -17,26 +17,28 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        sponsor.h
+        sponsor.cpp
+        connection.h
+        connection.cpp
+        employes.h
+        employes.cpp
+        chatbot.h
+        chatbot.cpp
+        smsmanager.h
+        smsmanager.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(interface23
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        sponsor.h sponsor.cpp
-        connection.h connection.cpp
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET interface23 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
         add_library(interface23 SHARED
             ${PROJECT_SOURCES}
         )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
         add_executable(interface23
             ${PROJECT_SOURCES}
@@ -48,12 +50,11 @@ target_link_libraries(interface23 PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Sql
 )
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
+
 if(${QT_VERSION} VERSION_LESS 6.1.0)
   set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.interface23)
 endif()
+
 set_target_properties(interface23 PROPERTIES
     ${BUNDLE_ID_OPTION}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
@@ -72,3 +73,11 @@ install(TARGETS interface23
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(interface23)
 endif()
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Sql Widgets Network)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Sql Widgets Network)
+
+target_link_libraries(interface23 PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Sql
+    Qt${QT_VERSION_MAJOR}::Network
+)
