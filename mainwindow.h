@@ -26,6 +26,8 @@ private slots:
     void showSponsorPage();
     void showManagementPage();
     void showEmployeePage();
+    void updateSimpleStats();
+
 
     // === THEME ===
     void on_themeButton_6_clicked();

@@ -14,99 +14,107 @@
    <string>Project Manager</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QGroupBox {
-          background-color: #FFFFFF;
-          border: 2px solid #7D4FEE;
-          border-radius: 10px;
-          font: bold 14pt &quot;Arial&quot;;
-          color: #7D4FEE;
-          margin: 10px;
-      }
-      QGroupBox[darkTheme=&quot;true&quot;] {
-          background-color: #000000;
-          border: 2px solid #7D4FEE;
-          color: #7D4FEE;
-      }
-      QGroupBox::title {
-          color: #7D4FEE;
-          padding: 0 5px;
-          subcontrol-origin: margin;
-          subcontrol-position: top left;
-      }
-      QPushButton {
-          background-color: #7D4FEE;
-          color: #FFFFFF;
-          border-radius: 10px;
-          padding: 8px;
-          min-width: 100px;
-          font: 10pt &quot;Arial&quot;;
-          border: 2px solid #7D4FEE;
-      }
-      QPushButton:hover {
-          background-color: #FFFFFF;
-          color: #7D4FEE;
-          border: 2px solid #7D4FEE;
-      }
-      QLineEdit, QComboBox, QSpinBox, QDateEdit {
-          background-color: #FFFFFF;
-          border: 2px solid #7D4FEE;
-          border-radius: 10px;
-          padding: 6px;
-          font: 10pt &quot;Arial&quot;;
-          color: #7D4FEE;
-      }
-      QLineEdit[darkTheme=&quot;true&quot;], QComboBox[darkTheme=&quot;true&quot;], QSpinBox[darkTheme=&quot;true&quot;], QDateEdit[darkTheme=&quot;true&quot;] {
-          background-color: #000000;
-          border: 2px solid #7D4FEE;
-          color: #7D4FEE;
-      }
-      QTableWidget {
-          background-color: #FFFFFF;
-          border: 2px solid #7D4FEE;
-          border-radius: 10px;
-          gridline-color: #7D4FEE;
-          font: 10pt &quot;Arial&quot;;
-          color: #7D4FEE;
-      }
-      QTableWidget[darkTheme=&quot;true&quot;] {
-          background-color: #1A1A1A;
-          border: 2px solid #7D4FEE;
-          color: #7D4FEE;
-      }
-      QTableWidget::item:selected {
-          background-color: #7D4FEE;
-          color: #FFFFFF;
-      }
-      QLabel {
-          color: #7D4FEE;
-          font: 10pt &quot;Arial&quot;;
-      }
-      QLabel[darkTheme=&quot;true&quot;] {
-          color: #7D4FEE;
-      }
-      QWidget#sidebar {
-          background-color: #7D4FEE;
-          border-radius: 10px 0 0 10px;
-      }
-      QPushButton#sidebarButton {
-          background-color: #7D4FEE;
-          color: #FFFFFF;
-          border: none;
-          border-radius: 10px;
-          padding: 10px;
-          font: 10pt &quot;Arial&quot;;
-          width: 100%;
-          text-align: left;
-      }
-      QPushButton#sidebarButton:hover {
-          background-color: #FFFFFF;
-          color: #7D4FEE;
-          border: 2px solid #7D4FEE;
-      }
-    </string>
+   <string notr="true">
+  QMainWindow {
+      background-color: #FFFFFF;
+      border-radius: 10px;
+  }
+  QMainWindow[darkTheme=&quot;true&quot;] {
+      background-color: #000000;
+  }
+  QGroupBox {
+      background-color: #FFFFFF;
+      border: 2px solid #7D4FEE;
+      border-radius: 10px;
+      font: bold 14pt &quot;Arial&quot;;
+      color: #7D4FEE;
+      margin: 10px;
+  }
+  QGroupBox[darkTheme=&quot;true&quot;] {
+      background-color: #000000;
+      border: 2px solid #7D4FEE;
+      color: #7D4FEE;
+  }
+  QGroupBox::title {
+      color: #7D4FEE;
+      padding: 0 5px;
+      subcontrol-origin: margin;
+      subcontrol-position: top left;
+  }
+  QPushButton {
+      background-color: #7D4FEE;
+      color: #FFFFFF;
+      border-radius: 10px;
+      padding: 8px;
+      min-width: 100px;
+      font: 10pt &quot;Arial&quot;;
+      border: 2px solid #7D4FEE;
+  }
+  QPushButton:hover {
+      background-color: #FFFFFF;
+      color: #7D4FEE;
+      border: 2px solid #7D4FEE;
+  }
+  QLineEdit, QComboBox, QSpinBox, QDateEdit {
+      background-color: #FFFFFF;
+      border: 2px solid #7D4FEE;
+      border-radius: 10px;
+      padding: 6px;
+      font: 10pt &quot;Arial&quot;;
+      color: #7D4FEE;
+  }
+  QLineEdit[darkTheme=&quot;true&quot;], QComboBox[darkTheme=&quot;true&quot;], QSpinBox[darkTheme=&quot;true&quot;], QDateEdit[darkTheme=&quot;true&quot;] {
+      background-color: #000000;
+      border: 2px solid #7D4FEE;
+      color: #7D4FEE;
+  }
+  QTableWidget {
+      background-color: #FFFFFF;
+      border: 2px solid #7D4FEE;
+      border-radius: 10px;
+      gridline-color: #7D4FEE;
+      font: 10pt &quot;Arial&quot;;
+      color: #7D4FEE;
+      outline: 0;
+  }
+  QTableWidget[darkTheme=&quot;true&quot;] {
+      background-color: #1A1A1A;
+      border: 2px solid #7D4FEE;
+      color: #7D4FEE;
+  }
+  QTableWidget::item:selected {
+      background-color: #7D4FEE;
+      color: #FFFFFF;
+  }
+  QLabel {
+      color: #7D4FEE;
+      font: 10pt &quot;Arial&quot;;
+  }
+  QLabel[darkTheme=&quot;true&quot;] {
+      color: #7D4FEE;
+  }
+  QWidget#sidebar {
+      background-color: #C49FFF;
+      border-radius: 10px;
+  }
+  QPushButton#sidebarButton {
+      background-color: transparent;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      font: 10pt &quot;Arial&quot;;
+      text-align: left;
+  }
+  QPushButton#sidebarButton:hover {
+      background-color: #FFFFFF;
+      color: #7D4FEE;
+      border: 2px solid #7D4FEE;
+  }
+   </string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QFrame" name="menuFrame">
+   <widget class="QWidget" name="sidebar" native="true">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -745,8 +753,8 @@
              </property>
              <property name="geometry">
               <rect>
-               <x>270</x>
-               <y>10</y>
+               <x>210</x>
+               <y>0</y>
                <width>511</width>
                <height>261</height>
               </rect>
@@ -795,24 +803,120 @@
               </property>
              </column>
             </widget>
-            <widget class="QPushButton" name="themeButton_7">
+            <widget class="QGroupBox" name="groupBox_stats">
              <property name="geometry">
               <rect>
-               <x>1010</x>
-               <y>10</y>
-               <width>120</width>
-               <height>35</height>
+               <x>720</x>
+               <y>0</y>
+               <width>380</width>
+               <height>281</height>
               </rect>
              </property>
-             <property name="text">
-              <string>stats</string>
+             <property name="styleSheet">
+              <string notr="true">
+   QGroupBox { background-color: #7D4FEE; color: white; border-radius: 20px; border: 3px solid #5A2BE2; font-weight: bold; }
+   QGroupBox::title { subcontrol-origin: margin; left: 20px; padding: 0 10px; }
+  </string>
              </property>
+             <property name="title">
+              <string>STATISTIQUES LIVE</string>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_stats">
+              <item row="3" column="1">
+               <widget class="QLabel" name="label_2">
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(0, 0, 0);</string>
+                </property>
+                <property name="text">
+                 <string>  Instagram</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLCDNumber" name="lcdYoutube">
+                <property name="styleSheet">
+                 <string notr="true">background-color: #FF0000; color: white; border-radius: 12px;</string>
+                </property>
+                <property name="digitCount">
+                 <number>4</number>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLCDNumber" name="lcdInstagram">
+                <property name="styleSheet">
+                 <string notr="true">background-color: #E1306C; color: white; border-radius: 12px;</string>
+                </property>
+                <property name="digitCount">
+                 <number>4</number>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLabel" name="label_3">
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(0, 0, 0);</string>
+                </property>
+                <property name="text">
+                 <string>  YouTube</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLCDNumber" name="lcdTotal">
+                <property name="styleSheet">
+                 <string notr="true">background-color: black; color: #7D4FEE; border-radius: 15px;</string>
+                </property>
+                <property name="digitCount">
+                 <number>5</number>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLabel" name="label_4">
+                <property name="font">
+                 <font>
+                  <family>Arial</family>
+                  <pointsize>10</pointsize>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(0, 0, 0);</string>
+                </property>
+                <property name="text">
+                 <string>  Total Créateurs</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLCDNumber" name="lcdTiktok">
+                <property name="styleSheet">
+                 <string notr="true">background-color: black; color: cyan; border-radius: 12px;</string>
+                </property>
+                <property name="digitCount">
+                 <number>4</number>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLabel" name="label_5">
+                <property name="styleSheet">
+                 <string notr="true">color: rgb(0, 0, 0);</string>
+                </property>
+                <property name="text">
+                 <string>  TikTok</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </widget>
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="employeePage_12">
+        <widget class="QWidget" name="pageStats">
          <layout class="QVBoxLayout" name="employeeLayout_9">
           <item>
            <widget class="QWidget" name="widget_12" native="true">
@@ -827,266 +931,11 @@
  }
  </string>
             </property>
-            <widget class="QFrame" name="frame_76">
+            <widget class="QPushButton" name="btnBack">
              <property name="geometry">
               <rect>
-               <x>30</x>
-               <y>80</y>
-               <width>21</width>
-               <height>151</height>
-              </rect>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QFrame#frame_76 {
-     background-color: black;  /* black color */
-     border-radius: 5px;       /* optional rounded edges */
- }</string>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::Shape::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Shadow::Raised</enum>
-             </property>
-            </widget>
-            <widget class="QFrame" name="frame_77">
-             <property name="geometry">
-              <rect>
-               <x>70</x>
-               <y>160</y>
-               <width>21</width>
-               <height>71</height>
-              </rect>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QFrame#frame_37 {
-     background-color: yellow;
-     border-radius: 5px;   /* optional rounded corners */
- }
- QFrame#frame_77 {
-
-         background-color: rgb(43, 0, 65);
-     border-radius: 5px;   /* optional rounded corners */
- }
- </string>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::Shape::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Shadow::Raised</enum>
-             </property>
-            </widget>
-            <widget class="QFrame" name="frame_78">
-             <property name="geometry">
-              <rect>
-               <x>160</x>
-               <y>120</y>
-               <width>21</width>
-               <height>111</height>
-              </rect>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QFrame#frame_3 {
-     background-color: yellow;
-     border-radius: 5px;   /* optional rounded corners */
- }
- QFrame#frame_78 {
-     background-color: yellow;
-     border-radius: 5px;   /* optional rounded corners */
- }
- </string>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::Shape::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Shadow::Raised</enum>
-             </property>
-            </widget>
-            <widget class="QFrame" name="frame_79">
-             <property name="geometry">
-              <rect>
-               <x>120</x>
+               <x>970</x>
                <y>40</y>
-               <width>21</width>
-               <height>191</height>
-              </rect>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QFrame#frame_4 {
-     background-color: #7D4FEE;   /* purple */
-     border-radius: 5px;          /* optional rounded corners */
-     border: 1px solid #333;      /* optional border */
- }
- QFrame#frame_79 {
-     background-color: #7D4FEE;   /* purple */
-     border-radius: 5px;          /* optional rounded corners */
-     border: 1px solid #333;      /* optional border */
- }
- </string>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::Shape::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Shadow::Raised</enum>
-             </property>
-            </widget>
-            <widget class="QFrame" name="frame_34">
-             <property name="geometry">
-              <rect>
-               <x>230</x>
-               <y>150</y>
-               <width>21</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QFrame#frame_34 {
-     background-color: yellow;
-     border-radius: 5px;   /* optional rounded corners */
- }
- </string>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::Shape::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Shadow::Raised</enum>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_206">
-             <property name="geometry">
-              <rect>
-               <x>260</x>
-               <y>90</y>
-               <width>101</width>
-               <height>16</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>total of creators</string>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_207">
-             <property name="geometry">
-              <rect>
-               <x>260</x>
-               <y>120</y>
-               <width>91</width>
-               <height>16</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>total of platforms</string>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_208">
-             <property name="geometry">
-              <rect>
-               <x>260</x>
-               <y>150</y>
-               <width>121</width>
-               <height>16</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>male creator</string>
-             </property>
-            </widget>
-            <widget class="QFrame" name="frame_35">
-             <property name="geometry">
-              <rect>
-               <x>230</x>
-               <y>120</y>
-               <width>21</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QFrame#frame_35 {
-     background-color: #7D4FEE;   /* purple */
-     border-radius: 5px;          /* optional rounded corners */
-     border: 1px solid #333;      /* optional border */
- }
- </string>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::Shape::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Shadow::Raised</enum>
-             </property>
-            </widget>
-            <widget class="QFrame" name="frame_36">
-             <property name="geometry">
-              <rect>
-               <x>230</x>
-               <y>90</y>
-               <width>21</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QFrame#frame_36 {
-     background-color: black;  /* black color */
-     border-radius: 5px;       /* optional rounded edges */
- }
- </string>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::Shape::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Shadow::Raised</enum>
-             </property>
-            </widget>
-            <widget class="QFrame" name="frame_37">
-             <property name="geometry">
-              <rect>
-               <x>230</x>
-               <y>180</y>
-               <width>21</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">QFrame#frame_34 {
-     background-color: yellow;
-     border-radius: 5px;   /* optional rounded corners */
- }
- QFrame#frame_37 {
-     background-color:rgb(43, 0, 65);
-     border-radius: 5px;   /* optional rounded corners */
- }
- </string>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::Shape::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Shadow::Raised</enum>
-             </property>
-            </widget>
-            <widget class="QLabel" name="label_209">
-             <property name="geometry">
-              <rect>
-               <x>260</x>
-               <y>180</y>
-               <width>121</width>
-               <height>16</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>female creator</string>
-             </property>
-            </widget>
-            <widget class="QPushButton" name="themeButton_8">
-             <property name="geometry">
-              <rect>
-               <x>1010</x>
-               <y>20</y>
                <width>120</width>
                <height>35</height>
               </rect>

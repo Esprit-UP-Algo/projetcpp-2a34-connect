@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/content_creators_manger_autogen"
+  "content_creators_manger_autogen/include/ui_form.h"
   "content_creators_manger_autogen/include/ui_logindialog.h"
   "content_creators_manger_autogen/include/ui_mainwindow.h"
   "content_creators_manger_autogen/mocs_compilation.cpp"

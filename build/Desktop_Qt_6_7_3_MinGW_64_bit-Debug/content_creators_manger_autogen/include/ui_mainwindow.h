@@ -19,6 +19,7 @@
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLCDNumber>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
@@ -37,7 +38,7 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
-    QFrame *menuFrame;
+    QWidget *sidebar;
     QPushButton *sidebarButton;
     QPushButton *sidebarButton_3;
     QPushButton *sidebarButton_2;
@@ -115,23 +116,20 @@ public:
     QPushButton *btnSaveQR;
     QPushButton *btnCopyQR;
     QTableWidget *creatorTable_6;
-    QPushButton *themeButton_7;
-    QWidget *employeePage_12;
+    QGroupBox *groupBox_stats;
+    QGridLayout *gridLayout_stats;
+    QLabel *label_2;
+    QLCDNumber *lcdYoutube;
+    QLCDNumber *lcdInstagram;
+    QLabel *label_3;
+    QLCDNumber *lcdTotal;
+    QLabel *label_4;
+    QLCDNumber *lcdTiktok;
+    QLabel *label_5;
+    QWidget *pageStats;
     QVBoxLayout *employeeLayout_9;
     QWidget *widget_12;
-    QFrame *frame_76;
-    QFrame *frame_77;
-    QFrame *frame_78;
-    QFrame *frame_79;
-    QFrame *frame_34;
-    QLabel *label_206;
-    QLabel *label_207;
-    QLabel *label_208;
-    QFrame *frame_35;
-    QFrame *frame_36;
-    QFrame *frame_37;
-    QLabel *label_209;
-    QPushButton *themeButton_8;
+    QPushButton *btnBack;
     QWidget *sponsorPage;
     QVBoxLayout *sponsorLayout;
     QStackedWidget *stackedWidget_2;
@@ -274,120 +272,128 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
         MainWindow->resize(1667, 913);
-        MainWindow->setStyleSheet(QString::fromUtf8("QGroupBox {\n"
-"          background-color: #FFFFFF;\n"
-"          border: 2px solid #7D4FEE;\n"
-"          border-radius: 10px;\n"
-"          font: bold 14pt \"Arial\";\n"
-"          color: #7D4FEE;\n"
-"          margin: 10px;\n"
-"      }\n"
-"      QGroupBox[darkTheme=\"true\"] {\n"
-"          background-color: #000000;\n"
-"          border: 2px solid #7D4FEE;\n"
-"          color: #7D4FEE;\n"
-"      }\n"
-"      QGroupBox::title {\n"
-"          color: #7D4FEE;\n"
-"          padding: 0 5px;\n"
-"          subcontrol-origin: margin;\n"
-"          subcontrol-position: top left;\n"
-"      }\n"
-"      QPushButton {\n"
-"          background-color: #7D4FEE;\n"
-"          color: #FFFFFF;\n"
-"          border-radius: 10px;\n"
-"          padding: 8px;\n"
-"          min-width: 100px;\n"
-"          font: 10pt \"Arial\";\n"
-"          border: 2px solid #7D4FEE;\n"
-"      }\n"
-"      QPushButton:hover {\n"
-"          background-color: #FFFFFF;\n"
-"          color: #7D4FEE;\n"
-"          border: 2px solid #7D4FEE;\n"
-"      }"
-                        "\n"
-"      QLineEdit, QComboBox, QSpinBox, QDateEdit {\n"
-"          background-color: #FFFFFF;\n"
-"          border: 2px solid #7D4FEE;\n"
-"          border-radius: 10px;\n"
-"          padding: 6px;\n"
-"          font: 10pt \"Arial\";\n"
-"          color: #7D4FEE;\n"
-"      }\n"
-"      QLineEdit[darkTheme=\"true\"], QComboBox[darkTheme=\"true\"], QSpinBox[darkTheme=\"true\"], QDateEdit[darkTheme=\"true\"] {\n"
-"          background-color: #000000;\n"
-"          border: 2px solid #7D4FEE;\n"
-"          color: #7D4FEE;\n"
-"      }\n"
-"      QTableWidget {\n"
-"          background-color: #FFFFFF;\n"
-"          border: 2px solid #7D4FEE;\n"
-"          border-radius: 10px;\n"
-"          gridline-color: #7D4FEE;\n"
-"          font: 10pt \"Arial\";\n"
-"          color: #7D4FEE;\n"
-"      }\n"
-"      QTableWidget[darkTheme=\"true\"] {\n"
-"          background-color: #1A1A1A;\n"
-"          border: 2px solid #7D4FEE;\n"
-"          color: #7D4FEE;\n"
-"      }\n"
-"      QTableWidget::item:selected {\n"
-"          backgro"
-                        "und-color: #7D4FEE;\n"
-"          color: #FFFFFF;\n"
-"      }\n"
-"      QLabel {\n"
-"          color: #7D4FEE;\n"
-"          font: 10pt \"Arial\";\n"
-"      }\n"
-"      QLabel[darkTheme=\"true\"] {\n"
-"          color: #7D4FEE;\n"
-"      }\n"
-"      QWidget#sidebar {\n"
-"          background-color: #7D4FEE;\n"
-"          border-radius: 10px 0 0 10px;\n"
-"      }\n"
-"      QPushButton#sidebarButton {\n"
-"          background-color: #7D4FEE;\n"
-"          color: #FFFFFF;\n"
-"          border: none;\n"
-"          border-radius: 10px;\n"
-"          padding: 10px;\n"
-"          font: 10pt \"Arial\";\n"
-"          width: 100%;\n"
-"          text-align: left;\n"
-"      }\n"
-"      QPushButton#sidebarButton:hover {\n"
-"          background-color: #FFFFFF;\n"
-"          color: #7D4FEE;\n"
-"          border: 2px solid #7D4FEE;\n"
-"      }\n"
-"    "));
+        MainWindow->setStyleSheet(QString::fromUtf8("\n"
+"  QMainWindow {\n"
+"      background-color: #FFFFFF;\n"
+"      border-radius: 10px;\n"
+"  }\n"
+"  QMainWindow[darkTheme=\"true\"] {\n"
+"      background-color: #000000;\n"
+"  }\n"
+"  QGroupBox {\n"
+"      background-color: #FFFFFF;\n"
+"      border: 2px solid #7D4FEE;\n"
+"      border-radius: 10px;\n"
+"      font: bold 14pt \"Arial\";\n"
+"      color: #7D4FEE;\n"
+"      margin: 10px;\n"
+"  }\n"
+"  QGroupBox[darkTheme=\"true\"] {\n"
+"      background-color: #000000;\n"
+"      border: 2px solid #7D4FEE;\n"
+"      color: #7D4FEE;\n"
+"  }\n"
+"  QGroupBox::title {\n"
+"      color: #7D4FEE;\n"
+"      padding: 0 5px;\n"
+"      subcontrol-origin: margin;\n"
+"      subcontrol-position: top left;\n"
+"  }\n"
+"  QPushButton {\n"
+"      background-color: #7D4FEE;\n"
+"      color: #FFFFFF;\n"
+"      border-radius: 10px;\n"
+"      padding: 8px;\n"
+"      min-width: 100px;\n"
+"      font: 10pt \"Arial\";\n"
+"      border: 2px solid #7D4FEE;\n"
+"  }\n"
+"  QPushButton:hover {\n"
+"      background-color: #FFFFFF;\n"
+"      "
+                        "color: #7D4FEE;\n"
+"      border: 2px solid #7D4FEE;\n"
+"  }\n"
+"  QLineEdit, QComboBox, QSpinBox, QDateEdit {\n"
+"      background-color: #FFFFFF;\n"
+"      border: 2px solid #7D4FEE;\n"
+"      border-radius: 10px;\n"
+"      padding: 6px;\n"
+"      font: 10pt \"Arial\";\n"
+"      color: #7D4FEE;\n"
+"  }\n"
+"  QLineEdit[darkTheme=\"true\"], QComboBox[darkTheme=\"true\"], QSpinBox[darkTheme=\"true\"], QDateEdit[darkTheme=\"true\"] {\n"
+"      background-color: #000000;\n"
+"      border: 2px solid #7D4FEE;\n"
+"      color: #7D4FEE;\n"
+"  }\n"
+"  QTableWidget {\n"
+"      background-color: #FFFFFF;\n"
+"      border: 2px solid #7D4FEE;\n"
+"      border-radius: 10px;\n"
+"      gridline-color: #7D4FEE;\n"
+"      font: 10pt \"Arial\";\n"
+"      color: #7D4FEE;\n"
+"      outline: 0;\n"
+"  }\n"
+"  QTableWidget[darkTheme=\"true\"] {\n"
+"      background-color: #1A1A1A;\n"
+"      border: 2px solid #7D4FEE;\n"
+"      color: #7D4FEE;\n"
+"  }\n"
+"  QTableWidget::item:selected {\n"
+"      background-color: #7D4FEE;\n"
+"      "
+                        "color: #FFFFFF;\n"
+"  }\n"
+"  QLabel {\n"
+"      color: #7D4FEE;\n"
+"      font: 10pt \"Arial\";\n"
+"  }\n"
+"  QLabel[darkTheme=\"true\"] {\n"
+"      color: #7D4FEE;\n"
+"  }\n"
+"  QWidget#sidebar {\n"
+"      background-color: #C49FFF;\n"
+"      border-radius: 10px;\n"
+"  }\n"
+"  QPushButton#sidebarButton {\n"
+"      background-color: transparent;\n"
+"      color: #FFFFFF;\n"
+"      border: none;\n"
+"      border-radius: 10px;\n"
+"      padding: 10px;\n"
+"      font: 10pt \"Arial\";\n"
+"      text-align: left;\n"
+"  }\n"
+"  QPushButton#sidebarButton:hover {\n"
+"      background-color: #FFFFFF;\n"
+"      color: #7D4FEE;\n"
+"      border: 2px solid #7D4FEE;\n"
+"  }\n"
+"   "));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
-        menuFrame = new QFrame(centralwidget);
-        menuFrame->setObjectName("menuFrame");
-        menuFrame->setGeometry(QRect(30, 20, 141, 571));
-        menuFrame->setStyleSheet(QString::fromUtf8("background-color: rgb(111, 28, 255);"));
-        sidebarButton = new QPushButton(menuFrame);
+        sidebar = new QWidget(centralwidget);
+        sidebar->setObjectName("sidebar");
+        sidebar->setGeometry(QRect(30, 20, 141, 571));
+        sidebar->setStyleSheet(QString::fromUtf8("background-color: rgb(111, 28, 255);"));
+        sidebarButton = new QPushButton(sidebar);
         sidebarButton->setObjectName("sidebarButton");
         sidebarButton->setGeometry(QRect(10, 157, 120, 31));
-        sidebarButton_3 = new QPushButton(menuFrame);
+        sidebarButton_3 = new QPushButton(sidebar);
         sidebarButton_3->setObjectName("sidebarButton_3");
         sidebarButton_3->setGeometry(QRect(10, 217, 120, 31));
-        sidebarButton_2 = new QPushButton(menuFrame);
+        sidebarButton_2 = new QPushButton(sidebar);
         sidebarButton_2->setObjectName("sidebarButton_2");
         sidebarButton_2->setGeometry(QRect(10, 287, 120, 31));
-        sidebarButton_5 = new QPushButton(menuFrame);
+        sidebarButton_5 = new QPushButton(sidebar);
         sidebarButton_5->setObjectName("sidebarButton_5");
         sidebarButton_5->setGeometry(QRect(10, 347, 120, 31));
-        sidebarButton_4 = new QPushButton(menuFrame);
+        sidebarButton_4 = new QPushButton(sidebar);
         sidebarButton_4->setObjectName("sidebarButton_4");
         sidebarButton_4->setGeometry(QRect(10, 397, 120, 31));
-        label = new QLabel(menuFrame);
+        label = new QLabel(sidebar);
         label->setObjectName("label");
         label->setGeometry(QRect(10, 20, 111, 51));
         label->setPixmap(QPixmap(QString::fromUtf8("../../Downloads/connect.JPG")));
@@ -756,7 +762,7 @@ public:
         creatorTable_6->setHorizontalHeaderItem(4, __qtablewidgetitem11);
         creatorTable_6->setObjectName("creatorTable_6");
         creatorTable_6->setEnabled(true);
-        creatorTable_6->setGeometry(QRect(270, 10, 511, 261));
+        creatorTable_6->setGeometry(QRect(210, 0, 511, 261));
         QSizePolicy sizePolicy1(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Preferred);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -764,18 +770,82 @@ public:
         creatorTable_6->setSizePolicy(sizePolicy1);
         creatorTable_6->setMinimumSize(QSize(0, 0));
         creatorTable_6->setMaximumSize(QSize(16777215, 16777215));
-        themeButton_7 = new QPushButton(creatorChart_11);
-        themeButton_7->setObjectName("themeButton_7");
-        themeButton_7->setGeometry(QRect(1010, 10, 120, 35));
+        groupBox_stats = new QGroupBox(creatorChart_11);
+        groupBox_stats->setObjectName("groupBox_stats");
+        groupBox_stats->setGeometry(QRect(720, 0, 380, 281));
+        groupBox_stats->setStyleSheet(QString::fromUtf8("\n"
+"   QGroupBox { background-color: #7D4FEE; color: white; border-radius: 20px; border: 3px solid #5A2BE2; font-weight: bold; }\n"
+"   QGroupBox::title { subcontrol-origin: margin; left: 20px; padding: 0 10px; }\n"
+"  "));
+        gridLayout_stats = new QGridLayout(groupBox_stats);
+        gridLayout_stats->setObjectName("gridLayout_stats");
+        label_2 = new QLabel(groupBox_stats);
+        label_2->setObjectName("label_2");
+        label_2->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+
+        gridLayout_stats->addWidget(label_2, 3, 1, 1, 1);
+
+        lcdYoutube = new QLCDNumber(groupBox_stats);
+        lcdYoutube->setObjectName("lcdYoutube");
+        lcdYoutube->setStyleSheet(QString::fromUtf8("background-color: #FF0000; color: white; border-radius: 12px;"));
+        lcdYoutube->setDigitCount(4);
+
+        gridLayout_stats->addWidget(lcdYoutube, 1, 0, 1, 1);
+
+        lcdInstagram = new QLCDNumber(groupBox_stats);
+        lcdInstagram->setObjectName("lcdInstagram");
+        lcdInstagram->setStyleSheet(QString::fromUtf8("background-color: #E1306C; color: white; border-radius: 12px;"));
+        lcdInstagram->setDigitCount(4);
+
+        gridLayout_stats->addWidget(lcdInstagram, 3, 0, 1, 1);
+
+        label_3 = new QLabel(groupBox_stats);
+        label_3->setObjectName("label_3");
+        label_3->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+
+        gridLayout_stats->addWidget(label_3, 1, 1, 1, 1);
+
+        lcdTotal = new QLCDNumber(groupBox_stats);
+        lcdTotal->setObjectName("lcdTotal");
+        lcdTotal->setStyleSheet(QString::fromUtf8("background-color: black; color: #7D4FEE; border-radius: 15px;"));
+        lcdTotal->setDigitCount(5);
+
+        gridLayout_stats->addWidget(lcdTotal, 0, 0, 1, 1);
+
+        label_4 = new QLabel(groupBox_stats);
+        label_4->setObjectName("label_4");
+        QFont font;
+        font.setFamilies({QString::fromUtf8("Arial")});
+        font.setPointSize(10);
+        font.setBold(false);
+        font.setItalic(false);
+        label_4->setFont(font);
+        label_4->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+
+        gridLayout_stats->addWidget(label_4, 0, 1, 1, 1);
+
+        lcdTiktok = new QLCDNumber(groupBox_stats);
+        lcdTiktok->setObjectName("lcdTiktok");
+        lcdTiktok->setStyleSheet(QString::fromUtf8("background-color: black; color: cyan; border-radius: 12px;"));
+        lcdTiktok->setDigitCount(4);
+
+        gridLayout_stats->addWidget(lcdTiktok, 2, 0, 1, 1);
+
+        label_5 = new QLabel(groupBox_stats);
+        label_5->setObjectName("label_5");
+        label_5->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);"));
+
+        gridLayout_stats->addWidget(label_5, 2, 1, 1, 1);
+
 
         contentCreatorLayout_12->addWidget(creatorChart_11);
 
         stackedWidget_3->addWidget(contentCreatorPage_12);
-        employeePage_12 = new QWidget();
-        employeePage_12->setObjectName("employeePage_12");
-        employeeLayout_9 = new QVBoxLayout(employeePage_12);
+        pageStats = new QWidget();
+        pageStats->setObjectName("pageStats");
+        employeeLayout_9 = new QVBoxLayout(pageStats);
         employeeLayout_9->setObjectName("employeeLayout_9");
-        widget_12 = new QWidget(employeePage_12);
+        widget_12 = new QWidget(pageStats);
         widget_12->setObjectName("widget_12");
         widget_12->setStyleSheet(QString::fromUtf8("QWidget#widget_3 {\n"
 "     background-color: #FFFFFF;\n"
@@ -786,124 +856,13 @@ public:
 "     margin: 10px;\n"
 " }\n"
 " "));
-        frame_76 = new QFrame(widget_12);
-        frame_76->setObjectName("frame_76");
-        frame_76->setGeometry(QRect(30, 80, 21, 151));
-        frame_76->setStyleSheet(QString::fromUtf8("QFrame#frame_76 {\n"
-"     background-color: black;  /* black color */\n"
-"     border-radius: 5px;       /* optional rounded edges */\n"
-" }"));
-        frame_76->setFrameShape(QFrame::Shape::StyledPanel);
-        frame_76->setFrameShadow(QFrame::Shadow::Raised);
-        frame_77 = new QFrame(widget_12);
-        frame_77->setObjectName("frame_77");
-        frame_77->setGeometry(QRect(70, 160, 21, 71));
-        frame_77->setStyleSheet(QString::fromUtf8("QFrame#frame_37 {\n"
-"     background-color: yellow;\n"
-"     border-radius: 5px;   /* optional rounded corners */\n"
-" }\n"
-" QFrame#frame_77 {\n"
-"\n"
-"         background-color: rgb(43, 0, 65);\n"
-"     border-radius: 5px;   /* optional rounded corners */\n"
-" }\n"
-" "));
-        frame_77->setFrameShape(QFrame::Shape::StyledPanel);
-        frame_77->setFrameShadow(QFrame::Shadow::Raised);
-        frame_78 = new QFrame(widget_12);
-        frame_78->setObjectName("frame_78");
-        frame_78->setGeometry(QRect(160, 120, 21, 111));
-        frame_78->setStyleSheet(QString::fromUtf8("QFrame#frame_3 {\n"
-"     background-color: yellow;\n"
-"     border-radius: 5px;   /* optional rounded corners */\n"
-" }\n"
-" QFrame#frame_78 {\n"
-"     background-color: yellow;\n"
-"     border-radius: 5px;   /* optional rounded corners */\n"
-" }\n"
-" "));
-        frame_78->setFrameShape(QFrame::Shape::StyledPanel);
-        frame_78->setFrameShadow(QFrame::Shadow::Raised);
-        frame_79 = new QFrame(widget_12);
-        frame_79->setObjectName("frame_79");
-        frame_79->setGeometry(QRect(120, 40, 21, 191));
-        frame_79->setStyleSheet(QString::fromUtf8("QFrame#frame_4 {\n"
-"     background-color: #7D4FEE;   /* purple */\n"
-"     border-radius: 5px;          /* optional rounded corners */\n"
-"     border: 1px solid #333;      /* optional border */\n"
-" }\n"
-" QFrame#frame_79 {\n"
-"     background-color: #7D4FEE;   /* purple */\n"
-"     border-radius: 5px;          /* optional rounded corners */\n"
-"     border: 1px solid #333;      /* optional border */\n"
-" }\n"
-" "));
-        frame_79->setFrameShape(QFrame::Shape::StyledPanel);
-        frame_79->setFrameShadow(QFrame::Shadow::Raised);
-        frame_34 = new QFrame(widget_12);
-        frame_34->setObjectName("frame_34");
-        frame_34->setGeometry(QRect(230, 150, 21, 21));
-        frame_34->setStyleSheet(QString::fromUtf8("QFrame#frame_34 {\n"
-"     background-color: yellow;\n"
-"     border-radius: 5px;   /* optional rounded corners */\n"
-" }\n"
-" "));
-        frame_34->setFrameShape(QFrame::Shape::StyledPanel);
-        frame_34->setFrameShadow(QFrame::Shadow::Raised);
-        label_206 = new QLabel(widget_12);
-        label_206->setObjectName("label_206");
-        label_206->setGeometry(QRect(260, 90, 101, 16));
-        label_207 = new QLabel(widget_12);
-        label_207->setObjectName("label_207");
-        label_207->setGeometry(QRect(260, 120, 91, 16));
-        label_208 = new QLabel(widget_12);
-        label_208->setObjectName("label_208");
-        label_208->setGeometry(QRect(260, 150, 121, 16));
-        frame_35 = new QFrame(widget_12);
-        frame_35->setObjectName("frame_35");
-        frame_35->setGeometry(QRect(230, 120, 21, 21));
-        frame_35->setStyleSheet(QString::fromUtf8("QFrame#frame_35 {\n"
-"     background-color: #7D4FEE;   /* purple */\n"
-"     border-radius: 5px;          /* optional rounded corners */\n"
-"     border: 1px solid #333;      /* optional border */\n"
-" }\n"
-" "));
-        frame_35->setFrameShape(QFrame::Shape::StyledPanel);
-        frame_35->setFrameShadow(QFrame::Shadow::Raised);
-        frame_36 = new QFrame(widget_12);
-        frame_36->setObjectName("frame_36");
-        frame_36->setGeometry(QRect(230, 90, 21, 21));
-        frame_36->setStyleSheet(QString::fromUtf8("QFrame#frame_36 {\n"
-"     background-color: black;  /* black color */\n"
-"     border-radius: 5px;       /* optional rounded edges */\n"
-" }\n"
-" "));
-        frame_36->setFrameShape(QFrame::Shape::StyledPanel);
-        frame_36->setFrameShadow(QFrame::Shadow::Raised);
-        frame_37 = new QFrame(widget_12);
-        frame_37->setObjectName("frame_37");
-        frame_37->setGeometry(QRect(230, 180, 21, 21));
-        frame_37->setStyleSheet(QString::fromUtf8("QFrame#frame_34 {\n"
-"     background-color: yellow;\n"
-"     border-radius: 5px;   /* optional rounded corners */\n"
-" }\n"
-" QFrame#frame_37 {\n"
-"     background-color:rgb(43, 0, 65);\n"
-"     border-radius: 5px;   /* optional rounded corners */\n"
-" }\n"
-" "));
-        frame_37->setFrameShape(QFrame::Shape::StyledPanel);
-        frame_37->setFrameShadow(QFrame::Shadow::Raised);
-        label_209 = new QLabel(widget_12);
-        label_209->setObjectName("label_209");
-        label_209->setGeometry(QRect(260, 180, 121, 16));
-        themeButton_8 = new QPushButton(widget_12);
-        themeButton_8->setObjectName("themeButton_8");
-        themeButton_8->setGeometry(QRect(1010, 20, 120, 35));
+        btnBack = new QPushButton(widget_12);
+        btnBack->setObjectName("btnBack");
+        btnBack->setGeometry(QRect(970, 40, 120, 35));
 
         employeeLayout_9->addWidget(widget_12);
 
-        stackedWidget_3->addWidget(employeePage_12);
+        stackedWidget_3->addWidget(pageStats);
 
         contentCreatorLayout->addWidget(stackedWidget_3);
 
@@ -2173,12 +2132,12 @@ public:
         ___qtablewidgetitem10->setText(QCoreApplication::translate("MainWindow", "Subscribers", nullptr));
         QTableWidgetItem *___qtablewidgetitem11 = creatorTable_6->horizontalHeaderItem(4);
         ___qtablewidgetitem11->setText(QCoreApplication::translate("MainWindow", "Content Type", nullptr));
-        themeButton_7->setText(QCoreApplication::translate("MainWindow", "stats", nullptr));
-        label_206->setText(QCoreApplication::translate("MainWindow", "total of creators", nullptr));
-        label_207->setText(QCoreApplication::translate("MainWindow", "total of platforms", nullptr));
-        label_208->setText(QCoreApplication::translate("MainWindow", "male creator", nullptr));
-        label_209->setText(QCoreApplication::translate("MainWindow", "female creator", nullptr));
-        themeButton_8->setText(QCoreApplication::translate("MainWindow", "back", nullptr));
+        groupBox_stats->setTitle(QCoreApplication::translate("MainWindow", "STATISTIQUES LIVE", nullptr));
+        label_2->setText(QCoreApplication::translate("MainWindow", "  Instagram", nullptr));
+        label_3->setText(QCoreApplication::translate("MainWindow", "  YouTube", nullptr));
+        label_4->setText(QCoreApplication::translate("MainWindow", "  Total Cr\303\251ateurs", nullptr));
+        label_5->setText(QCoreApplication::translate("MainWindow", "  TikTok", nullptr));
+        btnBack->setText(QCoreApplication::translate("MainWindow", "back", nullptr));
         managementLabel_2->setText(QCoreApplication::translate("MainWindow", "Management Page", nullptr));
         searchBox_2->setPlaceholderText(QCoreApplication::translate("MainWindow", "Search...", nullptr));
         btnSearchById_2->setText(QCoreApplication::translate("MainWindow", "Search", nullptr));

@@ -9,11 +9,25 @@
 #include <QRegularExpression>
 #include <QFont>
 #include "qrcodegenerator.h"  // ← ALREADY THERE
+#include <QPdfWriter>      // ← OBLIGATOIRE pour créer le PDF
+#include <QPainter>        // ← OBLIGATOIRE pour dessiner dedans
+#include <QPageSize>       // ← Pour A4, A3, etc.
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow), darkTheme(false)
 {
     ui->setupUi(this);
+
+    // CRITICAL: Initialize darkTheme property
+    for (QWidget *w : findChildren<QWidget*>()) {
+        w->setProperty("darkTheme", false);
+        w->style()->unpolish(w);
+        w->style()->polish(w);
+    }
+
+    // Enable rounded corners
+    ui->creatorTable_6->setAttribute(Qt::WA_StyledBackground, true);
+    ui->tableFactures->setAttribute(Qt::WA_StyledBackground, true);
 
     if (!connectDB()) {
         QMessageBox::critical(this, "DB Error", "Failed to connect to database!");
@@ -22,8 +36,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->platformCombo_6->setCurrentText("YouTube");
     ui->comboBox_6->setCurrentText("male");
-    applyLightTheme();
 
+    // Set initial button text
+    ui->themeButton_6->setText("Dark Theme");
     // Navigation
     connect(ui->sidebarButton,    &QPushButton::clicked, this, &MainWindow::showFinancePage);
     connect(ui->sidebarButton_3,  &QPushButton::clicked, this, &MainWindow::showContentCreatorPage);
@@ -40,6 +55,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->clearButton_6,   &QPushButton::clicked, this, &MainWindow::on_clearButton_6_clicked);
     connect(ui->exportButton_6,  &QPushButton::clicked, this, &MainWindow::on_exportButton_6_clicked);
     connect(ui->themeButton_6,   &QPushButton::clicked, this, &MainWindow::on_themeButton_6_clicked);
+    // Bouton "Stat" → passe à la page stackedWidget_3 (page des statistiques)
+
+    // Connexion des boutons Stats et Retour
+
+
 
     // QR Code
     connect(ui->btnGenerateQR, &QPushButton::clicked, this, &MainWindow::generateQR);
@@ -59,25 +79,47 @@ bool MainWindow::connectDB()
 }
 
 // ———————————————————————— THEME ————————————————————————
-void MainWindow::applyLightTheme()
-{
-    setStyleSheet("background-color: #f0f0f0; color: black;");
-    ui->themeButton_6->setText("Dark Theme");
-}
 
-void MainWindow::applyDarkTheme()
+void MainWindow::on_searchEdit_6_textChanged(const QString &text)
 {
-    setStyleSheet("background-color: #2b2b2b; color: white;");
-    ui->themeButton_6->setText("Light Theme");
-}
+    // Recherche en temps réel (ou tu peux laisser vide si tu veux faire plus tard)
+    Q_UNUSED(text);
 
+    // Exemple de recherche basique (optionnel)
+    for (int row = 0; row < ui->creatorTable_6->rowCount(); ++row) {
+        bool hide = true;
+        for (int col = 0; col < ui->creatorTable_6->columnCount(); ++col) {
+            QTableWidgetItem *item = ui->creatorTable_6->item(row, col);
+            if (item && item->text().toLower().contains(text.toLower())) {
+                hide = false;
+                break;
+            }
+        }
+        ui->creatorTable_6->setRowHidden(row, hide && !text.isEmpty());
+    }
+
+    // Si le champ est vide → on affiche tout
+    if (text.isEmpty()) {
+        for (int row = 0; row < ui->creatorTable_6->rowCount(); ++row) {
+            ui->creatorTable_6->setRowHidden(row, false);
+        }
+    }
+
+    // MET À JOUR LES STATS APRÈS RECHERCHE
+    updateSimpleStats();
+}
 void MainWindow::on_themeButton_6_clicked()
 {
     darkTheme = !darkTheme;
-    if (darkTheme) applyDarkTheme();
-    else applyLightTheme();
-}
 
+    for (QWidget *w : findChildren<QWidget*>()) {
+        w->setProperty("darkTheme", darkTheme);
+        w->style()->unpolish(w);
+        w->style()->polish(w);
+    }
+
+    ui->themeButton_6->setText(darkTheme ? "Light Theme" : "Dark Theme");
+}
 // ———————————————————————— NAVIGATION ————————————————————————
 void MainWindow::showFinancePage()        { ui->stackedWidget->setCurrentWidget(ui->financePage); }
 void MainWindow::showContentCreatorPage() { ui->stackedWidget->setCurrentWidget(ui->contentCreatorPage); }
@@ -119,20 +161,6 @@ void MainWindow::loadCreateurs()
     ui->creatorTable_6->blockSignals(false);
 }
 
-void MainWindow::on_searchEdit_6_textChanged(const QString &text)
-{
-    QString search = text.toLower().trimmed();
-    for (int i = 0; i < ui->creatorTable_6->rowCount(); ++i) {
-        auto *name = ui->creatorTable_6->item(i, 1);
-        auto *plat = ui->creatorTable_6->item(i, 2);
-        if (!name || !plat) continue;
-        bool match = name->text().toLower().contains(search) || plat->text().toLower().contains(search);
-        ui->creatorTable_6->setRowHidden(i, !match && !search.isEmpty());
-    }
-    if (!search.isEmpty()) {
-        ui->creatorTable_6->sortItems(4, Qt::DescendingOrder);
-    }
-}
 
 void MainWindow::fillFormFromTable()
 {
@@ -245,8 +273,12 @@ void MainWindow::on_addButton_6_clicked()
     }
 
     QSqlQuery q;
-    q.prepare("INSERT INTO \"MY_USER\".\"CREATEUR\" (NOM, PLATEFORME, SEXE, ABONNES, TYPE_CONTENU) "
-              "VALUES (:name, :plat, :sex, :subs, :type)");
+    q.prepare("INSERT INTO \"MY_USER\".\"CREATEUR\" "
+              "(\"NOM\", \"PLATFORME\", \"GENRE\", \"ABONNE\", \"TYPE_DE_CONTENU\", \"ID_EMPLOYEE\") "
+              "VALUES (:nom, :plat, :genre, :abo, :type, :emp)");
+
+    // Et tu mets une valeur (ex: 1 pour admin, ou l’ID de l’employé connecté)
+    q.bindValue(":emp", 1);  // ou la variable de l’employé connecté
     q.bindValue(":name", name);
     q.bindValue(":plat", platform);
     q.bindValue(":sex", gender);
@@ -260,6 +292,7 @@ void MainWindow::on_addButton_6_clicked()
     } else {
         QMessageBox::critical(this, "Error", q.lastError().text());
     }
+    updateSimpleStats(); // au démarrage
 }
 
 void MainWindow::on_updateButton_6_clicked()
@@ -279,8 +312,8 @@ void MainWindow::on_updateButton_6_clicked()
 
     QSqlQuery q;
     q.prepare("UPDATE \"MY_USER\".\"CREATEUR\" SET "
-              "NOM = :name, PLATEFORME = :plat, SEXE = :sex, "
-              "ABONNES = :subs, TYPE_CONTENU = :type "
+              "NOM = :name, PLATFORME = :plat, GENRE = :sex, "
+              "ABONNE = :subs, TYPE_DE_CONTENU = :type "
               "WHERE IDCREATEUR = :id");
     q.bindValue(":name", name);
     q.bindValue(":plat", ui->platformCombo_6->currentText());
@@ -295,6 +328,7 @@ void MainWindow::on_updateButton_6_clicked()
     } else {
         QMessageBox::critical(this, "Error", q.lastError().text());
     }
+    updateSimpleStats(); // au démarrage
 }
 
 void MainWindow::on_deleteButton_6_clicked()
@@ -329,25 +363,78 @@ void MainWindow::on_clearButton_6_clicked()
 
 void MainWindow::on_exportButton_6_clicked()
 {
-    QString file = QFileDialog::getSaveFileName(this, "Export CSV", "", "CSV (*.csv)");
+    QString file = QFileDialog::getSaveFileName(this, "Exporter Rapport Officiel",
+                                                "Rapport_Content_Creators_SmartMedia.pdf", "PDF (*.pdf)");
     if (file.isEmpty()) return;
 
-    QFile f(file);
-    if (!f.open(QIODevice::WriteOnly)) {
-        QMessageBox::critical(this, "Error", "Cannot write file!");
-        return;
+    QPdfWriter pdf(file);
+    pdf.setPageSize(QPageSize::A4);
+    pdf.setResolution(300);
+    pdf.setPageMargins(QMarginsF(20, 20, 20, 20));
+
+    QPainter painter(&pdf);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    // Logo + Titre
+    painter.setFont(QFont("Arial", 24, QFont::Bold));
+    painter.setPen(QColor("#7D4FEE"));
+    painter.drawText(0, 400, pdf.width(), 200, Qt::AlignCenter, "RAPPORT OFFICIEL CONTENT CREATORS");
+
+    painter.setFont(QFont("Arial", 16));
+    painter.drawText(0, 700, pdf.width(), 200, Qt::AlignCenter, "Smart Media Agency © Selim Fekih 2026");
+
+    painter.setFont(QFont("Arial", 12));
+    painter.drawText(100, 1100, "Date du rapport : " + QDate::currentDate().toString("dd/MM/yyyy"));
+
+    // Stats LCD dans le PDF
+    painter.setFont(QFont("Arial", 14, QFont::Bold));
+    painter.drawText(100, 1500, "STATISTIQUES LIVE");
+    painter.drawText(100, 1700, "Total Créateurs : " + QString::number(ui->lcdTotal->value()));
+    painter.drawText(100, 1900, "YouTube : " + QString::number(ui->lcdYoutube->value()));
+    painter.drawText(100, 2100, "TikTok : " + QString::number(ui->lcdTiktok->value()));
+    painter.drawText(100, 2300, "Instagram : " + QString::number(ui->lcdInstagram->value()));
+
+    // Tableau des créateurs
+    painter.setFont(QFont("Arial", 10));
+    int y = 2700;
+    painter.drawText(100, y, "ID | Nom | Plateforme | Abonnés | Revenu");
+    y += 300;
+
+    QSqlQuery q("SELECT * FROM \"MY_USER\".\"CREATEUR\"");
+    while (q.next() && y < pdf.height() - 1000) {
+        painter.drawText(100, y, QString("%1 | %2 | %3 | %4 | %5 DT")
+                             .arg(q.value(0).toInt())
+                             .arg(q.value(1).toString())
+                             .arg(q.value(2).toString())
+                             .arg(q.value(3).toString())
+                             .arg(q.value(4).toString()));
+        y += 250;
     }
 
-    QTextStream out(&f);
-    out << "ID,Name,Platform,Gender,Subscribers,Type\n";
-    for (int i = 0; i < ui->creatorTable_6->rowCount(); ++i) {
-        if (ui->creatorTable_6->isRowHidden(i)) continue;
-        for (int c = 0; c < 6; ++c) {
-            out << ui->creatorTable_6->item(i, c)->text();
-            if (c < 5) out << ",";
-        }
-        out << "\n";
-    }
-    f.close();
-    QMessageBox::information(this, "Success", "Exported to " + file);
+    // Signature
+    painter.drawText(pdf.width() - 2500, pdf.height() - 800, "Signature Agence Smart Media");
+    painter.drawLine(pdf.width() - 2500, pdf.height() - 700, pdf.width() - 800, pdf.height() - 700);
+
+    painter.end();
+    QMessageBox::information(this, "Succès", "Rapport PDF exporté comme un pro !");
+}
+void MainWindow::updateSimpleStats()
+{
+    QSqlQuery q;
+
+    // Total créateurs
+    q.exec("SELECT COUNT(*) FROM \"MY_USER\".\"CREATEUR\"");
+    if (q.next()) ui->lcdTotal->display(q.value(0).toInt());
+
+    // YouTube
+    q.exec("SELECT COUNT(*) FROM \"MY_USER\".\"CREATEUR\" WHERE PLATEFORME = 'YouTube'");
+    if (q.next()) ui->lcdYoutube->display(q.value(0).toInt());
+
+    // TikTok
+    q.exec("SELECT COUNT(*) FROM \"MY_USER\".\"CREATEUR\" WHERE PLATEFORME = 'TikTok'");
+    if (q.next()) ui->lcdTiktok->display(q.value(0).toInt());
+
+    // Instagram
+    q.exec("SELECT COUNT(*) FROM \"MY_USER\".\"CREATEUR\" WHERE PLATEFORME = 'Instagram'");
+    if (q.next()) ui->lcdInstagram->display(q.value(0).toInt());
 }

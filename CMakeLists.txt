@@ -9,7 +9,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Sql)
-
+find_package(Qt6 REQUIRED COMPONENTS Charts)
 qt_add_executable(content_creators_manger
     main.cpp
     mainwindow.cpp
@@ -22,6 +22,7 @@ qt_add_executable(content_creators_manger
     logindialog.h
     qrcodegenerator.h
     connection.h
+    form.ui
 )
 
 target_sources(content_creators_manger PRIVATE
@@ -30,7 +31,11 @@ target_sources(content_creators_manger PRIVATE
 )
 
 target_link_libraries(content_creators_manger PRIVATE
-    Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Sql
+    Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Sql     Qt6::Charts          # ← OBLIGATOIRE POUR LES GRAPHIQUES
+    Qt6::PrintSupport
 )
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Sql Charts PrintSupport)
+
+
 
 file(COPY qrcodegen.hpp DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

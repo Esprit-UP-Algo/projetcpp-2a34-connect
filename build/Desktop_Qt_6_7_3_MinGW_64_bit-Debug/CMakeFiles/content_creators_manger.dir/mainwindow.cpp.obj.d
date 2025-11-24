@@ -422,6 +422,8 @@ CMakeFiles/content_creators_manger.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractitemview.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qitemselectionmodel.h \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLCDNumber \
+ C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlcdnumber.h \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/QLabel \
  C:/Qt/6.7.3/mingw_64/include/QtWidgets/qlabel.h \
  C:/Qt/6.7.3/mingw_64/include/QtGui/qpicture.h \
@@ -513,4 +515,14 @@ CMakeFiles/content_creators_manger.dir/mainwindow.cpp.obj: \
  C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
  C:/Qt/6.7.3/mingw_64/include/QtGui/QFont \
  C:/Qt/6.7.3/mingw_64/include/QtGui/qfont.h \
- C:\Users\Selim\ Fekih\Documents\content_creators_manger\qrcodegenerator.h
+ C:\Users\Selim\ Fekih\Documents\content_creators_manger\qrcodegenerator.h \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/QPdfWriter \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/qpdfwriter.h \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/qpagedpaintdevice.h \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/qpagelayout.h \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/qpagesize.h \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/qpageranges.h \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/QPainter \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/qpainter.h \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/QPageSize \
+ C:/Qt/6.7.3/mingw_64/include/QtGui/qpagesize.h

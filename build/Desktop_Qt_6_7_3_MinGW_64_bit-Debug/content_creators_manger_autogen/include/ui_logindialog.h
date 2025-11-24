@@ -40,8 +40,7 @@ public:
         if (LoginDialog->objectName().isEmpty())
             LoginDialog->setObjectName("LoginDialog");
         LoginDialog->resize(340, 220);
-        LoginDialog->setStyleSheet(QString::fromUtf8("\n"
-"background-color: rgb(255, 255, 255);"));
+        LoginDialog->setStyleSheet(QString::fromUtf8("background-color: rgb(209, 209, 209);"));
         verticalLayout = new QVBoxLayout(LoginDialog);
         verticalLayout->setObjectName("verticalLayout");
         labelTitle = new QLabel(LoginDialog);

@@ -201,8 +201,12 @@ content_creators_manger.exe: CMakeFiles/content_creators_manger.dir/qrcodegenera
 content_creators_manger.exe: CMakeFiles/content_creators_manger.dir/qrcodegen.cpp.obj
 content_creators_manger.exe: CMakeFiles/content_creators_manger.dir/connection.cpp.obj
 content_creators_manger.exe: CMakeFiles/content_creators_manger.dir/build.make
-content_creators_manger.exe: C:/Qt/6.7.3/mingw_64/lib/libQt6Widgets.a
 content_creators_manger.exe: C:/Qt/6.7.3/mingw_64/lib/libQt6Sql.a
+content_creators_manger.exe: C:/Qt/6.7.3/mingw_64/lib/libQt6Charts.a
+content_creators_manger.exe: C:/Qt/6.7.3/mingw_64/lib/libQt6PrintSupport.a
+content_creators_manger.exe: C:/Qt/6.7.3/mingw_64/lib/libQt6OpenGLWidgets.a
+content_creators_manger.exe: C:/Qt/6.7.3/mingw_64/lib/libQt6OpenGL.a
+content_creators_manger.exe: C:/Qt/6.7.3/mingw_64/lib/libQt6Widgets.a
 content_creators_manger.exe: C:/Qt/6.7.3/mingw_64/lib/libQt6Gui.a
 content_creators_manger.exe: C:/Qt/6.7.3/mingw_64/lib/libQt6Core.a
 content_creators_manger.exe: CMakeFiles/content_creators_manger.dir/linkLibs.rsp
