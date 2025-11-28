@@ -11,11 +11,16 @@
 
 SMSManager::SMSManager()
 {
-    // Configuration par défaut
-    apiProvider = "TEST";
-    apiKey = "";
-    apiSecret = "";
-    fromNumber = "";
+    // CONFIGURATION AUTOMATIQUE TWILIO
+    apiProvider = "TWILIO";
+    apiKey = "AC8b98a7c0d0141c5b5e4085cf13363b0d";
+    apiSecret = "f4013108664a25e13ffbef2731c3d692";
+    fromNumber = "+17755224801";
+
+    qDebug() << "✅ Configuration SMS automatique chargée";
+    qDebug() << "   Fournisseur:" << apiProvider;
+    qDebug() << "   Account SID:" << apiKey.left(10) + "...";
+    qDebug() << "   Numéro:" << fromNumber;
 
     creerTableSMS();
 }
@@ -36,7 +41,6 @@ bool SMSManager::envoyerSMS(const QString &numero, const QString &message)
     qDebug() << "   Numéro:" << numero;
     qDebug() << "   Message:" << message;
 
-    // VALIDATION
     if (!validerNumero(numero)) {
         qDebug() << "❌ Numéro invalide";
         QMessageBox::warning(nullptr, "Erreur SMS", "Le numéro de téléphone est invalide !");
@@ -59,7 +63,6 @@ bool SMSManager::envoyerSMS(const QString &numero, const QString &message)
         succes = envoyerSMSNexmo(numero, message);
         details = "via Nexmo API";
     } else {
-        // Mode simulation
         qDebug() << "⚠️ Mode simulation - aucun fournisseur SMS configuré";
         succes = true;
         details = "SIMULATION";
@@ -72,7 +75,6 @@ bool SMSManager::envoyerSMS(const QString &numero, const QString &message)
                                      .arg(numero).arg(message));
     }
 
-    // Sauvegarder dans l'historique
     sauvegarderSMS(-1, numero, message, succes);
 
     if (succes) {
@@ -90,7 +92,6 @@ bool SMSManager::envoyerSMSTwilio(const QString &numero, const QString &message)
 {
     qDebug() << "🔧 Envoi via Twilio...";
 
-    // Version corrigée avec QStringList pour éviter les problèmes de guillemets
     QStringList arguments;
     arguments << "/c"
               << "curl"
@@ -111,7 +112,6 @@ bool SMSManager::envoyerSMSTwilio(const QString &numero, const QString &message)
         qDebug() << "📡 Réponse Twilio:" << output;
 
         if (process.exitCode() == 0) {
-            // Vérifier si l'envoi a réussi
             if (output.contains("\"status\":\"queued\"") ||
                 output.contains("\"status\":\"sent\"") ||
                 output.contains("\"status\":\"accepted\"") ||
@@ -198,14 +198,12 @@ bool SMSManager::validerNumero(const QString &numero)
         return false;
     }
 
-    // Version permissive - accepter presque tout
     QString numeroPropre = numero.simplified().remove(' ');
 
     if (numeroPropre.length() < 6) {
         return false;
     }
 
-    // Vérifier qu'il y a au moins quelques chiffres
     bool contientChiffres = false;
     for (const QChar &c : numeroPropre) {
         if (c.isDigit()) {
@@ -312,13 +310,13 @@ bool SMSManager::envoyerRappelContrat(int idSponsor, int joursAvant)
     int joursRestants = QDate::currentDate().daysTo(dateFin);
 
     if (joursRestants != joursAvant) {
-        return false; // Pas encore le moment d'envoyer le rappel
+        return false;
     }
 
     QString message = "Rappel " + nom + " " + prenom + ":\n\n"
-                                                       "Votre contrat expire dans " + QString::number(joursRestants) + " jours "
-                                                         "(le " + dateFin.toString("dd/MM/yyyy") + ").\n\n"
-                                                         "Contactez-nous pour renouveler.";
+                                                       "Votre contrat expire dans " + QString::number(joursRestants) + " jours " +
+                      "(le " + dateFin.toString("dd/MM/yyyy") + ").\n\n"
+                                                                "Contactez-nous pour renouveler.";
 
     return envoyerSMSSponsor(idSponsor, message);
 }
@@ -396,6 +394,7 @@ QString SMSManager::obtenirNumeroSponsor(int idSponsor)
 
     return "";
 }
+
 QString SMSManager::formaterNumeroInternational(const QString &numero)
 {
     QString numeroPropre = numero;
@@ -405,35 +404,29 @@ QString SMSManager::formaterNumeroInternational(const QString &numero)
                        .remove(')')
                        .remove('.');
 
-    // Si le numéro commence déjà par +, le laisser tel quel
     if (numeroPropre.startsWith('+')) {
         return numeroPropre;
     }
 
-    // Si le numéro commence par 00, remplacer par +
     if (numeroPropre.startsWith("00")) {
         return "+" + numeroPropre.mid(2);
     }
 
-    // Ajouter l'indicatif tunisien par défaut si c'est un numéro local
     if (numeroPropre.length() == 8 && numeroPropre.startsWith("2") ||
         numeroPropre.length() == 8 && numeroPropre.startsWith("5") ||
         numeroPropre.length() == 8 && numeroPropre.startsWith("9")) {
         return "+216" + numeroPropre;
     }
 
-    // Si le numéro a 9 chiffres et commence par 2, 5 ou 9 (Tunisie sans indicatif)
     if (numeroPropre.length() == 9 && (numeroPropre.startsWith("2") ||
                                        numeroPropre.startsWith("5") ||
                                        numeroPropre.startsWith("9"))) {
         return "+216" + numeroPropre.mid(1);
     }
 
-    // Si le numéro a 10 chiffres et commence par 216 (indicatif déjà présent)
     if (numeroPropre.length() == 11 && numeroPropre.startsWith("216")) {
         return "+" + numeroPropre;
     }
 
-    // Par défaut, retourner le numéro tel quel
     return numeroPropre;
 }

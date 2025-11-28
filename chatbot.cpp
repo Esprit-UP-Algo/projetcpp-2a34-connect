@@ -19,7 +19,7 @@ Chatbot::Chatbot() : QObject()
     currentReply = nullptr;
     apiConfiguree = false;
     apiKey = "";
-    model = "gemini-2.0-flash"; // Modèle par défaut mis à jour
+    model = "gemini-2.0-flash";
 
     connect(networkManager, &QNetworkAccessManager::finished,
             this, &Chatbot::onReponseAPIReceived);
@@ -43,6 +43,15 @@ void Chatbot::chargerConfiguration()
     QSettings settings;
     apiKey = settings.value("gemini/apiKey", "").toString();
     model = settings.value("gemini/model", "gemini-2.0-flash").toString();
+
+    // CONFIGURATION AUTOMATIQUE GEMINI
+    if (apiKey.isEmpty()) {
+        apiKey = "AIzaSyDMCs4LXbde5YnWjTHtuWp4gKoIo87Vugc";
+        settings.setValue("gemini/apiKey", apiKey);
+        settings.setValue("gemini/model", model);
+        qDebug() << "🔑 Clé Gemini configurée automatiquement";
+    }
+
     apiConfiguree = !apiKey.isEmpty();
 
     if (apiConfiguree) {
@@ -76,13 +85,11 @@ void Chatbot::configurerAPI(const QString &newApiKey, const QString &newModel)
     }
     this->apiConfiguree = !apiKey.isEmpty();
 
-    // Sauvegarder la configuration
     QSettings settings;
     settings.setValue("gemini/apiKey", apiKey);
     settings.setValue("gemini/model", model);
 
     qDebug() << "🤖 API IA configurée - Modèle:" << this->model;
-    qDebug() << "🤖 Clé API:" << apiKey.left(10) + "...";
 }
 
 bool Chatbot::estConfigure() const
@@ -102,12 +109,10 @@ QString Chatbot::obtenirReponse(const QString &question, int idSponsor)
         return "⚠️ Veuillez entrer une question !";
     }
 
-    // === RÉPONSES DIRECTES (prioritaires) ===
     if (reponsesDirectes.contains(questionNormalisee)) {
         return reponsesDirectes[questionNormalisee];
     }
 
-    // === DÉTECTION MOTS-CLÉS SPÉCIFIQUES ===
     if (questionNormalisee.contains("debut") || questionNormalisee.contains("commence") ||
         questionNormalisee.contains("fin") || questionNormalisee.contains("termine") ||
         questionNormalisee.contains("budget") || questionNormalisee.contains("montant") ||
@@ -132,24 +137,20 @@ QString Chatbot::obtenirReponse(const QString &question, int idSponsor)
         return "📋 Pour accéder aux informations spécifiques d'un sponsor (budget, dates, catégorie, etc.), veuillez d'abord sélectionner un sponsor dans le tableau des sponsors.";
     }
 
-    // === UTILISATION DE L'API IA SI CONFIGURÉE ===
     if (apiConfiguree && !apiKey.isEmpty()) {
         qDebug() << "🔄 Utilisation de l'API IA...";
         QString reponse = appelAPI(question, idSponsor);
         if (!reponse.contains("Erreur") && !reponse.contains("indisponible") && !reponse.contains("❌")) {
             return reponse;
         }
-        // Si erreur API, utiliser le fallback
         qDebug() << "❌ Erreur API, utilisation du mode basique";
     }
 
-    // === RÉPONSE PAR DÉFAUT (sans API) ===
     return reponseFallback(question, idSponsor);
 }
 
 QString Chatbot::appelAPI(const QString &question, int idSponsor)
 {
-    // Test de connexion internet d'abord
     if (!testerConnexionInternet()) {
         return "❌ Aucune connexion Internet détectée. Vérifiez votre connexion.";
     }
@@ -158,12 +159,10 @@ QString Chatbot::appelAPI(const QString &question, int idSponsor)
         return "❌ Clé API non configurée. Veuillez configurer Gemini dans les paramètres.";
     }
 
-    // Vérifier le format de la clé API
     if (!apiKey.startsWith("AIza")) {
         return "❌ Format de clé API invalide. La clé doit commencer par 'AIza'.";
     }
 
-    // Préparer le contexte
     QString contexte = "Tu es un assistant virtuel pour un système de gestion de sponsors. Réponds en français de manière concise et utile. ";
 
     if (idSponsor > 0) {
@@ -190,7 +189,6 @@ QString Chatbot::appelAPI(const QString &question, int idSponsor)
 
     contexte += "Utilise des émojis appropriés. Réponds en français.";
 
-    // Préparer la requête JSON
     QJsonObject textPart;
     textPart["text"] = QString("%1\n\nQuestion: %2").arg(contexte).arg(question);
 
@@ -208,9 +206,7 @@ QString Chatbot::appelAPI(const QString &question, int idSponsor)
 
     qDebug() << "🔗 Envoi requête à Gemini...";
     qDebug() << "   Modèle:" << model;
-    qDebug() << "   URL:" << QString("https://generativelanguage.googleapis.com/v1beta/models/%1:generateContent").arg(model);
 
-    // Configuration de la requête - NOUVELLE URL
     QUrl url(QString("https://generativelanguage.googleapis.com/v1beta/models/%1:generateContent?key=%2")
                  .arg(model).arg(apiKey));
 
@@ -218,13 +214,10 @@ QString Chatbot::appelAPI(const QString &question, int idSponsor)
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Accept", "application/json");
 
-    // Envoyer la requête de manière synchrone
     QEventLoop loop;
     QNetworkReply *reply = networkManager->post(request, doc.toJson());
 
-    // Timeout de 30 secondes
     QTimer::singleShot(30000, &loop, &QEventLoop::quit);
-
     connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
 
@@ -243,12 +236,10 @@ QString Chatbot::appelAPI(const QString &question, int idSponsor)
         return erreur;
     }
 
-    // Vérifier la réponse HTTP
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (statusCode != 200) {
         qDebug() << "❌ Erreur HTTP:" << statusCode;
 
-        // Lire le message d'erreur détaillé
         QByteArray errorData = reply->readAll();
         QJsonDocument errorDoc = QJsonDocument::fromJson(errorData);
         if (errorDoc.isObject()) {
@@ -264,7 +255,6 @@ QString Chatbot::appelAPI(const QString &question, int idSponsor)
         return erreur;
     }
 
-    // Parser la réponse
     QByteArray responseData = reply->readAll();
     reply->deleteLater();
 
@@ -282,7 +272,6 @@ QString Chatbot::parserReponseAPI(const QJsonDocument &reponse)
 
     QJsonObject root = reponse.object();
 
-    // Vérifier les erreurs d'API
     if (root.contains("error")) {
         QJsonObject error = root["error"].toObject();
         QString message = error["message"].toString();
@@ -317,9 +306,7 @@ QString Chatbot::parserReponseAPI(const QJsonDocument &reponse)
                 if (!parts.isEmpty()) {
                     QString texte = parts[0].toObject()["text"].toString();
                     if (!texte.isEmpty()) {
-                        // Nettoyer la réponse
                         texte = texte.trimmed();
-                        // Remplacer les marqueurs de code s'ils existent
                         texte.replace("```", "");
                         return texte;
                     }
@@ -337,7 +324,6 @@ QString Chatbot::reponseFallback(const QString &question, int idSponsor)
 
     QString questionNormalisee = normaliserTexte(question);
 
-    // Réponses basiques sans API
     if (questionNormalisee.contains("quoi de neuf") || questionNormalisee.contains("quoi de nouveau")) {
         return "🌟 Rien de spécial ! Je suis ici pour vous aider avec la gestion des sponsors. "
                "Posez-moi des questions sur les contrats, budgets, ou autres !";
@@ -368,7 +354,6 @@ QString Chatbot::reponseFallback(const QString &question, int idSponsor)
         return "🧠 L'IA est fascinante ! Pour activer l'IA avancée, configurez Gemini dans les paramètres.";
     }
 
-    // Réponse par défaut améliorée
     return "❓ Je n'ai pas bien compris votre question.\n\n"
            "💡 Voici ce que je peux faire :\n"
            "• Donner des infos sur les sponsors (sélectionnez-en un d'abord)\n"
@@ -385,39 +370,24 @@ void Chatbot::onReponseAPIReceived()
     reply->deleteLater();
 }
 
-// ==================== MÉTHODES DE BASE ====================
-
 void Chatbot::initialiserBaseConnaissances()
 {
-    // === SALUTATIONS ===
     reponsesDirectes["bonjour"] = "👋 Bonjour ! Je suis votre assistant virtuel pour la gestion des sponsors. Comment puis-je vous aider ?";
     reponsesDirectes["salut"] = "👋 Salut ! Que puis-je faire pour vous ?";
     reponsesDirectes["hello"] = "👋 Hello ! How can I help you?";
     reponsesDirectes["hi"] = "👋 Hi ! What can I do for you?";
-
-    // === POLITESSE ===
     reponsesDirectes["merci"] = "😊 De rien ! N'hésitez pas si vous avez d'autres questions.";
     reponsesDirectes["au revoir"] = "👋 Au revoir ! À bientôt !";
     reponsesDirectes["bye"] = "👋 Bye ! See you soon!";
-
-    // === FAQ CONTRAT ===
     reponsesDirectes["contrat"] = "📄 Votre contrat contient : la date de début, la date de fin, le budget alloué et votre catégorie.\n\nPour plus de détails, demandez-moi : 'Quand finit mon contrat ?' ou 'Quel est mon budget ?'";
     reponsesDirectes["date"] = "📅 Pour connaître vos dates de contrat, dites-moi : 'Date de début' ou 'Date de fin'";
     reponsesDirectes["budget"] = "💰 Demandez-moi : 'Quel est mon budget ?' pour connaître le montant alloué";
-
-    // === FAQ CATÉGORIE ===
     reponsesDirectes["categorie"] = "🏷️ Votre catégorie définit le type de sponsoring (Sport, Technologie, Culture, etc.).\n\nDemandez : 'Quelle est ma catégorie ?'";
-
-    // === FAQ CONTACT ===
     reponsesDirectes["contact"] = "📞 Pour nous contacter :\n📧 Email : support@sponsors.com\n📱 Tél : +216 12 345 678\n🕐 Horaires : Lun-Ven 9h-18h";
     reponsesDirectes["email"] = "📧 Notre email : support@sponsors.com";
     reponsesDirectes["telephone"] = "📱 Notre téléphone : +216 12 345 678";
-
-    // === FAQ AIDE ===
     reponsesDirectes["aide"] = "❓ Je peux vous aider avec :\n• Informations sur votre contrat\n• Dates de début/fin\n• Budget alloué\n• Votre catégorie\n• Contact support\n\nPosez-moi une question !";
     reponsesDirectes["help"] = "❓ I can help you with:\n• Contract information\n• Start/end dates\n• Budget\n• Category\n• Support contact";
-
-    // === NOUVELLES RÉPONSES AMÉLIORÉES ===
     reponsesDirectes["exporter"] = "📊 Pour exporter les sponsors :\n1. Allez dans l'onglet Sponsors\n2. Cliquez sur le bouton 'PDF'\n3. Choisissez l'emplacement de sauvegarde";
     reponsesDirectes["ajouter"] = "➕ Pour ajouter un sponsor :\n1. Allez dans l'onglet 'Add'\n2. Remplissez le formulaire\n3. Cliquez sur 'Add'";
     reponsesDirectes["rechercher"] = "🔍 Pour rechercher un sponsor :\n• Utilisez la barre de recherche en haut\n• Tapez le nom ou la catégorie\n• La recherche se fait en temps réel";
@@ -467,7 +437,6 @@ QString Chatbot::obtenirInfoSponsor(int idSponsor, const QString &typeInfo)
     QDate fin = query.value(5).toDate();
     int budget = query.value(6).toInt();
 
-    // CALCULER DURÉE ET JOURS RESTANTS
     int dureeJours = debut.daysTo(fin);
     int joursRestants = QDate::currentDate().daysTo(fin);
     QString etatContrat;
@@ -482,10 +451,8 @@ QString Chatbot::obtenirInfoSponsor(int idSponsor, const QString &typeInfo)
         etatContrat = QString("✅ Contrat actif (%1 jours restants)").arg(joursRestants);
     }
 
-    // CALCUL BUDGET QUOTIDIEN
     double budgetQuotidien = (dureeJours > 0) ? static_cast<double>(budget) / dureeJours : 0;
 
-    // RETOURNER INFO DEMANDÉE
     if (typeInfo == "debut") {
         int joursDepuisDebut = debut.daysTo(QDate::currentDate());
         return QString("📅 Date de début : %1\n🕐 Il y a %2 jours")

@@ -180,7 +180,16 @@ MainWindow::MainWindow(QWidget *parent)
     afficherEmployes();
     afficherSponsors();
 
-    ui->lineEdit->setText("Bonjour ! Comment puis-je vous aider ?");
+    // CONFIGURATIONS AUTOMATIQUES - Code direct
+    qDebug() << "🔧 Configurations automatiques activées:";
+    qDebug() << "🤖 Gemini: Configuration automatique active";
+    qDebug() << "📱 SMS: Configuration Twilio automatique active";
+
+    if (statusBar()) {
+        statusBar()->showMessage("✅ Configurations automatiques chargées - Gemini & Twilio", 5000);
+    }
+
+    ui->lineEdit->setText("🤖 Bonjour ! Gemini AI est configuré automatiquement. Comment puis-je vous aider ?");
     ui->lineEdit->setReadOnly(true);
     ui->lineEdit_2->clear();
     ui->lineEdit_2->setPlaceholderText("Tapez votre question ici...");
@@ -611,7 +620,7 @@ void MainWindow::on_btnConfigSMS_clicked()
 {
     QDialog configDialog(this);
     configDialog.setWindowTitle("Configuration SMS API");
-    configDialog.setFixedSize(400, 300);  // Fixed line
+    configDialog.setFixedSize(400, 300);
 
     QFormLayout *layout = new QFormLayout(&configDialog);
 
@@ -1485,12 +1494,12 @@ void MainWindow::on_pushButton_41_clicked() // TAB MODIFY - TRI PAR DATE
 
 void MainWindow::on_pushButton_35_clicked() // TAB ADD - EXPORT PDF
 {
-    exporterSponsorsPDFParContrat(); // APPEL DIRECT
+    exporterSponsorsPDFParContrat();
 }
 
 void MainWindow::on_pushButton_39_clicked() // TAB MODIFY - EXPORT PDF
 {
-    exporterSponsorsPDFParContrat(); // APPEL DIRECT
+    exporterSponsorsPDFParContrat();
 }
 
 // ==================== FONCTIONS MANQUANTES ====================
@@ -1623,3 +1632,15 @@ void MainWindow::clearSponsorFields()
     ui->categorie->clear();
     ui->budget2->clear();
 }
+
+void MainWindow::on_lineEdit_textEdited(const QString &arg1)
+{
+
+}
+
+
+void MainWindow::on_lineEdit_cursorPositionChanged(int arg1, int arg2)
+{
+
+}
+

@@ -94,6 +94,10 @@ private slots:
     // Configuration Gemini
     void on_ConfigurerGemini_clicked();
 
+    void on_lineEdit_textEdited(const QString &arg1);
+
+    void on_lineEdit_cursorPositionChanged(int arg1, int arg2);
+
 private:
     Ui::MainWindow *ui;
     int idEmployeSelectionne;
@@ -113,7 +117,7 @@ private:
     // Méthodes sponsors
     void rechercherSponsors(const QString &recherche);
     void trierSponsorsParDate();
-    void exporterSponsorsPDFParContrat(); // REMPLACÉ
+    void exporterSponsorsPDFParContrat();
 
     // Méthodes de contrôle de saisie
     bool validerFormulaireSponsor();
