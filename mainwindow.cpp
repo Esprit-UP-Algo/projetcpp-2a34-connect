@@ -69,6 +69,21 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnSaveQR, &QPushButton::clicked, this, &MainWindow::saveQR);
     connect(ui->btnCopyQR, &QPushButton::clicked, this, &MainWindow::copyQR);
     loadCreateurs();
+    //finance
+    connect(ui->btnAdd, &QPushButton::clicked, this, &MainWindow::addInvoice);
+    connect(ui->btnEdit, &QPushButton::clicked, this, &MainWindow::editInvoice);
+    connect(ui->btnDelete, &QPushButton::clicked, this, &MainWindow::deleteInvoice);
+    connect(ui->btnClear, &QPushButton::clicked, this, &MainWindow::clearForm);
+    connect(ui->btnSortByMontant, &QPushButton::clicked, this, &MainWindow::sortByAmount);
+    connect(ui->btnSearchById, &QPushButton::clicked, this, &MainWindow::searchById);
+    connect(ui->btnExportCSV, &QPushButton::clicked, this, &MainWindow::exportToCSV);
+    connect(ui->btnDarkTheme, &QPushButton::clicked, this, &MainWindow::toggleDarkTheme);
+    // Connect table selection to auto-fill form
+    connect(ui->tableFactures, &QTableWidget::itemSelectionChanged, this, &MainWindow::onInvoiceSelected);
+
+    // Initialize and load data
+    initializeVisualStatistics();
+    loadInvoicesFromDatabase();
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -541,4 +556,305 @@ void MainWindow::on_pushButton_stop_live_clicked()
 {
     arreterLiveStudio();
 }
+//finance implementation des fonction
+// === CORRECTION FINALE - TABLE MY_USER.FACTURE ===
+void MainWindow::loadInvoicesFromDatabase() {
+    ui->tableFactures->setRowCount(0);
+    QSqlQuery query;
+    query.exec("SELECT F.ID_FACTURE, F.MONTANT, F.DATE_EMISSION, F.DATE_ECHEANCE, F.STATUT, "
+               "E.NOM || ' ' || E.PRENOM AS EMPLOYE, S.NOM AS SPONSOR "
+               "FROM MY_USER.FACTURE F "
+               "LEFT JOIN MY_USER.EMPLOYE E ON F.ID_EMPLOYE = E.IDEMPLOYE "
+               "LEFT JOIN MY_USER.SPONSOR S ON F.ID_SPONSOR = S.IDSPONSOR "
+               "ORDER BY F.ID_FACTURE");
 
+    while(query.next()) {
+        int row = ui->tableFactures->rowCount();
+        ui->tableFactures->insertRow(row);
+
+        ui->tableFactures->setItem(row, 0, new QTableWidgetItem(query.value(0).toString()));
+        ui->tableFactures->setItem(row, 1, new QTableWidgetItem(QString::number(query.value(1).toDouble(), 'f', 2)));
+        ui->tableFactures->setItem(row, 2, new QTableWidgetItem(query.value(2).toDate().toString("dd/MM/yyyy")));
+        ui->tableFactures->setItem(row, 3, new QTableWidgetItem(query.value(3).toDate().toString("dd/MM/yyyy")));
+        ui->tableFactures->setItem(row, 4, new QTableWidgetItem(query.value(4).toString()));
+        ui->tableFactures->setItem(row, 5, new QTableWidgetItem(query.value(5).toString())); // Employé
+        ui->tableFactures->setItem(row, 6, new QTableWidgetItem(query.value(6).toString())); // Sponsor
+    }
+    updateVisualStatistics();
+}
+
+void MainWindow::addInvoice() {
+    QString id = ui->lineId->text().trimmed();
+    double montant = ui->lineMontant->text().toDouble();
+    QDate dateEmission = ui->dateEmission->date();
+    QDate dateEcheance = ui->dateEcheance->date();
+    QString statut = ui->comboStatut->currentText();
+
+    if (id.isEmpty() || montant <= 0 || dateEcheance <= dateEmission) {
+        QMessageBox::warning(this, "Erreur", "Vérifiez les champs (ID, montant, dates) !");
+        return;
+    }
+
+    QSqlQuery q;
+    q.prepare("INSERT INTO MY_USER.FACTURE (ID_FACTURE, MONTANT, DATE_EMISSION, DATE_ECHEANCE, STATUT, ID_EMPLOYE, ID_SPONSOR) "
+              "VALUES (:id, :montant, :emission, :echeance, :statut, :employe, :sponsor)");
+    q.bindValue(":id", id.toInt());
+    q.bindValue(":montant", montant);
+    q.bindValue(":emission", dateEmission);
+    q.bindValue(":echeance", dateEcheance);
+    q.bindValue(":statut", statut);
+    q.bindValue(":employe", 1);        // à dynamiser plus tard
+    q.bindValue(":sponsor", 1);        // à dynamiser plus tard
+
+    if (q.exec()) {
+        QMessageBox::information(this, "Succès", "Facture ajoutée !");
+        loadInvoicesFromDatabase();
+        clearForm();
+    } else {
+        QMessageBox::critical(this, "Erreur", q.lastError().text());
+    }
+}
+
+void MainWindow::editInvoice() {
+    int row = ui->tableFactures->currentRow();
+    if (row < 0) return;
+
+    int id = ui->tableFactures->item(row, 0)->text().toInt();
+    double montant = ui->lineMontant->text().toDouble();
+    QDate emission = ui->dateEmission->date();
+    QDate echeance = ui->dateEcheance->date();
+    QString statut = ui->comboStatut->currentText();
+
+    QSqlQuery q;
+    q.prepare("UPDATE MY_USER.FACTURE SET MONTANT = :montant, DATE_EMISSION = :emission, "
+              "DATE_ECHEANCE = :echeance, STATUT = :statut WHERE ID_FACTURE = :id");
+    q.bindValue(":montant", montant);
+    q.bindValue(":emission", emission);
+    q.bindValue(":echeance", echeance);
+    q.bindValue(":statut", statut);
+    q.bindValue(":id", id);
+
+    if (q.exec()) {
+        QMessageBox::information(this, "Succès", "Facture modifiée !");
+        loadInvoicesFromDatabase();
+        clearForm();
+    } else {
+        QMessageBox::critical(this, "Erreur", q.lastError().text());
+    }
+}
+
+void MainWindow::deleteInvoice() {
+    int row = ui->tableFactures->currentRow();
+    if (row < 0) return;
+
+    if (QMessageBox::question(this, "Confirmer", "Supprimer cette facture ?") != QMessageBox::Yes)
+        return;
+
+    int id = ui->tableFactures->item(row, 0)->text().toInt();
+    QSqlQuery q;
+    q.prepare("DELETE FROM MY_USER.FACTURE WHERE ID_FACTURE = :id");
+    q.bindValue(":id", id);
+
+    if (q.exec()) {
+        QMessageBox::information(this, "Supprimé", "Facture supprimée !");
+        loadInvoicesFromDatabase();
+    } else {
+        QMessageBox::critical(this, "Erreur", q.lastError().text());
+    }
+}
+
+// =================== HELPER FUNCTIONS ===================
+
+void MainWindow::onInvoiceSelected() {
+    int currentRow = ui->tableFactures->currentRow();
+    if(currentRow >= 0) {
+        // Get data from selected row
+        QString id = ui->tableFactures->item(currentRow, 0)->text();
+        QString amount = ui->tableFactures->item(currentRow, 1)->text();
+        QString issueDateStr = ui->tableFactures->item(currentRow, 2)->text();
+        QString dueDateStr = ui->tableFactures->item(currentRow, 3)->text();
+        QString status = ui->tableFactures->item(currentRow, 4)->text();
+
+        // Fill the form (ID field is read-only for editing)
+        ui->lineId->setText(id);
+        ui->lineId->setEnabled(false); // Disable ID field during edit
+        ui->lineMontant->setText(amount);
+
+        // Parse dates
+        QDate issueDate = QDate::fromString(issueDateStr, "dd/MM/yyyy");
+        QDate dueDate = QDate::fromString(dueDateStr, "dd/MM/yyyy");
+        if(issueDate.isValid()) ui->dateEmission->setDate(issueDate);
+        if(dueDate.isValid()) ui->dateEcheance->setDate(dueDate);
+
+        // Set status
+        int index = ui->comboStatut->findText(status);
+        if(index >= 0) ui->comboStatut->setCurrentIndex(index);
+    }
+}
+
+void MainWindow::insertInvoiceInTable(QString id, double amount, QDate issueDate, QDate dueDate, QString status) {
+    int row = ui->tableFactures->rowCount();
+    ui->tableFactures->insertRow(row);
+    ui->tableFactures->setItem(row, 0, new QTableWidgetItem(id));
+    ui->tableFactures->setItem(row, 1, new QTableWidgetItem(QString::number(amount, 'f', 2)));
+    ui->tableFactures->setItem(row, 2, new QTableWidgetItem(issueDate.toString("dd/MM/yyyy")));
+    ui->tableFactures->setItem(row, 3, new QTableWidgetItem(dueDate.toString("dd/MM/yyyy")));
+    ui->tableFactures->setItem(row, 4, new QTableWidgetItem(status));
+}
+
+void MainWindow::clearForm() {
+    ui->lineId->clear();
+    ui->lineId->setEnabled(true); // Re-enable ID field for new entries
+    ui->lineMontant->clear();
+    ui->dateEmission->setDate(QDate::currentDate());
+    ui->dateEcheance->setDate(QDate::currentDate().addDays(30)); // Default 30 days later
+    ui->comboStatut->setCurrentIndex(0);
+}
+
+void MainWindow::sortByAmount() {
+    ui->tableFactures->sortItems(1, Qt::AscendingOrder);
+}
+
+void MainWindow::searchById() {
+    QString searchId = ui->searchBox->text().trimmed();
+    if(searchId.isEmpty()) {
+        // Show all rows if search is empty
+        for(int i = 0; i < ui->tableFactures->rowCount(); ++i) {
+            ui->tableFactures->setRowHidden(i, false);
+        }
+        return;
+    }
+
+    for(int i = 0; i < ui->tableFactures->rowCount(); ++i) {
+        bool match = ui->tableFactures->item(i,0)->text().contains(searchId, Qt::CaseInsensitive);
+        ui->tableFactures->setRowHidden(i, !match);
+    }
+}
+
+void MainWindow::exportToCSV() {
+    QString fileName = QFileDialog::getSaveFileName(this, "Export to CSV", "", "CSV Files (*.csv)");
+    if(fileName.isEmpty()) return;
+
+    QFile file(fileName);
+    if(file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream stream(&file);
+        stream << "Invoice ID;Amount;Issue Date;Due Date;Status\n";
+
+        for(int i = 0; i < ui->tableFactures->rowCount(); ++i) {
+            // Only export visible rows (for search functionality)
+            if(!ui->tableFactures->isRowHidden(i)) {
+                for(int j = 0; j < ui->tableFactures->columnCount(); ++j) {
+                    stream << ui->tableFactures->item(i, j)->text();
+                    if(j < ui->tableFactures->columnCount() - 1) stream << ";";
+                }
+                stream << "\n";
+            }
+        }
+        file.close();
+        QMessageBox::information(this, "Success", "Data exported successfully to CSV!");
+    } else {
+        QMessageBox::warning(this, "Error", "Could not export to CSV file.");
+    }
+}
+
+void MainWindow::toggleDarkTheme() {
+    darkTheme = !darkTheme;
+    if(darkTheme) {
+        applyDarkTheme();
+        ui->btnDarkTheme->setText("Light Theme");
+    } else {
+        applyLightTheme();
+        ui->btnDarkTheme->setText("Dark Theme");
+    }
+}
+
+void MainWindow::initializeVisualStatistics() {
+    // Set initial values
+    ui->labelTotalValue->setText("0");
+    ui->labelAmountValue->setText("$0.00");
+    ui->labelPaidValue->setText("0");
+    ui->labelPendingValue->setText("0");
+    ui->labelCancelledValue->setText("0");
+    ui->labelAverageValue->setText("$0.00");
+
+    // Initialize progress bars
+    ui->progressPaid->setValue(0);
+    ui->progressPending->setValue(0);
+    ui->progressCancelled->setValue(0);
+}
+
+void MainWindow::updateVisualStatistics() {
+    int totalInvoices = 0;
+    double totalAmount = 0.0;
+    int paidCount = 0;
+    int pendingCount = 0;
+    int cancelledCount = 0;
+
+    for(int i = 0; i < ui->tableFactures->rowCount(); ++i) {
+        // Only count visible rows (for search functionality)
+        if(!ui->tableFactures->isRowHidden(i)) {
+            totalInvoices++;
+            double amount = ui->tableFactures->item(i, 1)->text().toDouble();
+            totalAmount += amount;
+
+            QString status = ui->tableFactures->item(i, 4)->text();
+            if(status == "Paid") paidCount++;
+            else if(status == "Pending") pendingCount++;
+            else if(status == "Cancelled") cancelledCount++;
+        }
+    }
+
+    double averageAmount = totalInvoices > 0 ? totalAmount / totalInvoices : 0.0;
+
+    // Update visual elements
+    ui->labelTotalValue->setText(QString::number(totalInvoices));
+    ui->labelAmountValue->setText(QString("$%1").arg(QString::number(totalAmount, 'f', 2)));
+    ui->labelPaidValue->setText(QString::number(paidCount));
+    ui->labelPendingValue->setText(QString::number(pendingCount));
+    ui->labelCancelledValue->setText(QString::number(cancelledCount));
+    ui->labelAverageValue->setText(QString("$%1").arg(QString::number(averageAmount, 'f', 2)));
+
+    // Update progress bars (percentage of total)
+    int totalVisible = totalInvoices;
+    if(totalVisible > 0) {
+        ui->progressPaid->setValue((paidCount * 100) / totalVisible);
+        ui->progressPending->setValue((pendingCount * 100) / totalVisible);
+        ui->progressCancelled->setValue((cancelledCount * 100) / totalVisible);
+    } else {
+        ui->progressPaid->setValue(0);
+        ui->progressPending->setValue(0);
+        ui->progressCancelled->setValue(0);
+    }
+}
+
+void MainWindow::applyLightTheme() {
+   // this->setStyleSheet(R"(
+       // QMainWindow { background-color: #FFFFFF; border-radius: 10px; }
+      //  QGroupBox { background-color: #FFFFFF; border: 2px solid #7D4FEE; border-radius: 10px; font: bold 14pt "Arial"; color: #7D4FEE; margin: 10px; }
+      //  QPushButton { background-color: #7D4FEE; color: #FFFFFF; border-radius: 10px; padding: 8px; min-width: 100px; font: 10pt "Arial"; border: 2px solid #7D4FEE; }
+       // QPushButton:hover { background-color: #FFFFFF; color: #7D4FEE; border: 2px solid #7D4FEE; }
+       // QLineEdit, QComboBox, QDateEdit { background-color: #FFFFFF; border: 2px solid #7D4FEE; border-radius: 10px; padding: 6px; font: 10pt "Arial"; color: #7D4FEE; }
+       // QTableWidget { background-color: #FFFFFF; border: 2px solid #7D4FEE; border-radius: 10px; gridline-color: #7D4FEE; font: 10pt "Arial"; color: #7D4FEE; }
+       // QLabel { color: #7D4FEE; font: 10pt "Arial"; }
+       // QFrame { background-color: #F8F9FA; border: 1px solid #E0E0E0; border-radius: 8px; padding: 10px; }
+       // QProgressBar { border: 1px solid #7D4FEE; border-radius: 4px; text-align: center; background-color: #FFFFFF; }
+      //  QProgressBar::chunk { border-radius: 3px; }
+       // QWidget#menuFrame { background-color: #7D4FEE; border-radius: 10px 0 0 10px; }
+   // )");
+}
+
+void MainWindow::applyDarkTheme() {
+    //this->setStyleSheet(R"(
+      //  QMainWindow { background-color: #000000; }
+       // QGroupBox { background-color: #000000; border: 2px solid #7D4FEE; color: #7D4FEE; }
+       // QLineEdit, QComboBox, QDateEdit { background-color: #000000; border: 2px solid #7D4FEE; color: #7D4FEE; }
+       // QTableWidget { background-color: #1A1A1A; border: 2px solid #7D4FEE; color: #7D4FEE; }
+       // QLabel { color: #7D4FEE; }
+      //  QFrame { background-color: #2D2D2D; border: 1px solid #7D4FEE; border-radius: 8px; padding: 10px; }
+      //  QProgressBar { border: 1px solid #7D4FEE; border-radius: 4px; text-align: center; background-color: #1A1A1A; color: white; }
+      //  QProgressBar::chunk { border-radius: 3px; }
+      //  QPushButton { background-color: #7D4FEE; color: #FFFFFF; border-radius: 10px; padding: 8px; min-width: 100px; font: 10pt "Arial"; border: 2px solid #7D4FEE; }
+       // QPushButton:hover { background-color: #FFFFFF; color: #7D4FEE; border: 2px solid #7D4FEE; }
+      //  QWidget#menuFrame { background-color: #7D4FEE; border-radius: 10px 0 0 10px; }
+   // )");
+}

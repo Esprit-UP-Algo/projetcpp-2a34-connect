@@ -54,6 +54,18 @@ private slots:
     void on_pushButton_stop_live_clicked();
 
     void on_pushButton_live_clicked();
+    //finance
+    void addInvoice();
+    void editInvoice();
+    void deleteInvoice();
+    void clearForm();
+    void sortByAmount();
+    void searchById();
+    void exportToCSV();
+    void toggleDarkTheme();
+    void onInvoiceSelected();
+
+    void on_stackedWidget_currentChanged(int arg1);
 
 private:
     Ui::MainWindow *ui;
@@ -79,6 +91,12 @@ private:
     QSerialPort *arduino;
     void mettreEnLiveStudio(const QString &nomCreateur);
     void arreterLiveStudio();
+    //finance
+    void insertInvoiceInTable(QString id, double amount, QDate issueDate, QDate dueDate, QString status);
+    void loadInvoicesFromDatabase();
+    void initializeVisualStatistics();
+    void updateVisualStatistics();
+
 };
 
 #endif // MAINWINDOW_H
