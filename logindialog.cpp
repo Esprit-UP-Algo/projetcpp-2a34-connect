@@ -1,9 +1,8 @@
 #include "logindialog.h"
 #include "ui_logindialog.h"
 #include <QMessageBox>
-#include <QCryptographicHash>
 #include <QSqlQuery>
-#include <QSqlError>        // ← ADD THIS
+#include <QSqlError>
 #include <QDebug>
 
 LoginDialog::LoginDialog(QWidget *parent) :
@@ -11,6 +10,11 @@ LoginDialog::LoginDialog(QWidget *parent) :
     ui(new Ui::LoginDialog)
 {
     ui->setupUi(this);
+
+    // Change le label dans le .ui ou ici (optionnel)
+    ui->usernameEdit->setPlaceholderText("12345678");
+    ui->passwordEdit->setPlaceholderText("Mot de passe");
+    setWindowTitle("Connexion Employé - Smart Media Agency");
 }
 
 LoginDialog::~LoginDialog()
@@ -18,38 +22,51 @@ LoginDialog::~LoginDialog()
     delete ui;
 }
 
-// ———————————————————————— HASH FUNCTION ————————————————————————
-
-
-// ———————————————————————— LOGIN BUTTON ————————————————————————
 void LoginDialog::on_loginButton_clicked()
 {
-    QString username = ui->usernameEdit->text().trimmed();
+    QString cin = ui->usernameEdit->text().trimmed();
     QString password = ui->passwordEdit->text();
 
-    if (username.isEmpty() || password.isEmpty()) {
-        QMessageBox::warning(this, "Error", "Enter username and password!");
+    if (cin.isEmpty() || password.isEmpty()) {
+        QMessageBox::warning(this, "Erreur", "Veuillez entrer CIN et mot de passe !");
         return;
     }
 
-    qDebug() << "Trying:" << username << "/" << password;
-
     QSqlQuery query;
-    query.prepare("SELECT ROLE FROM \"MY_USER\".\"USERS\" WHERE USERNAME = :user AND PASSWORD = :pass");
-    query.bindValue(":user", username);
-    query.bindValue(":pass", password);  // ← PLAIN TEXT
+    query.prepare("SELECT CIN, NOM, PRENOM, ROLE FROM MY_USER.EMPLOYES "
+                  "WHERE CIN = :cin AND PASSWORD = :pass");
 
-    if (query.exec() && query.next()) {
-        m_role = query.value(0).toString();
-        qDebug() << "LOGIN OK! Role:" << m_role;
-        accept();
-    } else {
-        qDebug() << "FAILED:" << query.lastError().text();
-        QMessageBox::critical(this, "Login Failed", "Invalid username or password!");
+    query.bindValue(":cin", cin);
+    query.bindValue(":pass", password);  // mot de passe en clair (OK pour PFE)
+
+    if (query.exec()) {
+        if (query.next()) {
+            m_cin = query.value("CIN").toString();
+            m_nomComplet = query.value("NOM").toString() + " " + query.value("PRENOM").toString();
+            m_role = query.value("ROLE").toString();
+
+            qDebug() << "LOGIN RÉUSSI →" << m_nomComplet << "| Rôle:" << m_role;
+
+            accept(); // ferme la fenêtre avec succès
+            return;
+        }
     }
+
+    qDebug() << "ÉCHEC LOGIN:" << query.lastError().text();
+    QMessageBox::critical(this, "Échec de connexion", "CIN ou mot de passe incorrect !");
 }
-// ———————————————————————— GET ROLE ————————————————————————
+
 QString LoginDialog::role() const
 {
     return m_role;
+}
+
+QString LoginDialog::cin() const
+{
+    return m_cin;
+}
+
+QString LoginDialog::nomComplet() const
+{
+    return m_nomComplet;
 }

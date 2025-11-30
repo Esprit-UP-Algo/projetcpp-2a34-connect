@@ -17,8 +17,14 @@ int main(int argc, char *argv[])
 
     // Show Login
     LoginDialog login;
-    if (login.exec() != QDialog::Accepted) return 0;
-
+    if (login.exec() == QDialog::Accepted) {
+        MainWindow w;
+        w.setUserRole(login.role());
+        w.showWelcomeMessage(login.nomComplet());  // ← LE TRUC DE OUF
+        w.show();
+    } else {
+        return 0;
+    }
     // Open MainWindow with Role
     MainWindow w;
     w.setUserRole(login.role());

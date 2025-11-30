@@ -1,6 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include <QSerialPort>          // ← Arduino
+#include <QMessageBox>          // ← Pour les warnings
+#include <QSqlQuery>            // ← Pour insérer dans la BDD
+#include <QDebug>               // ← Pour les qDebug()
+#include <QSqlTableModel>       // ← Si tu utilises QSqlTableModel pour la table
 #include <QMainWindow>
 #include <QString>
 #include <QPixmap>
@@ -18,6 +22,7 @@ public:
     ~MainWindow();
 
     void setUserRole(const QString &role);
+    void showWelcomeMessage(const QString &name);
 
 private slots:
     // === NAVIGATION ===
@@ -46,6 +51,10 @@ private slots:
     void saveQR();
     void copyQR();
 
+    void on_pushButton_stop_live_clicked();
+
+    void on_pushButton_live_clicked();
+
 private:
     Ui::MainWindow *ui;
     bool darkTheme = false;
@@ -67,6 +76,9 @@ private:
     // === ROLE SYSTEM ===
     void disableAllInputs();
     void applyRoleRestrictions();
+    QSerialPort *arduino;
+    void mettreEnLiveStudio(const QString &nomCreateur);
+    void arreterLiveStudio();
 };
 
 #endif // MAINWINDOW_H

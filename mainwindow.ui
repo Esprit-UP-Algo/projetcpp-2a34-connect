@@ -498,6 +498,52 @@
              </spacer>
             </item>
             <item>
+             <widget class="QLabel" name="label_live_status">
+              <property name="styleSheet">
+               <string notr="true">color: rgb(170, 0, 0);
+font: 12pt &quot;Segoe UI&quot;;</string>
+              </property>
+              <property name="text">
+               <string>TextLabel</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btnGenerateQR">
+              <property name="text">
+               <string>Generate QR</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_live">
+              <property name="text">
+               <string>GO LIVE</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_stop_live">
+              <property name="text">
+               <string>GO OFFLINE</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btnSaveQR">
+              <property name="text">
+               <string>Save QR</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btnCopyQR">
+              <property name="text">
+               <string>Copy</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="themeButton_6">
               <property name="text">
                <string>Dark Theme</string>
@@ -521,76 +567,6 @@
             <layout class="QVBoxLayout" name="verticalLayout_7">
              <item>
               <layout class="QGridLayout" name="gridLayout_11">
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_201">
-                 <property name="text">
-                  <string>Platform:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="7" column="0" colspan="3">
-                <widget class="QPushButton" name="clearButton_6">
-                 <property name="text">
-                  <string>Clear Form</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="2">
-                <widget class="QPushButton" name="deleteButton_6">
-                 <property name="text">
-                  <string>Delete</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="1" colspan="2">
-                <widget class="QSpinBox" name="subscribersSpin_6">
-                 <property name="styleSheet">
-                  <string notr="true"> background-color: #FFFFFF;
-          border: 2px solid #7D4FEE;
-          border-radius: 10px;
-          padding: 6px;
-          font: 10pt &quot;Arial&quot;;
-          color: #7D4FEE;</string>
-                 </property>
-                 <property name="minimum">
-                  <number>100</number>
-                 </property>
-                 <property name="maximum">
-                  <number>1000000000</number>
-                 </property>
-                 <property name="singleStep">
-                  <number>100</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="0">
-                <widget class="QPushButton" name="addButton_6">
-                 <property name="text">
-                  <string>Add</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="1">
-                <widget class="QPushButton" name="updateButton_6">
-                 <property name="text">
-                  <string>Edit</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="1" colspan="2">
-                <widget class="QComboBox" name="comboBox_6">
-                 <item>
-                  <property name="text">
-                   <string>male</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>female</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
                <item row="2" column="1" colspan="2">
                 <widget class="QComboBox" name="platformCombo_6">
                  <item>
@@ -625,13 +601,79 @@
                  </item>
                 </widget>
                </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_205">
+                 <property name="text">
+                  <string>Name:</string>
+                 </property>
+                </widget>
+               </item>
                <item row="1" column="1" colspan="2">
                 <widget class="QLineEdit" name="nameEdit_6"/>
                </item>
-               <item row="0" column="0" colspan="3">
-                <widget class="QLabel" name="titleLabel_6">
+               <item row="5" column="1" colspan="2">
+                <widget class="QLineEdit" name="contentTypeEdit_6"/>
+               </item>
+               <item row="7" column="2">
+                <widget class="QPushButton" name="deleteButton_6">
                  <property name="text">
-                  <string>Content Creator Details</string>
+                  <string>Delete</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1" colspan="2">
+                <widget class="QSpinBox" name="subscribersSpin_6">
+                 <property name="styleSheet">
+                  <string notr="true"> background-color: #FFFFFF;
+          border: 2px solid #7D4FEE;
+          border-radius: 10px;
+          padding: 6px;
+          font: 10pt &quot;Arial&quot;;
+          color: #7D4FEE;</string>
+                 </property>
+                 <property name="minimum">
+                  <number>100</number>
+                 </property>
+                 <property name="maximum">
+                  <number>1000000000</number>
+                 </property>
+                 <property name="singleStep">
+                  <number>100</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_204">
+                 <property name="text">
+                  <string>Gender</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_201">
+                 <property name="text">
+                  <string>Platform:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1" colspan="2">
+                <widget class="QComboBox" name="comboBox_6">
+                 <item>
+                  <property name="text">
+                   <string>male</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>female</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="7" column="0">
+                <widget class="QPushButton" name="addButton_6">
+                 <property name="text">
+                  <string>Add</string>
                  </property>
                 </widget>
                </item>
@@ -642,6 +684,20 @@
                  </property>
                 </widget>
                </item>
+               <item row="7" column="1">
+                <widget class="QPushButton" name="updateButton_6">
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="9" column="0" colspan="3">
+                <widget class="QPushButton" name="clearButton_6">
+                 <property name="text">
+                  <string>Clear Form</string>
+                 </property>
+                </widget>
+               </item>
                <item row="4" column="0">
                 <widget class="QLabel" name="label_203">
                  <property name="text">
@@ -649,20 +705,10 @@
                  </property>
                 </widget>
                </item>
-               <item row="5" column="1" colspan="2">
-                <widget class="QLineEdit" name="contentTypeEdit_6"/>
-               </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="label_204">
+               <item row="0" column="0" colspan="3">
+                <widget class="QLabel" name="titleLabel_6">
                  <property name="text">
-                  <string>Gender</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_205">
-                 <property name="text">
-                  <string>Name:</string>
+                  <string>Content Creator Details</string>
                  </property>
                 </widget>
                </item>
@@ -694,56 +740,17 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <widget class="QPushButton" name="btnGenerateQR">
-              <property name="geometry">
-               <rect>
-                <x>90</x>
-                <y>0</y>
-                <width>120</width>
-                <height>31</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Generate QR</string>
-              </property>
-             </widget>
              <widget class="QLabel" name="qrLabel">
               <property name="geometry">
                <rect>
-                <x>30</x>
-                <y>40</y>
-                <width>201</width>
-                <height>151</height>
+                <x>-30</x>
+                <y>-20</y>
+                <width>301</width>
+                <height>301</height>
                </rect>
               </property>
               <property name="text">
                <string>Scaled contents</string>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="btnSaveQR">
-              <property name="geometry">
-               <rect>
-                <x>90</x>
-                <y>240</y>
-                <width>120</width>
-                <height>31</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Save QR</string>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="btnCopyQR">
-              <property name="geometry">
-               <rect>
-                <x>90</x>
-                <y>200</y>
-                <width>120</width>
-                <height>31</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Copy</string>
               </property>
              </widget>
             </widget>
@@ -753,8 +760,8 @@
              </property>
              <property name="geometry">
               <rect>
-               <x>210</x>
-               <y>0</y>
+               <x>260</x>
+               <y>10</y>
                <width>511</width>
                <height>261</height>
               </rect>
@@ -777,6 +784,11 @@
                <height>16777215</height>
               </size>
              </property>
+             <column>
+              <property name="text">
+               <string>ID</string>
+              </property>
+             </column>
              <column>
               <property name="text">
                <string>Name</string>
@@ -806,7 +818,7 @@
             <widget class="QGroupBox" name="groupBox_stats">
              <property name="geometry">
               <rect>
-               <x>720</x>
+               <x>770</x>
                <y>0</y>
                <width>380</width>
                <height>281</height>

@@ -1,11 +1,12 @@
+// logindialog.h
 #ifndef LOGINDIALOG_H
 #define LOGINDIALOG_H
 
 #include <QDialog>
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class LoginDialog; }
-QT_END_NAMESPACE
+namespace Ui {
+class LoginDialog;
+}
 
 class LoginDialog : public QDialog
 {
@@ -15,7 +16,10 @@ public:
     explicit LoginDialog(QWidget *parent = nullptr);
     ~LoginDialog();
 
-    QString role() const;
+    // ←←← CES 3 LIGNES MANQUAIENT ←←←
+    QString role() const;        // getter pour le rôle
+    QString cin() const;         // getter pour le CIN
+    QString nomComplet() const;  // getter pour le nom complet
 
 private slots:
     void on_loginButton_clicked();
@@ -23,9 +27,8 @@ private slots:
 private:
     Ui::LoginDialog *ui;
     QString m_role;
-
-    // HASH FUNCTION
-    QString hashPassword(const QString &username, const QString &password);
+    QString m_cin;
+    QString m_nomComplet;
 };
 
 #endif // LOGINDIALOG_H
