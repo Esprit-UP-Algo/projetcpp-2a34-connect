@@ -2,65 +2,90 @@
 #define EMPLOYES_H
 
 #include <QString>
-#include <QDate>
+#include <QSqlQuery>
 #include <QSqlQueryModel>
+#include <QDate>
+#include <QDateTime>
+#include <QVector>
 
 class Employes
 {
 public:
     Employes();
-    Employes(QString prenom, QString email, QString telephone, QString sexe, QString poste, double salaire, QDate dateEmbauche);
+    Employes(int id, QString prenom, QDate date_embauche, QString email,
+             QString telephone, QString sexe, QString poste, double salaire, QString id_superviseur, QString code_badge = "");
 
+    // Getters
+    int getId();
+    QString getPrenom();
+    QDate getDateEmbauche();
+    QString getEmail();
+    QString getTelephone();
+    QString getSexe();
+    QString getPoste();
+    double getSalaire();
+    QString getIdSuperviseur();
+    QString getCodeBadge();
+
+    // Setters
+    void setId(int);
+    void setPrenom(QString);
+    void setDateEmbauche(QDate);
+    void setEmail(QString);
+    void setTelephone(QString);
+    void setSexe(QString);
+    void setPoste(QString);
+    void setSalaire(double);
+    void setIdSuperviseur(QString);
+    void setCodeBadge(QString);
+
+    // CRUD
     bool ajouter();
-    bool modifier(int id, QString email, QString telephone, QString poste, double salaire, QString cin);
-    bool supprimer(int id);
-    QSqlQueryModel *afficher();
-    QSqlQueryModel *trierParSalaire();
-    QSqlQueryModel *rechercherParPrenom(QString prenom);
+    QSqlQueryModel* afficher();
+    bool supprimer(int);
+    bool modifier(int id, QString email, QString telephone, QString poste, double salaire, QString id_superviseur, QString code_badge = "");
 
-    // Getters et Setters
-    QString getPrenom() const { return prenom; }
-    QString getEmail() const { return email; }
-    QString getTelephone() const { return telephone; }
-    QString getSexe() const { return sexe; }
-    QString getPoste() const { return poste; }
-    double getSalaire() const { return salaire; }
-    QDate getDateEmbauche() const { return dateEmbauche; }
-    QString getCin() const { return cin; }
-    int getIdSuperviseur() const { return idSuperviseur; }
+    // Recherche et Tri
+    static QSqlQueryModel* rechercherMultiCriteres(const QString &text);
+    static QSqlQueryModel* trierParSalaire(bool croissant);
+    static void getStatistiquesSalaires(QVector<int> &valeurs, QStringList &labels);
 
-    void setPrenom(const QString &p) { prenom = p; }
-    void setEmail(const QString &e) { email = e; }
-    void setTelephone(const QString &t) { telephone = t; }
-    void setSexe(const QString &s) { sexe = s; }
-    void setPoste(const QString &p) { poste = p; }
-    void setSalaire(double s) { salaire = s; }
-    void setDateEmbauche(const QDate &d) { dateEmbauche = d; }
-    void setCin(const QString &c) { cin = c; }
-    void setIdSuperviseur(int id) { idSuperviseur = id; }
-
-    // Méthodes de validation
-    static bool validerPrenom(const QString &prenom);
-    static bool validerEmail(const QString &email);
-    static bool validerTelephone(const QString &telephone);
-    static bool validerSexe(const QString &sexe);
-    static bool validerPoste(const QString &poste);
+    // Validations
+    static bool validerEmail(const QString& email);
+    static bool validerTelephone(const QString& telephone);
+    static bool validerPrenom(const QString& prenom);
     static bool validerSalaire(double salaire);
-    static bool validerCIN(const QString &cin);
-    static bool validerID(int id);
+    static bool validerDateEmbauche(const QDate& date);
+    static bool emailExiste(const QString& email);
+    static bool superviseurExiste(const QString& id);
+
+    // Validation supplémentaires (utilisées dans mainwindow)
+    static bool validerLettres(const QString &text);
+    static bool valider8Chiffres(const QString &text);
+    static bool validerFormatDate(const QString &text);
+    static bool validerSexe(const QString &sexe);
+    static bool validerChiffres(const QString &text);
+
+    // Gestion Badge Arduino
+    static bool verifierCodeBadge(const QString &code);
+    static bool codeBadgeExiste(const QString &code);
+    static bool ajouterCodeBadge(int idEmploye, const QString &code);
+    static bool supprimerCodeBadge(int idEmploye);
+    static QSqlQueryModel* rechercherParCodeBadge(const QString &code);
+    static QSqlQueryModel* getHistoriqueAcces();
+    static bool enregistrerAcces(int idEmploye, const QString &nom, const QDateTime &timestamp);
 
 private:
+    int id;
     QString prenom;
+    QDate date_embauche;
     QString email;
     QString telephone;
     QString sexe;
     QString poste;
     double salaire;
-    QDate dateEmbauche;
-    QString cin;
-    int idSuperviseur;
-
-    bool creerTableSiExistePas();
+    QString id_superviseur;
+    QString code_badge;
 };
 
 #endif // EMPLOYES_H

@@ -1,12 +1,20 @@
 #include "mainwindow.h"
-#include "./ui_mainwindow.h"
+#include "ui_mainwindow.h"
 #include "sponsor.h"
 #include "employes.h"
+#include "curvewidget.h"
+#include "barchartwidget.h"
+#include "fichedepaie.h"
+#include "historymanager.h"
+#include "smtp.h"
+#include "serialmanager.h"
+
 #include <QMessageBox>
 #include <QDate>
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
+#include <QSqlDatabase>
 #include <QTableWidgetItem>
 #include <QDebug>
 #include <QRegularExpression>
@@ -19,151 +27,193 @@
 #include <QDialogButtonBox>
 #include <QTimer>
 #include <QStatusBar>
-#include <QCheckBox>
 #include <QHeaderView>
-#include <QPainterPath>
-#include <QLinearGradient>
-#include <QRadialGradient>
+#include <QIntValidator>
+#include <QDoubleValidator>
+#include <QRegularExpressionValidator>
+#include <QTextEdit>
+#include <QInputDialog>
+#include <QFileInfo>
+#include <QMenuBar>
+#include <QMenu>
+#include <QAction>
+#include <QRandomGenerator>
 
-// ==================== IMPLÉMENTATION DE CURVEWIDGET ====================
+// ==================== FONCTION D'INITIALISATION BD ====================
 
-CurveWidget::CurveWidget(QWidget *parent)
-    : QWidget(parent), m_color(Qt::blue)
+void MainWindow::initDatabase()
 {
-    setMinimumSize(400, 300);
-}
-
-void CurveWidget::setData(const QVector<QPointF> &data, const QString &title, const QColor &color)
-{
-    m_data = data;
-    m_title = title;
-    m_color = color;
-    update();
-}
-
-void CurveWidget::paintEvent(QPaintEvent *event)
-{
-    Q_UNUSED(event);
-
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing, true);
-
-    // Fond avec dégradé
-    QLinearGradient gradient(0, 0, width(), height());
-    gradient.setColorAt(0, QColor(255, 255, 255, 200));
-    gradient.setColorAt(1, QColor(240, 240, 255, 200));
-    painter.fillRect(rect(), gradient);
-
-    // Bordure
-    painter.setPen(QPen(QColor(125, 79, 238), 2));
-    painter.drawRoundedRect(rect().adjusted(1, 1, -1, -1), 10, 10);
-
-    if (m_data.isEmpty()) {
-        painter.setPen(Qt::gray);
-        painter.drawText(rect(), Qt::AlignCenter, "Aucune donnée disponible");
+    QSqlDatabase db = QSqlDatabase::database();
+    if (!db.isOpen()) {
+        qDebug() << "❌ Base de données non connectée";
+        QMessageBox::critical(this, "Erreur BD", "La base de données n'est pas connectée!");
         return;
     }
 
-    // Calcul des limites
-    double minX = m_data[0].x(), maxX = m_data[0].x();
-    double minY = m_data[0].y(), maxY = m_data[0].y();
+    qDebug() << "🔧 Initialisation de la base de données...";
+    qDebug() << "   Type:" << db.driverName();
 
-    for (const QPointF &point : m_data) {
-        minX = qMin(minX, point.x());
-        maxX = qMax(maxX, point.x());
-        minY = qMin(minY, point.y());
-        maxY = qMax(maxY, point.y());
-    }
+    // Détecter le nom exact de la table
+    QString tableName = "";
 
-    // Ajouter une marge
-    double xRange = maxX - minX;
-    double yRange = maxY - minY;
-    if (xRange == 0) xRange = 1;
-    if (yRange == 0) yRange = 1;
-
-    minY = qMax(0.0, minY - yRange * 0.1);
-    maxY = maxY + yRange * 0.1;
-
-    // Zone de dessin avec marges
-    QRectF plotRect(50, 40, width() - 80, height() - 80);
-
-    // Dessiner la grille
-    painter.setPen(QPen(QColor(200, 200, 200), 1));
-    for (int i = 0; i <= 5; ++i) {
-        double y = plotRect.bottom() - (plotRect.height() * i / 5);
-        painter.drawLine(plotRect.left(), y, plotRect.right(), y);
-    }
-
-    // Dessiner les axes
-    painter.setPen(QPen(Qt::black, 2));
-    painter.drawLine(plotRect.left(), plotRect.bottom(), plotRect.right(), plotRect.bottom()); // Axe X
-    painter.drawLine(plotRect.left(), plotRect.top(), plotRect.left(), plotRect.bottom());     // Axe Y
-
-    // Dessiner la courbe
-    QPainterPath path;
-    bool firstPoint = true;
-
-    for (const QPointF &point : m_data) {
-        double x = plotRect.left() + ((point.x() - minX) / xRange) * plotRect.width();
-        double y = plotRect.bottom() - ((point.y() - minY) / (maxY - minY)) * plotRect.height();
-
-        if (firstPoint) {
-            path.moveTo(x, y);
-            firstPoint = false;
-        } else {
-            path.lineTo(x, y);
+    if (db.driverName().contains("ORACLE", Qt::CaseInsensitive)) {
+        QSqlQuery checkOracle("SELECT TABLE_NAME FROM USER_TABLES WHERE TABLE_NAME IN ('EMPOLYE', 'EMPLOYE')");
+        if (checkOracle.next()) {
+            tableName = checkOracle.value(0).toString();
+        }
+    } else {
+        // SQLite
+        QSqlQuery listQuery("SELECT name FROM sqlite_master WHERE type='table'");
+        while (listQuery.next()) {
+            QString name = listQuery.value(0).toString();
+            if (name.toUpper() == "EMPOLYE" || name.toUpper() == "EMPLOYE") {
+                tableName = name;
+                break;
+            }
         }
     }
 
-    // Dessiner la ligne de la courbe
-    QPen curvePen(m_color, 3);
-    curvePen.setCapStyle(Qt::RoundCap);
-    painter.setPen(curvePen);
-    painter.drawPath(path);
-
-    // Dessiner les points
-    painter.setBrush(m_color);
-    painter.setPen(QPen(Qt::white, 2));
-
-    for (const QPointF &point : m_data) {
-        double x = plotRect.left() + ((point.x() - minX) / xRange) * plotRect.width();
-        double y = plotRect.bottom() - ((point.y() - minY) / (maxY - minY)) * plotRect.height();
-
-        painter.drawEllipse(QPointF(x, y), 6, 6);
-
-        // Afficher les valeurs sur les points
-        painter.setPen(Qt::black);
-        painter.drawText(QRectF(x - 20, y - 25, 40, 20),
-                         Qt::AlignCenter,
-                         QString::number(point.y(), 'f', 0));
-        painter.setPen(QPen(Qt::white, 2));
+    if (tableName.isEmpty()) {
+        qDebug() << "⚠️ Table EMPOLYE non trouvée";
+        qDebug() << "Tables disponibles:";
+        QSqlQuery debugQuery("SELECT name FROM sqlite_master WHERE type='table'");
+        while (debugQuery.next()) {
+            qDebug() << "  -" << debugQuery.value(0).toString();
+        }
+        return;
     }
 
-    // Titre
-    painter.setPen(QColor(125, 79, 238));
-    QFont titleFont = painter.font();
-    titleFont.setBold(true);
-    titleFont.setPointSize(10);
-    painter.setFont(titleFont);
-    painter.drawText(QRect(0, 10, width(), 20), Qt::AlignCenter, m_title);
+    qDebug() << "   ✓ Table trouvée:" << tableName;
 
-    // Labels des axes
-    painter.setPen(Qt::black);
-    QFont labelFont = painter.font();
-    labelFont.setPointSize(8);
-    painter.setFont(labelFont);
+    // Vérifier et ajouter la colonne CODE_BADGE si nécessaire
+    bool hasCodeBadge = false;
 
-    painter.drawText(QRectF(0, plotRect.bottom() + 5, width(), 20),
-                     Qt::AlignCenter, "Période");
-    painter.save();
-    painter.translate(20, height() / 2);
-    painter.rotate(-90);
-    painter.drawText(QRectF(-100, 0, 200, 20), Qt::AlignCenter, "Valeurs");
-    painter.restore();
+    if (db.driverName().contains("ORACLE", Qt::CaseInsensitive)) {
+        QSqlQuery checkCol(QString("SELECT COUNT(*) FROM USER_TAB_COLUMNS WHERE TABLE_NAME = '%1' AND COLUMN_NAME = 'CODE_BADGE'").arg(tableName.toUpper()));
+        if (checkCol.next()) {
+            hasCodeBadge = (checkCol.value(0).toInt() > 0);
+        }
+    } else {
+        // SQLite
+        QSqlQuery checkColumn(QString("PRAGMA table_info(%1)").arg(tableName));
+        while (checkColumn.next()) {
+            QString columnName = checkColumn.value(1).toString();
+            if (columnName.toUpper() == "CODE_BADGE") {
+                hasCodeBadge = true;
+                break;
+            }
+        }
+    }
+
+    if (!hasCodeBadge) {
+        qDebug() << "   ⚠️ Colonne CODE_BADGE manquante - Création...";
+        QSqlQuery alterQuery;
+        QString alterSql;
+
+        if (db.driverName().contains("ORACLE", Qt::CaseInsensitive)) {
+            alterSql = QString("ALTER TABLE %1 ADD CODE_BADGE VARCHAR2(20)").arg(tableName);
+        } else {
+            alterSql = QString("ALTER TABLE %1 ADD COLUMN CODE_BADGE TEXT").arg(tableName);
+        }
+
+        if (alterQuery.exec(alterSql)) {
+            qDebug() << "   ✅ Colonne CODE_BADGE ajoutée avec succès";
+        } else {
+            qDebug() << "   ❌ Erreur ajout CODE_BADGE:" << alterQuery.lastError().text();
+        }
+    } else {
+        qDebug() << "   ✓ Colonne CODE_BADGE existe";
+    }
+
+    // Vérifier et créer la table HISTORIQUE_ACCES si nécessaire
+    bool hasHistory = false;
+
+    if (db.driverName().contains("ORACLE", Qt::CaseInsensitive)) {
+        QSqlQuery checkHist("SELECT COUNT(*) FROM USER_TABLES WHERE TABLE_NAME = 'HISTORIQUE_ACCES'");
+        if (checkHist.next()) {
+            hasHistory = (checkHist.value(0).toInt() > 0);
+        }
+    } else {
+        QSqlQuery checkHistory("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='HISTORIQUE_ACCES'");
+        if (checkHistory.next()) {
+            hasHistory = (checkHistory.value(0).toInt() > 0);
+        }
+    }
+
+    if (!hasHistory) {
+        qDebug() << "   ⚠️ Table HISTORIQUE_ACCES manquante - Création...";
+        QSqlQuery createHistory;
+
+        if (db.driverName().contains("ORACLE", Qt::CaseInsensitive)) {
+            createHistory.exec("CREATE TABLE HISTORIQUE_ACCES ("
+                               "ID_ACCES NUMBER GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY, "
+                               "ID_EMPLOYE NUMBER, "
+                               "NOM_EMPLOYE VARCHAR2(100), "
+                               "HEURE_ACCES TIMESTAMP, "
+                               "TYPE_ACCES VARCHAR2(10))");
+        } else {
+            createHistory.exec("CREATE TABLE HISTORIQUE_ACCES ("
+                               "ID_ACCES INTEGER PRIMARY KEY AUTOINCREMENT, "
+                               "ID_EMPLOYE INTEGER, "
+                               "NOM_EMPLOYE TEXT, "
+                               "HEURE_ACCES DATETIME, "
+                               "TYPE_ACCES TEXT)");
+        }
+
+        if (createHistory.lastError().isValid()) {
+            qDebug() << "   ❌ Erreur création HISTORIQUE_ACCES:" << createHistory.lastError().text();
+        } else {
+            qDebug() << "   ✅ Table HISTORIQUE_ACCES créée";
+        }
+    } else {
+        qDebug() << "   ✓ Table HISTORIQUE_ACCES existe";
+    }
+
+    qDebug() << "✅ Initialisation de la base de données terminée\n";
 }
 
-// ==================== CONSTRUCTEUR ET DESTRUCTEUR ====================
+// ==================== FONCTION POUR ASSIGNER DES BADGES PAR DÉFAUT ====================
 
+void MainWindow::assignDefaultBadgesAutomatically()
+{
+    QSqlDatabase db = QSqlDatabase::database();
+    if (!db.isOpen()) return;
+
+    qDebug() << "🔄 Assignation automatique des codes badges...";
+
+    // Vérifier combien d'employés n'ont pas de code badge
+    QSqlQuery checkQuery("SELECT COUNT(*) FROM empolye WHERE CODE_BADGE IS NULL OR CODE_BADGE = '' OR CODE_BADGE = 'Non assigné'");
+    if (checkQuery.next() && checkQuery.value(0).toInt() > 0) {
+        qDebug() << "   " << checkQuery.value(0).toInt() << "employés sans code badge";
+
+        // Assigner des codes par défaut
+        QStringList defaultCodes = {"0888", "9999", "1234", "5678", "9012", "3456", "7890", "1111", "2222", "3333"};
+
+        QSqlQuery selectQuery("SELECT IDEMPLOYE FROM empolye ORDER BY IDEMPLOYE");
+        int index = 0;
+
+        while (selectQuery.next() && index < defaultCodes.size()) {
+            int id = selectQuery.value(0).toInt();
+
+            QSqlQuery updateQuery;
+            updateQuery.prepare("UPDATE empolye SET CODE_BADGE = ? WHERE IDEMPLOYE = ?");
+            updateQuery.addBindValue(defaultCodes[index]);
+            updateQuery.addBindValue(id);
+
+            if (updateQuery.exec()) {
+                qDebug() << "   ✅ ID" << id << "→ Code:" << defaultCodes[index];
+            }
+
+            index++;
+        }
+
+        qDebug() << "✅ Assignation automatique terminée";
+    } else {
+        qDebug() << "✅ Tous les employés ont déjà un code badge";
+    }
+}
+
+// ==================== CONSTRUCTEUR ====================
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -171,568 +221,608 @@ MainWindow::MainWindow(QWidget *parent)
     , idSponsorSelectionne(-1)
     , chatbot(new Chatbot())
     , smsManager(new SMSManager())
+    , serialManager(new SerialManager(this))
 {
     ui->setupUi(this);
 
-    connecterSignaux();
+    // *** INITIALISATION DE LA BASE DE DONNÉES ***
+    initDatabase();
+
+    // *** ASSIGNATION AUTOMATIQUE DES BADGES ***
+    assignDefaultBadgesAutomatically();
+
+    // --- 1. NETTOYAGE & INITIALISATION ---
+    ui->lineEdit_6->clear();
+
+    // --- 2. CONNEXIONS MANUELLES ---
+    connect(ui->lineEdit_2, &QLineEdit::returnPressed, this, &MainWindow::on_pushButton_25_clicked);
+    connect(ui->lineEdit_4, &QLineEdit::returnPressed, this, &MainWindow::on_pushButton_26_clicked);
+
+    // --- 3. PLACEHOLDERS ---
+    ui->lineEdit_12->setPlaceholderText("Généré Auto");
+    ui->lineEdit_13->setPlaceholderText("Lettres uniquement");
+    ui->lineEdit_14->setPlaceholderText("Lettres uniquement");
+    ui->lineEdit_15->setPlaceholderText("8 Chiffres exacts");
+    ui->lineEdit_16->setPlaceholderText("Format: MM/JJ/AAAA");
+    ui->lineEdit_17->setPlaceholderText("exemple@email.com");
+    ui->lineEdit_18->setPlaceholderText("8 Chiffres exacts");
+    ui->lineEdit_19->setPlaceholderText("M ou F");
+    ui->lineEdit_20->setPlaceholderText("Ex: 1200.50");
+    ui->lineEdit_21->setPlaceholderText("Chiffres uniquement");
+    ui->lineEdit_6->setPlaceholderText("recherche par nom, prenom, cin");
+
+    // --- 4. VALIDATORS ---
+    QRegularExpression regexLettres("^[a-zA-ZÀ-ÿ\\s'-]*$");
+    QValidator *validatorLettres = new QRegularExpressionValidator(regexLettres, this);
+    ui->lineEdit_13->setValidator(validatorLettres);
+    ui->lineEdit_14->setValidator(validatorLettres);
+
+    QRegularExpression regexChiffres("^[0-9]*$");
+    QValidator *validatorChiffres = new QRegularExpressionValidator(regexChiffres, this);
+    ui->lineEdit_15->setValidator(validatorChiffres); ui->lineEdit_15->setMaxLength(8);
+    ui->lineEdit_18->setValidator(validatorChiffres); ui->lineEdit_18->setMaxLength(8);
+
+    ui->lineEdit_19->setMaxLength(1);
+    ui->lineEdit_21->setValidator(new QIntValidator(0, 999999, this));
+
+    QDoubleValidator *salaireVal = new QDoubleValidator(0.0, 999999.0, 2, this);
+    salaireVal->setNotation(QDoubleValidator::StandardNotation);
+    ui->lineEdit_20->setValidator(salaireVal);
+
+    // --- 5. CONNEXION ARDUINO ---
+    if (serialManager) {
+        connect(serialManager, &SerialManager::codeReceived, this, &MainWindow::onCodeReceived);
+        connect(serialManager, &SerialManager::accessGranted, this, &MainWindow::onAccessGranted);
+        connect(serialManager, &SerialManager::accessDenied, this, &MainWindow::onAccessDenied);
+        connect(serialManager, &SerialManager::porteOuverte, this, &MainWindow::onPorteOuverte);
+        connect(serialManager, &SerialManager::porteFermee, this, &MainWindow::onPorteFermee);
+        connect(serialManager, &SerialManager::connected, this, &MainWindow::onArduinoConnected);
+        connect(serialManager, &SerialManager::disconnected, this, &MainWindow::onArduinoDisconnected);
+        connect(serialManager, &SerialManager::error, this, &MainWindow::onArduinoError);
+    }
+
+    // --- 6. CONNEXION MANUELLE DES BOUTONS BADGE ---
+    // Recherche de TOUS les boutons dans l'interface et connexion manuelle
+    qDebug() << "🔄 Recherche des boutons badge dans l'interface...";
+
+    // Méthode 1: Par texte du bouton
+    QList<QPushButton*> allButtons = findChildren<QPushButton*>();
+    for (QPushButton* btn : allButtons) {
+        QString btnText = btn->text().toLower();
+        QString objName = btn->objectName().toLower();
+
+        // Détecter les boutons liés aux badges
+        if (btnText.contains("badge") || btnText.contains("assign") ||
+            btnText.contains("utron") || objName.contains("badge") ||
+            objName.contains("assign")) {
+
+            qDebug() << "   ✅ Bouton trouvé:" << objName << "| Texte:" << btn->text();
+
+            // Connecter le bouton d'assignation
+            if (btnText.contains("assign") || objName.contains("assign")) {
+                connect(btn, &QPushButton::clicked, this, &MainWindow::on_pushButton_assignBadge_clicked);
+                qDebug() << "   🔗 Connecté à on_pushButton_assignBadge_clicked";
+            }
+
+            // Connecter le bouton de suppression
+            if (btnText.contains("remove") || btnText.contains("supprim") ||
+                btnText.contains("zitor")) {
+                connect(btn, &QPushButton::clicked, this, &MainWindow::on_pushButton_removeBadge_clicked);
+                qDebug() << "   🔗 Connecté à on_pushButton_removeBadge_clicked";
+            }
+        }
+    }
+
+    // Méthode 2: Bouton de secours (toujours visible)
+    QPushButton* emergencyBtn = new QPushButton("🆘 ASSIGNER BADGE", this);
+    emergencyBtn->setGeometry(50, 100, 200, 40);
+    emergencyBtn->setStyleSheet("QPushButton {"
+                                "background-color: #FF5722;"
+                                "color: white;"
+                                "font-weight: bold;"
+                                "border-radius: 5px;"
+                                "padding: 10px;"
+                                "}");
+    emergencyBtn->setToolTip("Bouton de secours pour assigner un badge");
+    connect(emergencyBtn, &QPushButton::clicked, this, &MainWindow::on_pushButton_assignBadge_clicked);
+    emergencyBtn->raise(); // Met le bouton au premier plan
+    qDebug() << "   🆘 Bouton de secours créé";
+
+    // --- 7. CRÉATION MENU POUR LES BOUTONS ARDUINO ---
+    QMenu *badgeMenu = menuBar()->addMenu("Badge Arduino");
+    QAction *assignBadgeAction = badgeMenu->addAction("Assigner Code Badge");
+    QAction *removeBadgeAction = badgeMenu->addAction("Supprimer Code Badge");
+    QAction *showHistoryAction = badgeMenu->addAction("Historique Accès");
+    QAction *testBadgeAction = badgeMenu->addAction("TEST: Scanner 0888");
+
+    connect(assignBadgeAction, &QAction::triggered, this, &MainWindow::on_pushButton_assignBadge_clicked);
+    connect(removeBadgeAction, &QAction::triggered, this, &MainWindow::on_pushButton_removeBadge_clicked);
+    connect(showHistoryAction, &QAction::triggered, this, &MainWindow::on_btnShowAccessHistory_clicked);
+    connect(testBadgeAction, &QAction::triggered, [this]() {
+        onCodeReceived("0888"); // Test manuel
+    });
+
+    // --- 8. CHARGEMENT DES DONNÉES ---
     initEmployesTable();
     initSponsorsTable();
     afficherEmployes();
     afficherSponsors();
 
-    // CONFIGURATIONS AUTOMATIQUES - Code direct
-    qDebug() << "🔧 Configurations automatiques activées:";
-    qDebug() << "🤖 Gemini: Configuration automatique active";
-    qDebug() << "📱 SMS: Configuration Twilio automatique active";
-
-    if (statusBar()) {
-        statusBar()->showMessage("✅ Configurations automatiques chargées - Gemini & Twilio", 5000);
-    }
-
-    ui->lineEdit->setText("🤖 Bonjour ! Gemini AI est configuré automatiquement. Comment puis-je vous aider ?");
-    ui->lineEdit->setReadOnly(true);
-    ui->lineEdit_2->clear();
-    ui->lineEdit_2->setPlaceholderText("Tapez votre question ici...");
-
-    // Mettre à jour le texte du bouton stats
+    ui->lineEdit->setText("🤖 Bonjour ! Je suis prêt à vous aider.");
     ui->pushButton_stats->setText("📊 Stats Graphiques");
 
-    qDebug() << "✅ Application initialisée avec succès";
+    // --- 9. CONNEXION ARDUINO DÉLAYÉE ---
+    QTimer::singleShot(2000, this, [this]() {
+        if (serialManager && !serialManager->isConnected()) {
+            qDebug() << "Tentative de connexion Arduino...";
+            if (!serialManager->connectToArduino()) {
+                ui->statusbar->showMessage("⚠️ Arduino non connecté", 5000);
+            }
+        }
+    });
+
+    // --- 10. BOUTON DE TEST VISIBLE ---
+    QTimer::singleShot(1000, this, [this]() {
+        QMessageBox::information(this, "Test Bouton",
+                                 "Pour assigner un badge:\n"
+                                 "1. Cliquez sur un employé dans le tableau\n"
+                                 "2. Utilisez le menu 'Badge Arduino' → 'Assigner Code Badge'\n"
+                                 "3. OU cliquez sur le bouton 🆘 ASSIGNER BADGE (en rouge)\n\n"
+                                 "Code de test recommandé: 0888");
+    });
+
+    qDebug() << "\n✅✅✅ CONSTRUCTEUR MAINWINDOW TERMINÉ ✅✅✅\n";
 }
 
 MainWindow::~MainWindow()
 {
     delete chatbot;
     delete smsManager;
+    if (serialManager) delete serialManager;
     delete ui;
 }
 
-// ==================== CONNEXION DES SIGNAUX ====================
-
-void MainWindow::connecterSignaux()
-{
-    // Navigation
-    connect(ui->sidebarButton, &QPushButton::clicked, this, &MainWindow::on_sidebarButton_clicked);
-    connect(ui->sidebarButton_2, &QPushButton::clicked, this, &MainWindow::on_sidebarButton_2_clicked);
-    connect(ui->sidebarButton_3, &QPushButton::clicked, this, &MainWindow::on_sidebarButton_3_clicked);
-    connect(ui->sidebarButton_4, &QPushButton::clicked, this, &MainWindow::on_sidebarButton_4_clicked);
-    connect(ui->sidebarButton_5, &QPushButton::clicked, this, &MainWindow::on_sidebarButton_5_clicked);
-    connect(ui->sidebarButton12, &QPushButton::clicked, this, &MainWindow::on_sidebarButton12_clicked);
-
-    // Employés
-    connect(ui->pushButton_11, &QPushButton::clicked, this, &MainWindow::on_pushButton_11_clicked);
-    connect(ui->pushButton_8, &QPushButton::clicked, this, &MainWindow::on_pushButton_8_clicked);
-    connect(ui->pushButton_10, &QPushButton::clicked, this, &MainWindow::on_pushButton_10_clicked);
-    connect(ui->pushButton_12, &QPushButton::clicked, this, &MainWindow::on_pushButton_12_clicked);
-    connect(ui->lineEdit_6, &QLineEdit::textChanged, this, &MainWindow::on_lineEdit_6_textChanged);
-    connect(ui->tableWidget, &QTableWidget::clicked, this, &MainWindow::on_tableWidget_clicked);
-
-    // Sponsors - CRUD
-    connect(ui->pushButton_23, &QPushButton::clicked, this, &MainWindow::on_pushButton_23_clicked);
-    connect(ui->pushButton_38, &QPushButton::clicked, this, &MainWindow::on_pushButton_38_clicked);
-    connect(ui->pushButton_40, &QPushButton::clicked, this, &MainWindow::on_pushButton_40_clicked);
-    connect(ui->sponsorTable_9, &QTableWidget::clicked, this, &MainWindow::on_sponsorTable_9_clicked);
-    connect(ui->refreshbtn, &QPushButton::clicked, this, &MainWindow::on_refreshbtn_clicked);
-    connect(ui->pushButton_stats, &QPushButton::clicked, this, &MainWindow::on_pushButton_stats_clicked);
-
-    // Sponsors - FONCTIONNALITÉS
-    connect(ui->pushButton_35, &QPushButton::clicked, this, &MainWindow::on_pushButton_35_clicked);
-    connect(ui->pushButton_37, &QPushButton::clicked, this, &MainWindow::on_pushButton_37_clicked);
-    connect(ui->searchEdit_7, &QLineEdit::textChanged, this, &MainWindow::on_searchEdit_7_textChanged);
-    connect(ui->pushButton_39, &QPushButton::clicked, this, &MainWindow::on_pushButton_39_clicked);
-    connect(ui->pushButton_41, &QPushButton::clicked, this, &MainWindow::on_pushButton_41_clicked);
-    connect(ui->searchEdit_8, &QLineEdit::textChanged, this, &MainWindow::on_searchEdit_8_textChanged);
-
-    // Chatbot & SMS
-    connect(ui->pushButton_25, &QPushButton::clicked, this, &MainWindow::on_pushButton_25_clicked);
-    connect(ui->pushButton_26, &QPushButton::clicked, this, &MainWindow::on_pushButton_26_clicked);
-    connect(ui->btnConfigSMS, &QPushButton::clicked, this, &MainWindow::on_btnConfigSMS_clicked);
-    connect(ui->lineEdit_2, &QLineEdit::returnPressed, this, &MainWindow::on_pushButton_25_clicked);
-    connect(ui->lineEdit_4, &QLineEdit::returnPressed, this, &MainWindow::on_pushButton_26_clicked);
-
-    // Recherche sponsor
-    connect(ui->pushButton_24, &QPushButton::clicked, this, &MainWindow::on_pushButton_24_clicked);
-
-    // Configuration Gemini
-    connect(ui->ConfigurerGemini, &QPushButton::clicked, this, &MainWindow::on_ConfigurerGemini_clicked);
-}
-
-// ==================== CONTRÔLE DE SAISIE SPONSORS ====================
-
-bool MainWindow::validerFormulaireSponsor()
-{
-    // Validation nom
-    QString nom = ui->nom->text().trimmed();
-    if (!Sponsor::validerNom(nom)) {
-        QMessageBox::warning(this, "Erreur de validation", "❌ Le nom doit contenir au moins 2 caractères et ne peut pas contenir de chiffres !");
-        ui->nom->setFocus();
-        return false;
-    }
-
-    // Validation prénom
-    QString prenom = ui->prenom->text().trimmed();
-    if (!Sponsor::validerPrenom(prenom)) {
-        QMessageBox::warning(this, "Erreur de validation", "❌ Le prénom doit contenir au moins 2 caractères et ne peut pas contenir de chiffres !");
-        ui->prenom->setFocus();
-        return false;
-    }
-
-    // Validation email
-    QString email = ui->email->text().trimmed();
-    if (!Sponsor::validerEmail(email)) {
-        QMessageBox::warning(this, "Erreur de validation", "❌ L'email n'est pas valide ! Format attendu : exemple@domaine.com");
-        ui->email->setFocus();
-        return false;
-    }
-
-    // Validation catégorie
-    QString categorie = ui->categorie->text().trimmed();
-    if (!Sponsor::validerCategorie(categorie)) {
-        QMessageBox::warning(this, "Erreur de validation", "❌ La catégorie ne peut pas être vide !");
-        ui->categorie->setFocus();
-        return false;
-    }
-
-    // Validation budget
-    bool budgetOk;
-    int budget = ui->budget->text().toInt(&budgetOk);
-    if (!budgetOk || !Sponsor::validerBudget(budget)) {
-        QMessageBox::warning(this, "Erreur de validation", "❌ Le budget doit être un nombre positif !");
-        ui->budget->setFocus();
-        return false;
-    }
-
-    // Validation dates
-    QDate debut = ui->debut->date();
-    QDate fin = ui->fin->date();
-    QDate aujourdhui = QDate::currentDate();
-
-    // Vérifier que les dates sont valides
-    if (!debut.isValid() || !fin.isValid()) {
-        QMessageBox::warning(this, "Erreur de validation", "❌ Les dates ne sont pas valides !");
-        ui->debut->setFocus();
-        return false;
-    }
-
-    // Vérifier que la date de début n'est pas dans le passé
-    if (debut < aujourdhui) {
-        QMessageBox::warning(this, "Erreur de validation", "❌ La date de début ne peut pas être dans le passé !");
-        ui->debut->setFocus();
-        return false;
-    }
-
-    // Vérifier que la date de fin est après la date de début
-    if (fin <= debut) {
-        QMessageBox::warning(this, "Erreur de validation", "❌ La date de fin doit être après la date de début !");
-        ui->fin->setFocus();
-        return false;
-    }
-
-    // Vérifier que le contrat a une durée raisonnable (max 5 ans)
-    if (debut.daysTo(fin) > 365 * 5) {
-        QMessageBox::warning(this, "Erreur de validation", "❌ La durée du contrat ne peut pas dépasser 5 ans !");
-        ui->fin->setFocus();
-        return false;
-    }
-
-    return true;
-}
-
-bool MainWindow::validerFormulaireModificationSponsor()
-{
-    // Validation ID
-    QString idStr = ui->ids->text().trimmed();
-    if (!Sponsor::validerID(idStr)) {
-        QMessageBox::warning(this, "Erreur de validation", "❌ L'ID doit être un nombre positif !");
-        ui->ids->setFocus();
-        return false;
-    }
-
-    // Validation nom
-    QString nom = ui->nom2->text().trimmed();
-    if (!Sponsor::validerNom(nom)) {
-        QMessageBox::warning(this, "Erreur de validation", "❌ Le nom doit contenir au moins 2 caractères et ne peut pas contenir de chiffres !");
-        ui->nom2->setFocus();
-        return false;
-    }
-
-    // Validation prénom
-    QString prenom = ui->prenom2->text().trimmed();
-    if (!Sponsor::validerPrenom(prenom)) {
-        QMessageBox::warning(this, "Erreur de validation", "❌ Le prénom doit contenir au moins 2 caractères et ne peut pas contenir de chiffres !");
-        ui->prenom2->setFocus();
-        return false;
-    }
-
-    // Validation email
-    QString email = ui->email2->text().trimmed();
-    if (!Sponsor::validerEmail(email)) {
-        QMessageBox::warning(this, "Erreur de validation", "❌ L'email n'est pas valide ! Format attendu : exemple@domaine.com");
-        ui->email2->setFocus();
-        return false;
-    }
-
-    // Validation catégorie
-    QString categorie = ui->categorie2->text().trimmed();
-    if (!Sponsor::validerCategorie(categorie)) {
-        QMessageBox::warning(this, "Erreur de validation", "❌ La catégorie ne peut pas être vide !");
-        ui->categorie2->setFocus();
-        return false;
-    }
-
-    // Validation budget
-    bool budgetOk;
-    int budget = ui->budget2->text().toInt(&budgetOk);
-    if (!budgetOk || !Sponsor::validerBudget(budget)) {
-        QMessageBox::warning(this, "Erreur de validation", "❌ Le budget doit être un nombre positif !");
-        ui->budget2->setFocus();
-        return false;
-    }
-
-    // Validation dates
-    QDate debut = ui->debut2->date();
-    QDate fin = ui->fin2->date();
-    QDate aujourdhui = QDate::currentDate();
-
-    // Vérifier que les dates sont valides
-    if (!debut.isValid() || !fin.isValid()) {
-        QMessageBox::warning(this, "Erreur de validation", "❌ Les dates ne sont pas valides !");
-        ui->debut2->setFocus();
-        return false;
-    }
-
-    // Pour la modification, on permet les dates passées (contrats existants)
-    // Mais on vérifie quand même la cohérence
-
-    // Vérifier que la date de fin est après la date de début
-    if (fin <= debut) {
-        QMessageBox::warning(this, "Erreur de validation", "❌ La date de fin doit être après la date de début !");
-        ui->fin2->setFocus();
-        return false;
-    }
-
-    // Vérifier que le contrat a une durée raisonnable (max 5 ans)
-    if (debut.daysTo(fin) > 365 * 5) {
-        QMessageBox::warning(this, "Erreur de validation", "❌ La durée du contrat ne peut pas dépasser 5 ans !");
-        ui->fin2->setFocus();
-        return false;
-    }
-
-    return true;
-}
-
-// ==================== CONFIGURATION GEMINI ====================
-
-void MainWindow::on_ConfigurerGemini_clicked()
-{
-    qDebug() << "=== CONFIGURATION API GEMINI ===";
-
-    QDialog configDialog(this);
-    configDialog.setWindowTitle("Configuration API Gemini");
-    configDialog.setFixedSize(500, 400);
-
-    QFormLayout *layout = new QFormLayout(&configDialog);
-
-    QLineEdit *editApiKey = new QLineEdit();
-    editApiKey->setPlaceholderText("Entrez votre clé API Google Gemini...");
-    editApiKey->setEchoMode(QLineEdit::PasswordEchoOnEdit);
-
-    if (chatbot->estConfigure()) {
-        editApiKey->setPlaceholderText("Clé déjà configurée - Entrez une nouvelle clé si nécessaire");
-    }
-
-    QComboBox *comboModel = new QComboBox();
-    comboModel->addItems({"gemini-2.0-flash", "gemini-1.5-pro", "gemini-pro"});
-    comboModel->setCurrentText("gemini-2.0-flash");
-
-    QLabel *labelInfo = new QLabel(
-        "🔧 Configuration de l'API Google Gemini\n\n"
-        "Pour obtenir une clé API :\n"
-        "1. Allez sur https://aistudio.google.com/\n"
-        "2. Créez un compte ou connectez-vous\n"
-        "3. Cliquez sur 'Obtenir une clé API'\n"
-        "4. Créez un nouveau projet si nécessaire\n"
-        "5. Générez une clé API\n"
-        "6. Collez-la dans le champ ci-dessus\n\n"
-        "💡 Utilisez 'gemini-2.0-flash' pour de meilleures performances\n"
-        "🔒 Votre clé est sauvegardée localement");
-    labelInfo->setWordWrap(true);
-    labelInfo->setStyleSheet("QLabel { background-color: #f0f0f0; padding: 10px; border-radius: 5px; }");
-
-    layout->addRow("🔑 Clé API Gemini:", editApiKey);
-    layout->addRow("🤖 Modèle:", comboModel);
-    layout->addRow(labelInfo);
-
-    QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &configDialog);
-    layout->addRow(buttons);
-
-    connect(buttons, &QDialogButtonBox::accepted, &configDialog, &QDialog::accept);
-    connect(buttons, &QDialogButtonBox::rejected, &configDialog, &QDialog::reject);
-
-    if (configDialog.exec() == QDialog::Accepted) {
-        QString apiKey = editApiKey->text().trimmed();
-        QString model = comboModel->currentText();
-
-        if (apiKey.isEmpty() && !chatbot->estConfigure()) {
-            QMessageBox::warning(this, "Attention", "⚠️ La clé API ne peut pas être vide !");
-            return;
-        }
-
-        chatbot->configurerAPI(apiKey, model);
-
-        if (!apiKey.isEmpty()) {
-            QMessageBox::information(this, "Test en cours",
-                                     "🔧 Test de connexion à l'API Gemini...\n\n"
-                                     "Veuillez patienter quelques secondes.");
-
-            QString testReponse = chatbot->obtenirReponse("Dis bonjour en français", -1);
-
-            if (testReponse.contains("Erreur") || testReponse.contains("❌")) {
-                QMessageBox::warning(this, "Test échoué",
-                                     "❌ La connexion à l'API Gemini a échoué.\n\n"
-                                     "Vérifiez :\n"
-                                     "• Votre connexion Internet\n"
-                                     "• La validité de votre clé API\n"
-                                     "• Que l'API Gemini est activée\n\n"
-                                     "Le chatbot utilisera le mode basique.");
-            } else {
-                QMessageBox::information(this, "Test réussi",
-                                         "✅ Connexion à Gemini établie avec succès !\n\n"
-                                         "Le chatbot utilisera maintenant l'IA avancée.\n\n"
-                                         "Modèle: " + model);
-
-                ui->lineEdit->setText("🤖 Bonjour ! Je suis maintenant connecté à Gemini AI. Comment puis-je vous aider ?");
-            }
-        } else {
-            QMessageBox::information(this, "Configuration mise à jour",
-                                     "✅ Configuration mise à jour !\n\n"
-                                     "Modèle: " + model);
-        }
-
-        qDebug() << "🔧 API Gemini configurée - Modèle:" << model;
-    } else {
-        qDebug() << "Configuration Gemini annulée";
-    }
-}
-
-// ==================== CHATBOT ====================
-
-void MainWindow::on_pushButton_25_clicked()
-{
-    qDebug() << "=== CHATBOT - ENVOI MESSAGE ===";
-
-    if (!chatbot) {
-        QMessageBox::warning(this, "Erreur", "❌ Chatbot non initialisé !");
-        return;
-    }
-
-    QString question = ui->lineEdit_2->text().trimmed();
-
-    if (question.isEmpty()) {
-        return;
-    }
-
-    qDebug() << "Question utilisateur:" << question;
-    qDebug() << "Sponsor sélectionné:" << idSponsorSelectionne;
-
-    QString reponse = chatbot->obtenirReponse(question, idSponsorSelectionne);
-
-    qDebug() << "Réponse chatbot:" << reponse;
-
-    QString conversation = ui->lineEdit->text();
-
-    if (conversation == "Bonjour ! Comment puis-je vous aider ?" ||
-        conversation == "🤖 Bonjour ! Je suis maintenant connecté à Gemini AI. Comment puis-je vous aider ?" ||
-        conversation == "🤖 Bonjour ! Mode basique activé. Configurez Gemini pour l'IA avancée.") {
-        conversation = "";
-    }
-
-    if (!conversation.isEmpty()) {
-        conversation += "\n\n";
-    }
-    conversation += "👤 VOUS: " + question;
-    conversation += "\n\n🤖 BOT: " + reponse;
-
-    ui->lineEdit->setText(conversation);
-    ui->lineEdit_2->clear();
-
-    if (idSponsorSelectionne > 0) {
-        chatbot->sauvegarderConversation(idSponsorSelectionne, question, reponse);
-        qDebug() << "✅ Conversation sauvegardée pour sponsor" << idSponsorSelectionne;
-    }
-}
-
-// ==================== SMS ====================
-
-void MainWindow::on_pushButton_26_clicked()
-{
-    qDebug() << "=== SMS - ENVOI ===";
-
-    if (!smsManager) {
-        QMessageBox::warning(this, "Erreur", "❌ SMS Manager non initialisé !");
-        return;
-    }
-
-    QString numero = ui->lineEdit_3->text().trimmed();
-    QString message = ui->lineEdit_4->text().trimmed();
-
-    if (numero.isEmpty()) {
-        QMessageBox::warning(this, "Erreur", "Le numéro de téléphone est obligatoire !");
-        ui->lineEdit_3->setFocus();
-        return;
-    }
-
-    if (!SMSManager::validerNumero(numero)) {
-        QMessageBox::warning(this, "Erreur", "Le numéro de téléphone est invalide !");
-        ui->lineEdit_3->setFocus();
-        return;
-    }
-
-    if (message.isEmpty()) {
-        QMessageBox::warning(this, "Erreur", "Le message est obligatoire !");
-        ui->lineEdit_4->setFocus();
-        return;
-    }
-
-    if (!SMSManager::validerMessage(message)) {
-        QMessageBox::warning(this, "Erreur", "Le message est trop long (max 160 caractères) !");
-        ui->lineEdit_4->setFocus();
-        return;
-    }
-
-    qDebug() << "Numéro:" << numero;
-    qDebug() << "Message:" << message;
-
-    bool succes = smsManager->envoyerSMS(numero, message);
-
-    if (succes) {
-        QMessageBox::information(this, "Succès", "✅ SMS envoyé avec succès !");
-        ui->lineEdit_3->clear();
-        ui->lineEdit_4->clear();
-        qDebug() << "✅ SMS envoyé avec succès";
-    } else {
-        QMessageBox::critical(this, "Erreur", "❌ Erreur lors de l'envoi du SMS !");
-        qDebug() << "❌ Échec envoi SMS";
-    }
-}
-
-void MainWindow::on_btnConfigSMS_clicked()
-{
-    QDialog configDialog(this);
-    configDialog.setWindowTitle("Configuration SMS API");
-    configDialog.setFixedSize(400, 300);
-
-    QFormLayout *layout = new QFormLayout(&configDialog);
-
-    QComboBox *comboProvider = new QComboBox();
-    comboProvider->addItems({"Twilio", "Nexmo/Vonage", "Test"});
-
-    QLineEdit *editApiKey = new QLineEdit();
-    editApiKey->setPlaceholderText("Account SID (Twilio) ou API Key (Nexmo)");
-
-    QLineEdit *editApiSecret = new QLineEdit();
-    editApiSecret->setEchoMode(QLineEdit::Password);
-    editApiSecret->setPlaceholderText("Auth Token (Twilio) ou API Secret (Nexmo)");
-
-    QLineEdit *editFromNumber = new QLineEdit();
-    editFromNumber->setPlaceholderText("+33612345678");
-
-    QLabel *labelInfo = new QLabel("Pour Twilio: créez un compte sur twilio.com\nPour Nexmo: créez un compte sur vonage.com");
-    labelInfo->setWordWrap(true);
-
-    layout->addRow("Fournisseur:", comboProvider);
-    layout->addRow("Clé API:", editApiKey);
-    layout->addRow("Secret API:", editApiSecret);
-    layout->addRow("Numéro expéditeur:", editFromNumber);
-    layout->addRow(labelInfo);
-
-    QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &configDialog);
-    layout->addRow(buttons);
-
-    connect(buttons, &QDialogButtonBox::accepted, &configDialog, &QDialog::accept);
-    connect(buttons, &QDialogButtonBox::rejected, &configDialog, &QDialog::reject);
-
-    if (configDialog.exec() == QDialog::Accepted) {
-        smsManager->configurerAPI(
-            comboProvider->currentText(),
-            editApiKey->text(),
-            editApiSecret->text(),
-            editFromNumber->text()
-            );
-        QMessageBox::information(this, "Succès", "Configuration SMS sauvegardée !");
-    }
-}
-
 // ==================== NAVIGATION ====================
+void MainWindow::on_sidebarButton_clicked() { ui->stackedWidget->setCurrentIndex(0); }
+void MainWindow::on_sidebarButton_2_clicked() { ui->stackedWidget->setCurrentIndex(1); }
+void MainWindow::on_sidebarButton_3_clicked() { ui->stackedWidget->setCurrentIndex(2); }
+void MainWindow::on_sidebarButton_4_clicked() { ui->stackedWidget->setCurrentIndex(3); afficherSponsors(); }
+void MainWindow::on_sidebarButton_5_clicked() { ui->stackedWidget->setCurrentIndex(4); }
+void MainWindow::on_sidebarButton12_clicked() { ui->stackedWidget->setCurrentWidget(ui->employeePage); afficherEmployes(); }
 
-void MainWindow::on_sidebarButton_clicked() {
-    ui->stackedWidget->setCurrentIndex(0);
-    qDebug() << "Navigation: Management Page";
-}
-
-void MainWindow::on_sidebarButton_2_clicked() {
-    ui->stackedWidget->setCurrentIndex(1);
-    qDebug() << "Navigation: Finance Page";
-}
-
-void MainWindow::on_sidebarButton_3_clicked() {
-    ui->stackedWidget->setCurrentIndex(2);
-    qDebug() << "Navigation: Content Creator Page";
-}
-
-void MainWindow::on_sidebarButton_4_clicked() {
-    ui->stackedWidget->setCurrentIndex(3);
-    afficherSponsors();
-    qDebug() << "Navigation: Sponsor Page";
-}
-
-void MainWindow::on_sidebarButton_5_clicked() {
-    ui->stackedWidget->setCurrentIndex(4);
-    qDebug() << "Navigation: Deal Page";
-}
-
-void MainWindow::on_sidebarButton12_clicked() {
-    ui->stackedWidget->setCurrentWidget(ui->employeePage);
-    afficherEmployes();
-    qDebug() << "Navigation: Employee Page";
-}
-
-// ==================== INITIALISATION TABLES ====================
-
-void MainWindow::initEmployesTable()
-{
-    ui->tableWidget->setColumnCount(9);
+// ==================== TABLEAUX ====================
+void MainWindow::initEmployesTable() {
+    ui->tableWidget->setColumnCount(10);
     QStringList headers;
-    headers << "ID" << "Prénom" << "Date" << "Email" << "Tél" << "Sexe" << "Poste" << "Salaire" << "Superviseur";
+    headers << "ID" << "Nom Complet" << "Date Emb." << "Email" << "Tél"
+            << "Sexe" << "Poste" << "Salaire" << "Superviseur" << "Code Badge";
     ui->tableWidget->setHorizontalHeaderLabels(headers);
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
-    qDebug() << "✅ Table employés initialisée";
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
-void MainWindow::initSponsorsTable()
-{
+void MainWindow::initSponsorsTable() {
     ui->sponsorTable_9->setColumnCount(8);
-    QStringList headers;
-    headers << "ID" << "Nom" << "Prénom" << "Catégorie" << "Email" << "Début" << "Fin" << "Budget";
+    QStringList headers; headers << "ID" << "Nom" << "Prénom" << "Catégorie" << "Email" << "Début" << "Fin" << "Budget";
     ui->sponsorTable_9->setHorizontalHeaderLabels(headers);
     ui->sponsorTable_9->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->sponsorTable_9->setSelectionMode(QAbstractItemView::SingleSelection);
-    qDebug() << "✅ Table sponsors initialisée";
+    ui->sponsorTable_9->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+}
+void MainWindow::setupSponsorValidators()
+{
+    // ============ VALIDATEURS POUR L'AJOUT (Page 1) ============
+
+    // Nom et Prénom : Lettres uniquement (avec accents et espaces) - BLOQUE LES CHIFFRES
+    QRegularExpression regexLettres("^[a-zA-ZÀ-ÿ\\s'-]*$");
+    QValidator *validatorLettres = new QRegularExpressionValidator(regexLettres, this);
+
+    ui->nom->setValidator(validatorLettres);
+    ui->prenom->setValidator(validatorLettres);
+
+    // BLOQUER LA SAISIE DE CHIFFRES - Méthode supplémentaire
+    connect(ui->nom, &QLineEdit::textChanged, this, [this](const QString &text) {
+        QString cleaned = text;
+        cleaned.remove(QRegularExpression("[0-9]")); // Supprime tous les chiffres
+        if (cleaned != text) {
+            ui->nom->blockSignals(true);
+            ui->nom->setText(cleaned);
+            ui->nom->blockSignals(false);
+            QMessageBox::warning(this, "Erreur de Saisie", "❌ Les chiffres ne sont pas autorisés dans le nom !\nSeules les lettres sont acceptées.");
+        }
+    });
+
+    connect(ui->prenom, &QLineEdit::textChanged, this, [this](const QString &text) {
+        QString cleaned = text;
+        cleaned.remove(QRegularExpression("[0-9]")); // Supprime tous les chiffres
+        if (cleaned != text) {
+            ui->prenom->blockSignals(true);
+            ui->prenom->setText(cleaned);
+            ui->prenom->blockSignals(false);
+            QMessageBox::warning(this, "Erreur de Saisie", "❌ Les chiffres ne sont pas autorisés dans le prénom !\nSeules les lettres sont acceptées.");
+        }
+    });
+
+    // Même chose pour la page de modification
+    ui->nom2->setValidator(validatorLettres);
+    ui->prenom2->setValidator(validatorLettres);
+
+    connect(ui->nom2, &QLineEdit::textChanged, this, [this](const QString &text) {
+        QString cleaned = text;
+        cleaned.remove(QRegularExpression("[0-9]"));
+        if (cleaned != text) {
+            ui->nom2->blockSignals(true);
+            ui->nom2->setText(cleaned);
+            ui->nom2->blockSignals(false);
+            QMessageBox::warning(this, "Erreur de Saisie", "❌ Les chiffres ne sont pas autorisés dans le nom !");
+        }
+    });
+
+    connect(ui->prenom2, &QLineEdit::textChanged, this, [this](const QString &text) {
+        QString cleaned = text;
+        cleaned.remove(QRegularExpression("[0-9]"));
+        if (cleaned != text) {
+            ui->prenom2->blockSignals(true);
+            ui->prenom2->setText(cleaned);
+            ui->prenom2->blockSignals(false);
+            QMessageBox::warning(this, "Erreur de Saisie", "❌ Les chiffres ne sont pas autorisés dans le prénom !");
+        }
+    });
+
+    // Budget : Chiffres uniquement
+    QIntValidator *validatorBudget = new QIntValidator(0, 999999999, this);
+    ui->budget->setValidator(validatorBudget);
+
+    // Email : Validation en temps réel
+    connect(ui->email, &QLineEdit::textChanged, this, [this](const QString &text) {
+        if (text.isEmpty()) {
+            ui->email->setStyleSheet("");
+            return;
+        }
+
+        if (!Sponsor::validerEmail(text)) {
+            ui->email->setStyleSheet("QLineEdit { border: 2px solid red; background-color: #ffe6e6; }");
+            ui->email->setToolTip("❌ Email invalide (format: exemple@email.com)");
+        } else {
+            ui->email->setStyleSheet("QLineEdit { border: 2px solid green; background-color: #e6ffe6; }");
+            ui->email->setToolTip("✅ Email valide");
+        }
+    });
+
+    // Nom : Validation en temps réel
+    connect(ui->nom, &QLineEdit::textChanged, this, [this](const QString &text) {
+        if (text.isEmpty()) {
+            ui->nom->setStyleSheet("");
+            return;
+        }
+
+        QRegularExpression regex("^[a-zA-ZÀ-ÿ\\s'-]+$");
+        if (!regex.match(text).hasMatch()) {
+            ui->nom->setStyleSheet("QLineEdit { border: 2px solid red; background-color: #ffe6e6; }");
+            ui->nom->setToolTip("❌ Nom invalide (lettres uniquement)");
+        } else if (text.length() < 2) {
+            ui->nom->setStyleSheet("QLineEdit { border: 2px solid orange; background-color: #fff4e6; }");
+            ui->nom->setToolTip("⚠️ Nom trop court (minimum 2 caractères)");
+        } else {
+            ui->nom->setStyleSheet("QLineEdit { border: 2px solid green; background-color: #e6ffe6; }");
+            ui->nom->setToolTip("✅ Nom valide");
+        }
+    });
+
+    // Prénom : Validation en temps réel
+    connect(ui->prenom, &QLineEdit::textChanged, this, [this](const QString &text) {
+        if (text.isEmpty()) {
+            ui->prenom->setStyleSheet("");
+            return;
+        }
+
+        QRegularExpression regex("^[a-zA-ZÀ-ÿ\\s'-]+$");
+        if (!regex.match(text).hasMatch()) {
+            ui->prenom->setStyleSheet("QLineEdit { border: 2px solid red; background-color: #ffe6e6; }");
+            ui->prenom->setToolTip("❌ Prénom invalide (lettres uniquement)");
+        } else if (text.length() < 2) {
+            ui->prenom->setStyleSheet("QLineEdit { border: 2px solid orange; background-color: #fff4e6; }");
+            ui->prenom->setToolTip("⚠️ Prénom trop court (minimum 2 caractères)");
+        } else {
+            ui->prenom->setStyleSheet("QLineEdit { border: 2px solid green; background-color: #e6ffe6; }");
+            ui->prenom->setToolTip("✅ Prénom valide");
+        }
+    });
+
+    // Budget : Validation en temps réel
+    connect(ui->budget, &QLineEdit::textChanged, this, [this](const QString &text) {
+        if (text.isEmpty()) {
+            ui->budget->setStyleSheet("");
+            return;
+        }
+
+        bool ok;
+        int budgetVal = text.toInt(&ok);
+
+        if (!ok || budgetVal < 0) {
+            ui->budget->setStyleSheet("QLineEdit { border: 2px solid red; background-color: #ffe6e6; }");
+            ui->budget->setToolTip("❌ Budget invalide (chiffres uniquement, positif)");
+        } else {
+            ui->budget->setStyleSheet("QLineEdit { border: 2px solid green; background-color: #e6ffe6; }");
+            ui->budget->setToolTip("✅ Budget valide");
+        }
+    });
+
+    // Dates : Validation début < fin AVEC BLOCAGE
+    connect(ui->debut, &QDateEdit::dateChanged, this, [this](const QDate &date) {
+        if (date > ui->fin->date()) {
+            ui->debut->setStyleSheet("QDateEdit { border: 3px solid red; background-color: #ffe6e6; }");
+            ui->fin->setStyleSheet("QDateEdit { border: 3px solid red; background-color: #ffe6e6; }");
+
+            QMessageBox::critical(this, "Erreur de Date",
+                                  "❌ ERREUR : La date de DÉBUT doit être AVANT la date de FIN !\n\n"
+                                  "📅 Date début : " + date.toString("dd/MM/yyyy") + "\n"
+                                                                      "📅 Date fin : " + ui->fin->date().toString("dd/MM/yyyy") + "\n\n"
+                                                                                 "⚠️ Veuillez corriger les dates.");
+
+            // Réinitialiser à une date valide
+            ui->debut->blockSignals(true);
+            ui->debut->setDate(ui->fin->date().addDays(-30));
+            ui->debut->blockSignals(false);
+        } else {
+            ui->debut->setStyleSheet("QDateEdit { border: 2px solid green; background-color: #e6ffe6; }");
+            ui->fin->setStyleSheet("QDateEdit { border: 2px solid green; background-color: #e6ffe6; }");
+        }
+    });
+
+    connect(ui->fin, &QDateEdit::dateChanged, this, [this](const QDate &date) {
+        if (ui->debut->date() > date) {
+            ui->debut->setStyleSheet("QDateEdit { border: 3px solid red; background-color: #ffe6e6; }");
+            ui->fin->setStyleSheet("QDateEdit { border: 3px solid red; background-color: #ffe6e6; }");
+
+            QMessageBox::critical(this, "Erreur de Date",
+                                  "❌ ERREUR : La date de FIN doit être APRÈS la date de DÉBUT !\n\n"
+                                  "📅 Date début : " + ui->debut->date().toString("dd/MM/yyyy") + "\n"
+                                                                                   "📅 Date fin : " + date.toString("dd/MM/yyyy") + "\n\n"
+                                                                      "⚠️ Veuillez corriger les dates.");
+
+            // Réinitialiser à une date valide
+            ui->fin->blockSignals(true);
+            ui->fin->setDate(ui->debut->date().addDays(30));
+            ui->fin->blockSignals(false);
+        } else {
+            ui->debut->setStyleSheet("QDateEdit { border: 2px solid green; background-color: #e6ffe6; }");
+            ui->fin->setStyleSheet("QDateEdit { border: 2px solid green; background-color: #e6ffe6; }");
+        }
+    });
+
+    // ============ VALIDATEURS POUR LA MODIFICATION (Page 2) ============
+
+    ui->nom2->setValidator(validatorLettres);
+    ui->prenom2->setValidator(validatorLettres);
+    ui->budget2->setValidator(validatorBudget);
+    connect(ui->email2, &QLineEdit::textChanged, this, [this](const QString &text) {
+        if (text.isEmpty()) {
+            ui->email2->setStyleSheet("");
+            return;
+        }
+
+        if (!Sponsor::validerEmail(text)) {
+            ui->email2->setStyleSheet("QLineEdit { border: 2px solid red; background-color: #ffe6e6; }");
+            ui->email2->setToolTip("❌ Email invalide");
+        } else {
+            ui->email2->setStyleSheet("QLineEdit { border: 2px solid green; background-color: #e6ffe6; }");
+            ui->email2->setToolTip("✅ Email valide");
+        }
+    });
+
+    // Nom2 : Validation
+    connect(ui->nom2, &QLineEdit::textChanged, this, [this](const QString &text) {
+        if (text.isEmpty()) {
+            ui->nom2->setStyleSheet("");
+            return;
+        }
+
+        QRegularExpression regex("^[a-zA-ZÀ-ÿ\\s'-]+$");
+        if (!regex.match(text).hasMatch()) {
+            ui->nom2->setStyleSheet("QLineEdit { border: 2px solid red; background-color: #ffe6e6; }");
+            ui->nom2->setToolTip("❌ Nom invalide (lettres uniquement)");
+        } else {
+            ui->nom2->setStyleSheet("QLineEdit { border: 2px solid green; background-color: #e6ffe6; }");
+            ui->nom2->setToolTip("✅ Nom valide");
+        }
+    });
+
+    // Prénom2 : Validation
+    connect(ui->prenom2, &QLineEdit::textChanged, this, [this](const QString &text) {
+        if (text.isEmpty()) {
+            ui->prenom2->setStyleSheet("");
+            return;
+        }
+
+        QRegularExpression regex("^[a-zA-ZÀ-ÿ\\s'-]+$");
+        if (!regex.match(text).hasMatch()) {
+            ui->prenom2->setStyleSheet("QLineEdit { border: 2px solid red; background-color: #ffe6e6; }");
+            ui->prenom2->setToolTip("❌ Prénom invalide (lettres uniquement)");
+        } else {
+            ui->prenom2->setStyleSheet("QLineEdit { border: 2px solid green; background-color: #e6ffe6; }");
+            ui->prenom2->setToolTip("✅ Prénom valide");
+        }
+    });
+
+    // Budget2 : Validation
+    connect(ui->budget2, &QLineEdit::textChanged, this, [this](const QString &text) {
+        if (text.isEmpty()) {
+            ui->budget2->setStyleSheet("");
+            return;
+        }
+
+        bool ok;
+        int budgetVal = text.toInt(&ok);
+
+        if (!ok || budgetVal < 0) {
+            ui->budget2->setStyleSheet("QLineEdit { border: 2px solid red; background-color: #ffe6e6; }");
+            ui->budget2->setToolTip("❌ Budget invalide");
+        } else {
+            ui->budget2->setStyleSheet("QLineEdit { border: 2px solid green; background-color: #e6ffe6; }");
+            ui->budget2->setToolTip("✅ Budget valide");
+        }
+    });
+
+    // Dates 2 : Validation
+    connect(ui->debut2, &QDateEdit::dateChanged, this, [this](const QDate &date) {
+        if (date > ui->fin2->date()) {
+            ui->debut2->setStyleSheet("QDateEdit { border: 2px solid red; background-color: #ffe6e6; }");
+            ui->fin2->setStyleSheet("QDateEdit { border: 2px solid red; background-color: #ffe6e6; }");
+        } else {
+            ui->debut2->setStyleSheet("QDateEdit { border: 2px solid green; background-color: #e6ffe6; }");
+            ui->fin2->setStyleSheet("QDateEdit { border: 2px solid green; background-color: #e6ffe6; }");
+        }
+    });
+
+    connect(ui->fin2, &QDateEdit::dateChanged, this, [this](const QDate &date) {
+        if (ui->debut2->date() > date) {
+            ui->debut2->setStyleSheet("QDateEdit { border: 2px solid red; background-color: #ffe6e6; }");
+            ui->fin2->setStyleSheet("QDateEdit { border: 2px solid red; background-color: #ffe6e6; }");
+        } else {
+            ui->debut2->setStyleSheet("QDateEdit { border: 2px solid green; background-color: #e6ffe6; }");
+            ui->fin2->setStyleSheet("QDateEdit { border: 2px solid green; background-color: #e6ffe6; }");
+        }
+    });
+
+    qDebug() << "✅ Validateurs sponsors configurés avec succès";
 }
 
-// ==================== AFFICHAGE DONNÉES ====================
-
-void MainWindow::afficherEmployes()
+bool MainWindow::validerChampsSponsor()
 {
-    qDebug() << "=== AFFICHAGE EMPLOYÉS ===";
+    QStringList erreurs;
+
+    // Validation Nom
+    QString nom = ui->nom->text().trimmed();
+    if (nom.isEmpty()) {
+        erreurs << "❌ Le nom est obligatoire";
+    } else if (nom.length() < 2) {
+        erreurs << "❌ Le nom doit contenir au moins 2 caractères";
+    } else if (!Sponsor::validerNom(nom)) {
+        erreurs << "❌ Le nom ne doit contenir que des lettres";
+    }
+
+    // Validation Prénom
+    QString prenom = ui->prenom->text().trimmed();
+    if (prenom.isEmpty()) {
+        erreurs << "❌ Le prénom est obligatoire";
+    } else if (prenom.length() < 2) {
+        erreurs << "❌ Le prénom doit contenir au moins 2 caractères";
+    } else if (!Sponsor::validerNom(prenom)) {
+        erreurs << "❌ Le prénom ne doit contenir que des lettres";
+    }
+
+    // Validation Email
+    QString email = ui->email->text().trimmed();
+    if (email.isEmpty()) {
+        erreurs << "❌ L'email est obligatoire";
+    } else if (!Sponsor::validerEmail(email)) {
+        erreurs << "❌ Format d'email invalide (doit contenir @)";
+    }
+
+    // Validation Catégorie
+    if (ui->categorie->text().trimmed().isEmpty()) {
+        erreurs << "❌ La catégorie est obligatoire";
+    }
+
+    // Validation Budget
+    bool ok;
+    int budget = ui->budget->text().toInt(&ok);
+    if (!ok) {
+        erreurs << "❌ Le budget doit être un nombre";
+    } else if (budget < 0) {
+        erreurs << "❌ Le budget ne peut pas être négatif";
+    }
+
+    // Validation Dates
+    if (!Sponsor::validerDates(ui->debut->date(), ui->fin->date())) {
+        erreurs << "❌ La date de début doit être avant la date de fin";
+    }
+
+    // Afficher les erreurs s'il y en a
+    if (!erreurs.isEmpty()) {
+        QString message = "Erreurs de validation :\n\n" + erreurs.join("\n");
+        QMessageBox msgBox(this);
+        msgBox.setWindowTitle("Erreurs de Saisie");
+        msgBox.setText(message);
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setStyleSheet("QLabel{min-width: 400px; font-size: 11pt;}");
+        msgBox.exec();
+        return false;
+    }
+
+    return true;
+}
+void MainWindow::clearSponsorValidationErrors()
+{
+    // Page Ajout
+    ui->nom->setStyleSheet("");
+    ui->prenom->setStyleSheet("");
+    ui->email->setStyleSheet("");
+    ui->budget->setStyleSheet("");
+    ui->debut->setStyleSheet("");
+    ui->fin->setStyleSheet("");
+
+    // Page Modification
+    ui->nom2->setStyleSheet("");
+    ui->prenom2->setStyleSheet("");
+    ui->email2->setStyleSheet("");
+    ui->budget2->setStyleSheet("");
+    ui->debut2->setStyleSheet("");
+    ui->fin2->setStyleSheet("");
+}
+
+// ==================== AFFICHAGE STANDARD ====================
+void MainWindow::afficherEmployes() {
+    QSqlDatabase db = QSqlDatabase::database();
+    QString actualTableName = "";
+
+    // Détecter le nom exact de la table
+    if (db.driverName().contains("ORACLE", Qt::CaseInsensitive)) {
+        QSqlQuery checkQuery("SELECT TABLE_NAME FROM USER_TABLES WHERE TABLE_NAME IN ('EMPOLYE', 'EMPLOYE')");
+        if (checkQuery.next()) {
+            actualTableName = checkQuery.value(0).toString();
+        }
+    } else {
+        // SQLite
+        QSqlQuery listQuery("SELECT name FROM sqlite_master WHERE type='table'");
+        while (listQuery.next()) {
+            QString tableName = listQuery.value(0).toString();
+            if (tableName.toUpper() == "EMPOLYE" || tableName.toUpper() == "EMPLOYE") {
+                actualTableName = tableName;
+                break;
+            }
+        }
+    }
+
+    if (actualTableName.isEmpty()) {
+        qDebug() << "✗ Table EMPOLYE/EMPLOYE non trouvée!";
+        ui->tableWidget->setRowCount(0);
+        return;
+    }
+
+    // Construire la requête selon le type de BD
+    QString queryStr;
+    if (db.driverName().contains("ORACLE", Qt::CaseInsensitive)) {
+        queryStr = QString("SELECT IDEMPLOYE, PRENOM, "
+                           "TO_CHAR(DATEDEMBAUCHE, 'DD/MM/YYYY'), "
+                           "EMAIL, TELEPHONE, SEXE, POSTE, SALAIRE, "
+                           "IDSUPERVISEUR, NVL(CODE_BADGE, 'Non assigné') "
+                           "FROM %1 ORDER BY IDEMPLOYE").arg(actualTableName);
+    } else {
+        // SQLite
+        queryStr = QString("SELECT IDEMPLOYE, PRENOM, "
+                           "strftime('%%d/%%m/%%Y', DATEDEMBAUCHE), "
+                           "EMAIL, TELEPHONE, SEXE, POSTE, SALAIRE, "
+                           "IDSUPERVISEUR, COALESCE(CODE_BADGE, 'Non assigné') "
+                           "FROM %1 ORDER BY IDEMPLOYE").arg(actualTableName);
+    }
 
     QSqlQuery query;
-    QString sql = "SELECT IDEMPLOYE, PRENOM, DATEDEMBAUCHE, EMAIL, TELEPHONE, SEXE, POSTE, SALAIRE, IDSUPERVISEUR FROM empolye";
-
-    if (!query.exec(sql)) {
-        qDebug() << "❌ ERREUR SQL:" << query.lastError().text();
-        QMessageBox::critical(this, "Erreur", "❌ Impossible de charger les employés:\n" + query.lastError().text());
+    if (!query.exec(queryStr)) {
+        qDebug() << "Erreur exécution requête:" << query.lastError().text();
+        ui->tableWidget->setRowCount(0);
         return;
     }
 
@@ -741,143 +831,397 @@ void MainWindow::afficherEmployes()
 
     while (query.next()) {
         ui->tableWidget->insertRow(row);
-        for (int col = 0; col < 9; col++) {
-            QTableWidgetItem *item = new QTableWidgetItem(query.value(col).toString());
+
+        for (int col = 0; col < 10; ++col) {
+            QString value = query.value(col).toString();
+            QTableWidgetItem *item = new QTableWidgetItem(value);
             item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+
+            // Colorier le code badge différemment s'il est assigné
+            if (col == 9 && value != "Non assigné" && !value.isEmpty()) {
+                item->setBackground(QColor(220, 255, 220));
+                item->setForeground(Qt::darkGreen);
+                item->setFont(QFont("Arial", 10, QFont::Bold));
+            }
+
+            // Colorier le salaire selon la valeur
+            if (col == 7) {
+                bool ok;
+                double salaire = value.toDouble(&ok);
+                if (ok) {
+                    if (salaire > 3000) {
+                        item->setBackground(QColor(255, 255, 200));
+                    } else if (salaire < 1000) {
+                        item->setBackground(QColor(255, 230, 230));
+                    }
+                }
+            }
+
             ui->tableWidget->setItem(row, col, item);
         }
         row++;
     }
 
-    qDebug() << "✅ Employés affichés:" << row << "lignes";
+    qDebug() << "Nombre d'employés affichés:" << row;
 }
 
-void MainWindow::afficherSponsors()
+void MainWindow::afficherSponsors() {
+    Sponsor s;
+    QSqlQueryModel *model = s.afficher();
+    ui->sponsorTable_9->setRowCount(0);
+
+    if (model) {
+        int rowCount = model->rowCount();
+        int colCount = model->columnCount();
+
+        for (int r = 0; r < rowCount; ++r) {
+            ui->sponsorTable_9->insertRow(r);
+            for (int c = 0; c < colCount && c < 8; ++c) {
+                QTableWidgetItem *item = new QTableWidgetItem(model->data(model->index(r, c)).toString());
+                item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+
+                // Colorier le budget selon la valeur
+                if (c == 7) {
+                    bool ok;
+                    int budget = item->text().toInt(&ok);
+                    if (ok) {
+                        if (budget > 10000) {
+                            item->setBackground(QColor(220, 255, 220));
+                        } else if (budget < 1000) {
+                            item->setBackground(QColor(255, 220, 220));
+                        }
+                    }
+                }
+
+                ui->sponsorTable_9->setItem(r, c, item);
+            }
+        }
+        delete model;
+    }
+}
+
+// ==================== RECHERCHE VISUELLE (SURLIGNAGE JAUNE) ====================
+void MainWindow::on_lineEdit_6_textChanged(const QString &text) {
+    Employes e; QSqlQueryModel *model = text.trimmed().isEmpty() ? e.afficher() : e.rechercherMultiCriteres(text);
+    ui->tableWidget->setRowCount(0);
+    if (model) {
+        for (int r = 0; r < model->rowCount(); ++r) {
+            ui->tableWidget->insertRow(r);
+            for (int c = 0; c < 10; ++c) {
+                QString dataStr = model->data(model->index(r, c)).toString();
+                QTableWidgetItem *item = new QTableWidgetItem(dataStr);
+
+                // VISUEL : SURLIGNAGE EN JAUNE
+                if (!text.isEmpty() && dataStr.contains(text, Qt::CaseInsensitive)) {
+                    item->setBackground(QColor(255, 235, 59));
+                    item->setForeground(Qt::black);
+                    item->setFont(QFont("Arial", 10, QFont::Bold));
+                }
+
+                item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+                ui->tableWidget->setItem(r, c, item);
+            }
+        }
+        delete model;
+    }
+}
+
+// ==================== EMPLOYÉS (CRUD & HISTORIQUE DÉTAILLÉ) ====================
+
+void MainWindow::on_pushButton_11_clicked() // AJOUTER
 {
-    qDebug() << "=== AFFICHAGE SPONSORS ===";
+    QString nom = ui->lineEdit_13->text().trimmed();
+    QString prenom = ui->lineEdit_14->text().trimmed();
+    QString cin = ui->lineEdit_15->text().trimmed();
+    QString dateStr = ui->lineEdit_16->text().trimmed();
+    QString email = ui->lineEdit_17->text().trimmed();
+    QString tel = ui->lineEdit_18->text().trimmed();
+    QString sexe = ui->lineEdit_19->text().trimmed();
+    QString salStr = ui->lineEdit_20->text().trimmed();
+    QString idSup = ui->lineEdit_21->text().trimmed();
 
-    QSqlQuery query;
-    QString sql = "SELECT IDSPONSOR, NOM, PRENOM, CATEGORIE, EMAIL, DEBUTCONTRAT, FINCONTRAT, BUDGET FROM sponsor";
-
-    if (!query.exec(sql)) {
-        qDebug() << "❌ ERREUR SQL:" << query.lastError().text();
-        QMessageBox::critical(this, "Erreur", "❌ Impossible de charger les sponsors:\n" + query.lastError().text());
+    // Validations
+    if (!Employes::validerLettres(nom)) {
+        QMessageBox::warning(this, "Erreur", "❌ NOM invalide.");
+        ui->lineEdit_13->setFocus();
+        return;
+    }
+    if (!Employes::validerLettres(prenom)) {
+        QMessageBox::warning(this, "Erreur", "❌ PRÉNOM invalide.");
+        ui->lineEdit_14->setFocus();
+        return;
+    }
+    if (!Employes::valider8Chiffres(cin)) {
+        QMessageBox::warning(this, "Erreur", "❌ CIN invalide (8 chiffres requis).");
+        ui->lineEdit_15->setFocus();
+        return;
+    }
+    if (!Employes::validerFormatDate(dateStr)) {
+        QMessageBox::warning(this, "Erreur", "❌ Date invalide. Format: MM/JJ/AAAA");
+        ui->lineEdit_16->setFocus();
+        return;
+    }
+    if (!Employes::validerEmail(email)) {
+        QMessageBox::warning(this, "Erreur", "❌ Email invalide.");
+        ui->lineEdit_17->setFocus();
+        return;
+    }
+    if (!Employes::valider8Chiffres(tel)) {
+        QMessageBox::warning(this, "Erreur", "❌ Téléphone invalide (8 chiffres requis).");
+        ui->lineEdit_18->setFocus();
+        return;
+    }
+    if (!Employes::validerSexe(sexe)) {
+        QMessageBox::warning(this, "Erreur", "❌ Sexe invalide (M ou F uniquement).");
+        ui->lineEdit_19->setFocus();
         return;
     }
 
-    ui->sponsorTable_9->setRowCount(0);
-    int row = 0;
-
-    while (query.next()) {
-        ui->sponsorTable_9->insertRow(row);
-        for (int col = 0; col < 8; col++) {
-            QTableWidgetItem *item = new QTableWidgetItem(query.value(col).toString());
-            item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-            ui->sponsorTable_9->setItem(row, col, item);
-        }
-        row++;
+    bool ok;
+    double sal = salStr.toDouble(&ok);
+    if (!ok || !Employes::validerSalaire(sal)) {
+        QMessageBox::warning(this, "Erreur", "❌ Salaire invalide.");
+        ui->lineEdit_20->setFocus();
+        return;
     }
 
-    qDebug() << "✅ Sponsors affichés:" << row << "lignes";
-}
+    if (!idSup.isEmpty() && !Employes::validerChiffres(idSup)) {
+        QMessageBox::warning(this, "Erreur", "❌ ID Superviseur invalide.");
+        ui->lineEdit_21->setFocus();
+        return;
+    }
 
-// ==================== EMPLOYÉS ====================
+    // Convertir la date
+    QStringList dateParts = dateStr.split("/");
+    if (dateParts.size() != 3) {
+        QMessageBox::warning(this, "Erreur", "❌ Format de date invalide.");
+        return;
+    }
 
-void MainWindow::on_pushButton_11_clicked() // Ajouter
-{
-    QString prenom = ui->lineEdit_13->text().trimmed();
-    QString email = ui->lineEdit_17->text().trimmed();
-    QString telephone = ui->lineEdit_18->text().trimmed();
-    QString sexe = ui->lineEdit_19->text().trimmed();
-    QString poste = ui->lineEdit_14->text().trimmed();
-    double salaire = ui->lineEdit_20->text().toDouble();
+    int mois = dateParts[0].toInt();
+    int jour = dateParts[1].toInt();
+    int annee = dateParts[2].toInt();
 
-    Employes emp(prenom, email, telephone, sexe, poste, salaire, QDate::currentDate());
+    QDate date(annee, mois, jour);
+    if (!date.isValid()) {
+        QMessageBox::warning(this, "Erreur", "❌ Date invalide.");
+        return;
+    }
+
+    QString nomComplet = nom + " " + prenom;
+    QString poste = "Employé"; // Valeur par défaut
+
+    // Créer l'employé avec tous les paramètres
+    Employes emp(0, nomComplet, date, email, tel, sexe.toUpper(), poste, sal, idSup, "");
+
+    qDebug() << "Tentative d'ajout employé avec données:";
+    qDebug() << "Nom complet:" << nomComplet;
+    qDebug() << "Date:" << date.toString("yyyy-MM-dd");
+    qDebug() << "Email:" << email;
+    qDebug() << "Tél:" << tel;
+    qDebug() << "Sexe:" << sexe.toUpper();
+    qDebug() << "Poste:" << poste;
+    qDebug() << "Salaire:" << sal;
+    qDebug() << "ID Sup:" << idSup;
 
     if (emp.ajouter()) {
         afficherEmployes();
         clearEmployeFields();
-        QMessageBox::information(this, "Succès", "✅ Employé ajouté avec succès !");
+
+        // Historique
+        QString details = QString("Nom: %1 | Email: %2 | Tél: %3 | Salaire: %4").arg(nomComplet).arg(email).arg(tel).arg(sal);
+        HistoryManager::ajouterLog("AJOUT", details);
+
+        QMessageBox::information(this, "Succès", "✅ Employé ajouté !");
     } else {
-        QMessageBox::critical(this, "Erreur", "❌ Erreur lors de l'ajout");
+        QMessageBox::critical(this, "Erreur", "❌ Erreur lors de l'ajout. Vérifiez la console pour plus de détails.");
     }
 }
 
-void MainWindow::on_pushButton_8_clicked() // Modifier
+void MainWindow::on_pushButton_8_clicked() // MODIFIER
 {
     if (idEmployeSelectionne == -1) {
-        QMessageBox::warning(this, "Erreur", "❌ Sélectionnez un employé !");
+        QMessageBox::warning(this, "Erreur", "❌ Sélectionnez un employé.");
         return;
     }
 
+    QString nom = ui->lineEdit_13->text().trimmed();
+    QString prenom = ui->lineEdit_14->text().trimmed();
     QString email = ui->lineEdit_17->text().trimmed();
-    QString telephone = ui->lineEdit_18->text().trimmed();
-    QString poste = ui->lineEdit_14->text().trimmed();
-    double salaire = ui->lineEdit_20->text().toDouble();
+    QString tel = ui->lineEdit_18->text().trimmed();
+    QString idSup = ui->lineEdit_21->text().trimmed();
+    QString poste = "Employé"; // Valeur par défaut
 
-    Employes emp;
-    if (emp.modifier(idEmployeSelectionne, email, telephone, poste, salaire, "")) {
-        afficherEmployes();
-        QMessageBox::information(this, "Succès", "✅ Employé modifié !");
-    }
-}
+    bool ok;
+    double sal = ui->lineEdit_20->text().toDouble(&ok);
 
-void MainWindow::on_pushButton_10_clicked() // Supprimer
-{
-    if (idEmployeSelectionne == -1) {
-        QMessageBox::warning(this, "Erreur", "❌ Sélectionnez un employé !");
+    if (!ok) {
+        QMessageBox::warning(this, "Erreur", "❌ Salaire invalide.");
         return;
     }
 
-    if (QMessageBox::question(this, "Confirmation", "Supprimer cet employé ?") == QMessageBox::Yes) {
-        Employes emp;
+    if (!Employes::validerEmail(email)) {
+        QMessageBox::warning(this, "Erreur", "Email invalide.");
+        return;
+    }
+
+    // Récupérer le code badge existant
+    QString codeBadge = "";
+    for (int i = 0; i < ui->tableWidget->rowCount(); ++i) {
+        if (ui->tableWidget->item(i, 0)->text().toInt() == idEmployeSelectionne) {
+            QString badge = ui->tableWidget->item(i, 9)->text();
+            if (badge != "Non assigné" && !badge.isEmpty()) {
+                codeBadge = badge;
+            }
+            break;
+        }
+    }
+
+    // CORRECTION ICI : Créer un objet Employes et appeler modifier sur l'instance
+    Employes emp;
+    if (emp.modifier(idEmployeSelectionne, email, tel, poste, sal, idSup, codeBadge)) {
+        afficherEmployes();
+
+        // ✅ HISTORIQUE DÉTAILLÉ
+        QString details = QString("ID: %1 | Nom: %2 %3 | Email: %4 | Nouv. Salaire: %5").arg(idEmployeSelectionne).arg(nom).arg(prenom).arg(email).arg(sal);
+        HistoryManager::ajouterLog("MODIFICATION", details);
+
+        QMessageBox::information(this, "Succès", "✅ Modifié !");
+    } else {
+        QMessageBox::warning(this, "Erreur", "❌ Erreur lors de la modification.");
+    }
+}
+
+void MainWindow::on_pushButton_10_clicked() // SUPPRIMER
+{
+    if (idEmployeSelectionne == -1) {
+        QMessageBox::warning(this, "Erreur", "❌ Sélectionnez un employé.");
+        return;
+    }
+
+    // Capture des données pour l'historique
+    QString details = QString("ID: %1 | Nom: %2 | Email: %3").arg(idEmployeSelectionne).arg(ui->lineEdit_13->text()).arg(ui->lineEdit_17->text());
+
+    if (QMessageBox::question(this, "Confirmer", "Supprimer cet employé ?") == QMessageBox::Yes) {
+        Employes emp; // Créer une instance
         if (emp.supprimer(idEmployeSelectionne)) {
             afficherEmployes();
             clearEmployeFields();
+
+            // ✅ HISTORIQUE DÉTAILLÉ
+            HistoryManager::ajouterLog("SUPPRESSION", details);
+
             idEmployeSelectionne = -1;
             QMessageBox::information(this, "Succès", "✅ Employé supprimé !");
+        } else {
+            QMessageBox::critical(this, "Erreur", "❌ Erreur lors de la suppression.");
         }
     }
 }
 
-void MainWindow::on_pushButton_12_clicked() // Trier
-{
-    QSqlQuery query;
-    query.exec("SELECT IDEMPLOYE, PRENOM, DATEDEMBAUCHE, EMAIL, TELEPHONE, SEXE, POSTE, SALAIRE, IDSUPERVISEUR FROM empolye ORDER BY SALAIRE DESC");
+// ==================== HISTORIQUE (TABLEAU) ====================
 
-    ui->tableWidget->setRowCount(0);
-    int row = 0;
-    while (query.next()) {
-        ui->tableWidget->insertRow(row);
-        for (int col = 0; col < 9; col++) {
-            ui->tableWidget->setItem(row, col, new QTableWidgetItem(query.value(col).toString()));
+void MainWindow::on_HISTORY_clicked()
+{
+    QString content = HistoryManager::lireHistorique();
+    QDialog *d = new QDialog(this);
+    d->setWindowTitle("Historique Employés");
+    d->setMinimumSize(900, 600);
+    d->setStyleSheet("background:white;");
+
+    QVBoxLayout *l = new QVBoxLayout(d);
+    QLabel *t = new QLabel("Journal des Activités");
+    t->setStyleSheet("font: bold 16pt 'Arial'; color: #333;");
+    t->setAlignment(Qt::AlignCenter);
+    l->addWidget(t);
+
+    QTableWidget *table = new QTableWidget(d);
+    table->setColumnCount(3);
+    table->setHorizontalHeaderLabels({"Date", "Action", "Détails"});
+    table->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    table->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+    table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+
+    QStringList lignes = content.split("\n", Qt::SkipEmptyParts);
+    QRegularExpression regex("^\\[(.*?)\\] \\[(.*?)\\] (.*)$");
+
+    for (const QString &ligne : lignes) {
+        QRegularExpressionMatch match = regex.match(ligne);
+        if (match.hasMatch()) {
+            int r = table->rowCount();
+            table->insertRow(r);
+            QTableWidgetItem *type = new QTableWidgetItem(match.captured(2));
+            type->setTextAlignment(Qt::AlignCenter);
+
+            if (match.captured(2) == "AJOUT") {
+                type->setBackground(QColor(220, 255, 220));
+                type->setForeground(QColor(0, 100, 0));
+            }
+            else if (match.captured(2) == "SUPPRESSION") {
+                type->setBackground(QColor(255, 220, 220));
+                type->setForeground(QColor(139, 0, 0));
+            }
+            else {
+                type->setBackground(QColor(220, 240, 255));
+                type->setForeground(QColor(0, 0, 139));
+            }
+
+            table->setItem(r, 0, new QTableWidgetItem(match.captured(1)));
+            table->setItem(r, 1, type);
+            table->setItem(r, 2, new QTableWidgetItem(match.captured(3)));
         }
-        row++;
     }
-    QMessageBox::information(this, "Succès", "✅ Trié par salaire");
+    l->addWidget(table);
+    QPushButton *btn = new QPushButton("Fermer");
+    connect(btn, &QPushButton::clicked, d, &QDialog::accept);
+    l->addWidget(btn);
+
+    d->exec();
 }
 
-void MainWindow::on_lineEdit_6_textChanged(const QString &text)
+// ---------------------- TRI INTERACTIF ----------------------
+void MainWindow::on_pushButton_12_clicked() // TRIER
 {
-    if (text.isEmpty()) {
-        afficherEmployes();
-        return;
-    }
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Option de Tri");
+    msgBox.setText("Comment voulez-vous trier les salaires ?");
+    QAbstractButton *desc = msgBox.addButton("Décroissant 📉", QMessageBox::YesRole);
+    QAbstractButton *asc = msgBox.addButton("Croissant 📈", QMessageBox::NoRole);
+    msgBox.addButton("Annuler", QMessageBox::RejectRole);
+    msgBox.exec();
 
-    QSqlQuery query;
-    query.prepare("SELECT IDEMPLOYE, PRENOM, DATEDEMBAUCHE, EMAIL, TELEPHONE, SEXE, POSTE, SALAIRE, IDSUPERVISEUR FROM empolye WHERE UPPER(PRENOM) LIKE UPPER(:search)");
-    query.bindValue(":search", "%" + text + "%");
-    query.exec();
+    bool croissant = (msgBox.clickedButton() == asc);
+    if (msgBox.clickedButton() != desc && msgBox.clickedButton() != asc) return;
 
+    Employes e;
+    QSqlQueryModel *model = e.trierParSalaire(croissant);
     ui->tableWidget->setRowCount(0);
-    int row = 0;
-    while (query.next()) {
-        ui->tableWidget->insertRow(row);
-        for (int col = 0; col < 9; col++) {
-            ui->tableWidget->setItem(row, col, new QTableWidgetItem(query.value(col).toString()));
+    if (model) {
+        for (int r = 0; r < model->rowCount(); ++r) {
+            ui->tableWidget->insertRow(r);
+            for (int c = 0; c < 10; ++c) {
+                QTableWidgetItem *item = new QTableWidgetItem(model->data(model->index(r, c)).toString());
+                item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+
+                // Colorier le salaire selon la valeur
+                if (c == 7) {
+                    bool ok;
+                    double salaire = item->text().toDouble(&ok);
+                    if (ok) {
+                        if (salaire > 3000) {
+                            item->setBackground(QColor(255, 255, 200));
+                        } else if (salaire < 1000) {
+                            item->setBackground(QColor(255, 230, 230));
+                        }
+                    }
+                }
+
+                ui->tableWidget->setItem(r, c, item);
+            }
         }
-        row++;
+        delete model;
     }
+    QMessageBox::information(this, "Tri", croissant ? "✅ Tri Croissant" : "✅ Tri Décroissant");
 }
 
 void MainWindow::on_tableWidget_clicked(const QModelIndex &index)
@@ -885,743 +1229,584 @@ void MainWindow::on_tableWidget_clicked(const QModelIndex &index)
     int row = index.row();
     idEmployeSelectionne = ui->tableWidget->item(row, 0)->text().toInt();
 
-    ui->lineEdit_13->setText(ui->tableWidget->item(row, 1)->text());
+    qDebug() << "========================================";
+    qDebug() << "👤 EMPLOYÉ SÉLECTIONNÉ:";
+    qDebug() << "   Row:" << row;
+    qDebug() << "   ID:" << idEmployeSelectionne;
+    qDebug() << "   Nom:" << ui->tableWidget->item(row, 1)->text();
+    qDebug() << "========================================";
+
+    // Remplir les champs
+    ui->lineEdit_12->setText(ui->tableWidget->item(row, 0)->text());
+    QString nomComplet = ui->tableWidget->item(row, 1)->text();
+    QStringList parts = nomComplet.split(" ");
+    if (parts.size() >= 1) ui->lineEdit_13->setText(parts[0]);
+    if (parts.size() >= 2) ui->lineEdit_14->setText(parts.mid(1).join(" "));
+    else ui->lineEdit_14->clear();
+
+    ui->lineEdit_15->clear();
+    ui->lineEdit_16->setText(ui->tableWidget->item(row, 2)->text());
     ui->lineEdit_17->setText(ui->tableWidget->item(row, 3)->text());
     ui->lineEdit_18->setText(ui->tableWidget->item(row, 4)->text());
     ui->lineEdit_19->setText(ui->tableWidget->item(row, 5)->text());
-    ui->lineEdit_14->setText(ui->tableWidget->item(row, 6)->text());
     ui->lineEdit_20->setText(ui->tableWidget->item(row, 7)->text());
+    ui->lineEdit_21->setText(ui->tableWidget->item(row, 8)->text());
+
+    // Afficher le code badge
+    QString codeBadge = ui->tableWidget->item(row, 9)->text();
+    if (codeBadge != "Non assigné" && !codeBadge.isEmpty()) {
+        ui->statusbar->showMessage(QString("🏷️ Code badge: %1").arg(codeBadge), 3000);
+        qDebug() << "   Code Badge:" << codeBadge;
+    } else {
+        qDebug() << "   Code Badge: Non assigné";
+    }
 }
 
-// ==================== SPONSORS - CRUD ====================
+// ==================== MAILING (SMTP) ====================
 
-void MainWindow::on_pushButton_23_clicked() // Ajouter
+void MainWindow::on_MAILING_clicked()
 {
-    if (!validerFormulaireSponsor()) {
+    if (idEmployeSelectionne == -1) {
+        QMessageBox::warning(this, "Erreur", "❌ Sélectionnez un employé.");
         return;
     }
 
-    QString nom = ui->nom->text().trimmed();
-    QString prenom = ui->prenom->text().trimmed();
-    QString email = ui->email->text().trimmed();
-    QString categorie = ui->categorie->text().trimmed();
-    QDate debut = ui->debut->date();
-    QDate fin = ui->fin->date();
-    int budget = ui->budget->text().toInt();
+    QString emailDest = ui->lineEdit_17->text().trimmed();
+    QString nomEmp = ui->lineEdit_13->text().trimmed();
 
-    Sponsor s(nom, prenom, categorie, email, debut, fin, budget);
+    if (!Employes::validerEmail(emailDest)) {
+        QMessageBox::warning(this, "Erreur", "❌ Email invalide.");
+        return;
+    }
+
+    if (QMessageBox::question(this, "Confirmer Envoi",
+                              "Envoyer le mail de motivation à " + nomEmp + " ?") == QMessageBox::Yes) {
+
+        QString user = "amenalaya57@gmail.com";
+        QString pass = "sgnz xdto zonf jhsv"; // App Password
+
+        Smtp *smtp = new Smtp(user, pass, "smtp.gmail.com", 465);
+        QString sujet = "Remerciements - CONNECT PLUS+";
+        QString corps = "Bonjour " + nomEmp + ",\n\n"
+                                              "Je tiens à vous remercier sincèrement pour les efforts que vous avez fournis ces derniers jours. "
+                                              "Votre engagement, votre sérieux et votre esprit d'équipe ont eu un réel impact sur l'avancement de notre travail.\n\n"
+                                              "Grâce à votre implication, nous avons pu atteindre nos objectifs dans de très bonnes conditions.\n\n"
+                                              "Merci encore pour votre travail remarquable.\n"
+                                              "Continuez ainsi — vous faites vraiment la différence.\n\n"
+                                              "Bien cordialement,\n"
+                                              "La Direction RH";
+
+        smtp->sendMail(user, emailDest, sujet, corps);
+
+        HistoryManager::ajouterLog("MAILING", "Mail motivation envoyé à " + emailDest);
+        QMessageBox::information(this, "Succès", "✅ Email envoyé !");
+    }
+}
+
+// ==================== FICHE DE PAIE & STATS SALAIRES ====================
+
+void MainWindow::on_pushButton_13_clicked() // PDF
+{
+    if (idEmployeSelectionne == -1) {
+        QMessageBox::warning(this, "Erreur", "Sélectionnez un employé.");
+        return;
+    }
+    QString f = QFileDialog::getSaveFileName(this, "Fiche Paie", "FichePaie.pdf", "PDF (*.pdf)");
+    if (!f.isEmpty()) {
+        FichePaie g;
+        if (g.genererPDF(idEmployeSelectionne, f)) {
+            QMessageBox::information(this, "Succès", "✅ PDF généré !");
+            QDesktopServices::openUrl(QUrl::fromLocalFile(f));
+        } else {
+            QMessageBox::warning(this, "Erreur", "❌ Erreur lors de la génération du PDF.");
+        }
+    }
+}
+
+void MainWindow::on_STATS_clicked() // BAR CHART
+{
+    QVector<int> v;
+    QStringList l;
+    Employes::getStatistiquesSalaires(v, l);
+
+    if (v.isEmpty() || l.isEmpty()) {
+        QMessageBox::information(this, "Information", "Aucune donnée de salaire disponible.");
+        return;
+    }
+
+    QDialog *d = new QDialog(this);
+    d->setWindowTitle("📊 Statistiques Salaires");
+    d->setMinimumSize(600, 400);
+    d->setStyleSheet("background:white;");
+
+    QVBoxLayout *lay = new QVBoxLayout(d);
+    BarChartWidget *chart = new BarChartWidget();
+    chart->setData(v, l);
+    lay->addWidget(chart);
+
+    d->exec();
+}
+
+// ==================== SPONSORS (CRUD) ====================
+void MainWindow::on_pushButton_23_clicked()
+{
+    // Validation complète avant ajout
+    if (!validerChampsSponsor()) {
+        return;
+    }
+
+    Sponsor s(ui->nom->text().trimmed(),
+              ui->prenom->text().trimmed(),
+              ui->categorie->text().trimmed(),
+              ui->email->text().trimmed(),
+              ui->debut->date(),
+              ui->fin->date(),
+              ui->budget->text().toInt());
 
     if (s.ajouter()) {
         afficherSponsors();
         clearSponsorFields();
+        clearSponsorValidationErrors();
         QMessageBox::information(this, "Succès", "✅ Sponsor ajouté avec succès !");
     } else {
-        QMessageBox::critical(this, "Erreur", "❌ Erreur lors de l'ajout");
+        QMessageBox::warning(this, "Erreur", "❌ Erreur lors de l'ajout du sponsor.");
     }
 }
 
-void MainWindow::on_pushButton_38_clicked() // Modifier
+
+void MainWindow::on_pushButton_38_clicked()
 {
     if (idSponsorSelectionne == -1) {
-        QMessageBox::warning(this, "Erreur", "❌ Sélectionnez un sponsor !");
+        QMessageBox::warning(this, "Erreur", "❌ Sélectionnez un sponsor à modifier.");
         return;
     }
 
-    if (!validerFormulaireModificationSponsor()) {
+    // Validation des champs de modification
+    QStringList erreurs;
+
+    QString nom = ui->nom2->text().trimmed();
+    QString prenom = ui->prenom2->text().trimmed();
+    QString email = ui->email2->text().trimmed();
+
+    if (nom.isEmpty() || nom.length() < 2 || !Sponsor::validerNom(nom)) {
+        erreurs << "❌ Nom invalide";
+    }
+
+    if (prenom.isEmpty() || prenom.length() < 2 || !Sponsor::validerNom(prenom)) {
+        erreurs << "❌ Prénom invalide";
+    }
+
+    if (!Sponsor::validerEmail(email)) {
+        erreurs << "❌ Email invalide";
+    }
+
+    bool ok;
+    int budget = ui->budget2->text().toInt(&ok);
+    if (!ok || budget < 0) {
+        erreurs << "❌ Budget invalide";
+    }
+
+    if (!Sponsor::validerDates(ui->debut2->date(), ui->fin2->date())) {
+        erreurs << "❌ Dates invalides (début doit être avant fin)";
+    }
+
+    if (!erreurs.isEmpty()) {
+        QMessageBox::warning(this, "Erreurs de Validation", erreurs.join("\n"));
         return;
     }
 
     Sponsor s;
-    if (s.modifier(idSponsorSelectionne, ui->nom2->text(), ui->prenom2->text(),
-                   ui->categorie2->text(), ui->email2->text(), ui->debut2->date(),
-                   ui->fin2->date(), ui->budget2->text().toInt())) {
+    if (s.modifier(idSponsorSelectionne, nom, prenom,
+                   ui->categorie2->text().trimmed(), email,
+                   ui->debut2->date(), ui->fin2->date(), budget)) {
         afficherSponsors();
-        QMessageBox::information(this, "Succès", "✅ Sponsor modifié !");
+        clearSponsorValidationErrors();
+        QMessageBox::information(this, "Succès", "✅ Sponsor modifié avec succès !");
+    } else {
+        QMessageBox::warning(this, "Erreur", "❌ Erreur lors de la modification.");
     }
 }
 
-void MainWindow::on_pushButton_40_clicked() // Supprimer
-{
+void MainWindow::on_pushButton_40_clicked() {
     if (idSponsorSelectionne == -1) {
-        QMessageBox::warning(this, "Erreur", "❌ Sélectionnez un sponsor !");
+        QMessageBox::warning(this, "Erreur", "❌ Sélectionnez un sponsor.");
         return;
     }
 
-    if (QMessageBox::question(this, "Confirmation", "Supprimer ce sponsor ?") == QMessageBox::Yes) {
+    if (QMessageBox::question(this, "Confirmer", "Supprimer ce sponsor ?") == QMessageBox::Yes) {
         Sponsor s;
         if (s.supprimer(idSponsorSelectionne)) {
             afficherSponsors();
-            clearSponsorFields();
-            idSponsorSelectionne = -1;
             QMessageBox::information(this, "Succès", "✅ Sponsor supprimé !");
+        } else {
+            QMessageBox::warning(this, "Erreur", "❌ Erreur lors de la suppression.");
         }
     }
 }
 
 void MainWindow::on_sponsorTable_9_clicked(const QModelIndex &index)
 {
-    int row = index.row();
-    idSponsorSelectionne = ui->sponsorTable_9->item(row, 0)->text().toInt();
+    int r = index.row();
+    idSponsorSelectionne = ui->sponsorTable_9->item(r, 0)->text().toInt();
 
-    ui->ids->setText(ui->sponsorTable_9->item(row, 0)->text());
-    ui->nom2->setText(ui->sponsorTable_9->item(row, 1)->text());
-    ui->prenom2->setText(ui->sponsorTable_9->item(row, 2)->text());
-    ui->categorie2->setText(ui->sponsorTable_9->item(row, 3)->text());
-    ui->email2->setText(ui->sponsorTable_9->item(row, 4)->text());
-    ui->debut2->setDate(QDate::fromString(ui->sponsorTable_9->item(row, 5)->text(), "yyyy-MM-dd"));
-    ui->fin2->setDate(QDate::fromString(ui->sponsorTable_9->item(row, 6)->text(), "yyyy-MM-dd"));
-    ui->budget2->setText(ui->sponsorTable_9->item(row, 7)->text());
+    // Remplir les champs
+    ui->ids->setText(ui->sponsorTable_9->item(r, 0)->text());
+    ui->nom2->setText(ui->sponsorTable_9->item(r, 1)->text());
+    ui->prenom2->setText(ui->sponsorTable_9->item(r, 2)->text());
+    ui->categorie2->setText(ui->sponsorTable_9->item(r, 3)->text());
+    ui->email2->setText(ui->sponsorTable_9->item(r, 4)->text());
+    ui->debut2->setDate(QDate::fromString(ui->sponsorTable_9->item(r, 5)->text(), "yyyy-MM-dd"));
+    ui->fin2->setDate(QDate::fromString(ui->sponsorTable_9->item(r, 6)->text(), "yyyy-MM-dd"));
+    ui->budget2->setText(ui->sponsorTable_9->item(r, 7)->text());
+
+    qDebug() << "📋 Sponsor sélectionné:" << idSponsorSelectionne;
+    qDebug() << "   Nom:" << ui->nom2->text();
+    qDebug() << "   Email:" << ui->email2->text();
 }
 
-void MainWindow::on_refreshbtn_clicked()
-{
+void MainWindow::on_refreshbtn_clicked() {
     afficherSponsors();
-    QMessageBox::information(this, "Succès", "✅ Liste rafraîchie !");
+    QMessageBox::information(this, "Rafraîchissement", "✅ Données actualisées !");
 }
 
-// ==================== STATISTIQUES AVEC COURBES ====================
-
-void MainWindow::on_pushButton_stats_clicked()
-{
-    qDebug() << "=== AFFICHAGE STATISTIQUES AVEC COURBES ===";
-
+// ==================== STATS SPONSORS ====================
+void MainWindow::on_pushButton_stats_clicked() {
     afficherStatistiquesCourbes();
 }
 
-void MainWindow::afficherStatistiquesCourbes()
-{
-    // Créer une boîte de dialogue pour afficher les graphiques
-    QDialog *statsDialog = new QDialog(this);
-    statsDialog->setWindowTitle("📊 Statistiques des Sponsors - Vue Graphique");
-    statsDialog->setMinimumSize(1200, 800);
-    statsDialog->setStyleSheet(R"(
-        QDialog {
-            background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
-                stop:0 #667eea, stop:1 #764ba2);
-        }
-        QLabel {
-            color: white;
-            font: bold 14pt "Arial";
-            background: transparent;
-        }
-        QGroupBox {
-            background: rgba(255, 255, 255, 0.95);
-            border: 2px solid #7D4FEE;
-            border-radius: 15px;
-            margin-top: 10px;
-            font: bold 12pt "Arial";
-            color: #7D4FEE;
-        }
-        QGroupBox::title {
-            subcontrol-origin: margin;
-            subcontrol-position: top center;
-            padding: 5px 10px;
-            background-color: #7D4FEE;
-            color: white;
-            border-radius: 10px;
-        }
-        QPushButton {
-            background-color: #7D4FEE;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 10px 20px;
-            font: bold 12pt "Arial";
-            min-width: 120px;
-        }
-        QPushButton:hover {
-            background-color: #5A2BE2;
-            transform: scale(1.05);
-        }
-    )");
+void MainWindow::afficherStatistiquesCourbes() {
+    QDialog *dialog = new QDialog(this);
+    dialog->setWindowTitle("📊 Statistiques Sponsors");
+    dialog->setMinimumSize(1200, 600);
+    dialog->setStyleSheet("background-color: white;");
 
-    QVBoxLayout *mainLayout = new QVBoxLayout(statsDialog);
+    QVBoxLayout *mainLayout = new QVBoxLayout(dialog);
 
     // Titre
-    QLabel *titleLabel = new QLabel("📈 Statistiques Détaillées des Sponsors");
-    titleLabel->setAlignment(Qt::AlignCenter);
-    titleLabel->setStyleSheet("font: bold 24pt 'Arial'; color: white; margin: 20px; background: transparent;");
-    mainLayout->addWidget(titleLabel);
+    QLabel *title = new QLabel("Statistiques Sponsors");
+    title->setStyleSheet("font: bold 18pt 'Arial'; color: #7D4FEE; margin: 10px;");
+    title->setAlignment(Qt::AlignCenter);
+    mainLayout->addWidget(title);
 
-    // Layout pour les graphiques
-    QGridLayout *gridLayout = new QGridLayout();
-    gridLayout->setSpacing(15);
+    // Layout pour les deux graphiques
+    QHBoxLayout *chartsLayout = new QHBoxLayout();
 
-    // Graphique 1: Évolution des contrats
-    QGroupBox *evolutionBox = new QGroupBox("📅 Évolution des Contrats par Mois");
+    // === GRAPHIQUE 1: Évolution des Contrats ===
+    QGroupBox *evolutionBox = new QGroupBox("📈 Évolution des Contrats");
+    evolutionBox->setStyleSheet("QGroupBox { font: bold 14pt 'Arial'; color: #7D4FEE; }");
     QVBoxLayout *evolutionLayout = new QVBoxLayout(evolutionBox);
-    creerCourbeEvolutionContrats(evolutionLayout);
-    gridLayout->addWidget(evolutionBox, 0, 0);
 
-    // Graphique 2: Budgets
+    CurveWidget *evolutionChart = new CurveWidget();
+    QVector<QPointF> evolutionData = Sponsor::getDonneesEvolutionContrats();
+    evolutionChart->setData(evolutionData, "Contrats", Qt::red);
+    evolutionLayout->addWidget(evolutionChart);
+
+    // Résumé statistique pour l'évolution
+    QLabel *evolutionSummary = new QLabel();
+    evolutionSummary->setText(QString("Total: %1 contrats").arg(evolutionData.size()));
+    evolutionSummary->setStyleSheet("font: 10pt 'Arial'; color: #555; padding: 5px;");
+    evolutionLayout->addWidget(evolutionSummary);
+
+    chartsLayout->addWidget(evolutionBox);
+
+    // === GRAPHIQUE 2: Budgets par Catégorie ===
     QGroupBox *budgetBox = new QGroupBox("💰 Budgets par Catégorie");
+    budgetBox->setStyleSheet("QGroupBox { font: bold 14pt 'Arial'; color: #7D4FEE; }");
     QVBoxLayout *budgetLayout = new QVBoxLayout(budgetBox);
-    creerCourbeBudgets(budgetLayout);
-    gridLayout->addWidget(budgetBox, 0, 1);
 
-    // Graphique 3: Répartition par catégorie
-    QGroupBox *categorieBox = new QGroupBox("📂 Répartition par Catégorie");
-    QVBoxLayout *categorieLayout = new QVBoxLayout(categorieBox);
-    creerGraphiqueCategories(categorieLayout);
-    gridLayout->addWidget(categorieBox, 1, 0);
+    QVector<QPointF> budgetData;
+    QStringList categories;
+    Sponsor::getDonneesBudgetParCategorie(budgetData, categories);
 
-    // Graphique 4: Durée des contrats
-    QGroupBox *dureeBox = new QGroupBox("⏱️ Durée des Contrats");
-    QVBoxLayout *dureeLayout = new QVBoxLayout(dureeBox);
-    creerGraphiqueDureeContrats(dureeLayout);
-    gridLayout->addWidget(dureeBox, 1, 1);
-
-    mainLayout->addLayout(gridLayout);
-
-    // Statistiques résumées
-    QGroupBox *resumeBox = new QGroupBox("📊 Résumé des Statistiques");
-    resumeBox->setStyleSheet("QGroupBox { background: rgba(255, 255, 255, 0.9); }");
-    QHBoxLayout *resumeLayout = new QHBoxLayout(resumeBox);
-
-    QSqlQuery resumeQuery;
-    resumeQuery.exec("SELECT COUNT(*), SUM(BUDGET), AVG(BUDGET) FROM sponsor");
-
-    QString resumeText;
-    if (resumeQuery.next()) {
-        int totalSponsors = resumeQuery.value(0).toInt();
-        double totalBudget = resumeQuery.value(1).toDouble();
-        double avgBudget = resumeQuery.value(2).toDouble();
-
-        resumeText = QString(
-                         "🏢 <b>Total Sponsors:</b> %1\n\n"
-                         "💵 <b>Budget Total:</b> %2 €\n\n"
-                         "📈 <b>Budget Moyen:</b> %3 €\n\n"
-                         "🎯 <b>Analyse:</b> Performance %4"
-                         )
-                         .arg(totalSponsors)
-                         .arg(QString::number(totalBudget, 'f', 0))
-                         .arg(QString::number(avgBudget, 'f', 0))
-                         .arg(totalSponsors > 10 ? "📈 Excellente" : totalSponsors > 5 ? "✅ Bonne" : "⚠️ À améliorer");
+    // Calcul du total des budgets
+    double totalBudget = 0;
+    for (const QPointF &point : budgetData) {
+        totalBudget += point.y();
     }
 
-    QLabel *resumeLabel = new QLabel(resumeText);
-    resumeLabel->setStyleSheet("font: 12pt 'Arial'; color: #333; padding: 15px; line-height: 1.8;");
-    resumeLabel->setAlignment(Qt::AlignCenter);
-    resumeLayout->addWidget(resumeLabel);
+    CurveWidget *budgetChart = new CurveWidget();
+    budgetChart->setData(budgetData, "Budget (€)", Qt::blue);
+    budgetLayout->addWidget(budgetChart);
 
-    mainLayout->addWidget(resumeBox);
+    // Légende des catégories
+    QLabel *budgetLegend = new QLabel();
+    QString legendText = "<b>Légende:</b><br>";
+    for (int i = 0; i < qMin(categories.size(), 5); ++i) {
+        legendText += QString("%1: %2€<br>").arg(categories[i]).arg(budgetData[i].y());
+    }
+    if (categories.size() > 5) {
+        legendText += "...";
+    }
+    budgetLegend->setText(legendText);
+    budgetLegend->setStyleSheet("font: 10pt 'Arial'; color: #555; padding: 5px;");
+    budgetLayout->addWidget(budgetLegend);
 
-    // Boutons
-    QHBoxLayout *buttonLayout = new QHBoxLayout();
+    chartsLayout->addWidget(budgetBox);
+
+    mainLayout->addLayout(chartsLayout);
+
+    // === STATISTIQUES GÉNÉRALES ===
+    QGroupBox *statsBox = new QGroupBox("📊 Résumé Statistique");
+    statsBox->setStyleSheet("QGroupBox { font: bold 14pt 'Arial'; color: #7D4FEE; }");
+    QGridLayout *statsLayout = new QGridLayout(statsBox);
+
+    int totalSponsors;
+    double totalBudgetAll, avgBudget;
+    Sponsor::getResumeStatistiques(totalSponsors, totalBudgetAll, avgBudget);
+
+    statsLayout->addWidget(new QLabel("Total Sponsors:"), 0, 0);
+    statsLayout->addWidget(new QLabel(QString::number(totalSponsors)), 0, 1);
+
+    statsLayout->addWidget(new QLabel("Budget Total:"), 1, 0);
+    statsLayout->addWidget(new QLabel(QString("%1 €").arg(totalBudgetAll, 0, 'f', 2)), 1, 1);
+
+    statsLayout->addWidget(new QLabel("Budget Moyen:"), 2, 0);
+    statsLayout->addWidget(new QLabel(QString("%1 €").arg(avgBudget, 0, 'f', 2)), 2, 1);
+
+    statsLayout->addWidget(new QLabel("Contrats Actifs:"), 0, 2);
+    statsLayout->addWidget(new QLabel(QString::number(evolutionData.size())), 0, 3);
+
+    statsLayout->addWidget(new QLabel("Catégories:"), 1, 2);
+    statsLayout->addWidget(new QLabel(QString::number(categories.size())), 1, 3);
+
+    mainLayout->addWidget(statsBox);
+
+    // Bouton Fermer
     QPushButton *closeButton = new QPushButton("Fermer");
-    QPushButton *exportButton = new QPushButton("Exporter en PDF");
+    closeButton->setStyleSheet("QPushButton { background-color: #7D4FEE; color: white; padding: 10px; border-radius: 5px; }");
+    connect(closeButton, &QPushButton::clicked, dialog, &QDialog::accept);
+    mainLayout->addWidget(closeButton, 0, Qt::AlignCenter);
 
-    closeButton->setStyleSheet(R"(
-        QPushButton {
-            background-color: #FF6B6B;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 12px 25px;
-            font: bold 12pt "Arial";
-            min-width: 120px;
-        }
-        QPushButton:hover {
-            background-color: #FF5252;
-        }
-    )");
-
-    exportButton->setStyleSheet(R"(
-        QPushButton {
-            background-color: #4ECDC4;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 12px 25px;
-            font: bold 12pt "Arial";
-            min-width: 120px;
-        }
-        QPushButton:hover {
-            background-color: #26A69A;
-        }
-    )");
-
-    buttonLayout->addWidget(exportButton);
-    buttonLayout->addWidget(closeButton);
-    buttonLayout->setAlignment(Qt::AlignCenter);
-    buttonLayout->setSpacing(20);
-    mainLayout->addLayout(buttonLayout);
-
-    // Connexions
-    connect(closeButton, &QPushButton::clicked, statsDialog, &QDialog::accept);
-    connect(exportButton, &QPushButton::clicked, this, [this]() {
-        exporterStatistiquesPDF();
-    });
-
-    statsDialog->exec();
-    delete statsDialog;
+    dialog->exec();
 }
 
-void MainWindow::creerCourbeEvolutionContrats(QVBoxLayout *layout)
-{
-    // Récupérer les données d'évolution mensuelle
-    QSqlQuery query;
-    query.exec(R"(
-        SELECT strftime('%Y-%m', DEBUTCONTRAT) as mois, COUNT(*)
-        FROM sponsor
-        WHERE DEBUTCONTRAT IS NOT NULL
-        GROUP BY strftime('%Y-%m', DEBUTCONTRAT)
-        ORDER BY mois
-    )");
+void MainWindow::creerCourbeEvolutionContrats(QVBoxLayout *l) {
+    CurveWidget *w = new CurveWidget();
+    w->setData(Sponsor::getDonneesEvolutionContrats(), "Contrats", Qt::red);
+    l->addWidget(w);
+}
 
+void MainWindow::creerCourbeBudgets(QVBoxLayout *l) {
     QVector<QPointF> data;
-    int pointIndex = 0;
-
-    while (query.next()) {
-        int count = query.value(1).toInt();
-        data.append(QPointF(pointIndex, count));
-        pointIndex++;
-    }
-
-    // Créer le widget de courbe
-    CurveWidget *curveWidget = new CurveWidget();
-    curveWidget->setData(data, "Évolution des Nouveaux Contrats", QColor(255, 107, 107));
-    layout->addWidget(curveWidget);
-
-    // Légende
-    if (!data.isEmpty()) {
-        QLabel *legendLabel = new QLabel("📈 Courbe montrant l'évolution du nombre de contrats par mois");
-        legendLabel->setStyleSheet("font: 9pt 'Arial'; color: #666; padding: 5px;");
-        legendLabel->setAlignment(Qt::AlignCenter);
-        layout->addWidget(legendLabel);
-    } else {
-        QLabel *noDataLabel = new QLabel("Aucune donnée d'évolution disponible");
-        noDataLabel->setStyleSheet("font: 12pt 'Arial'; color: #666; padding: 20px;");
-        noDataLabel->setAlignment(Qt::AlignCenter);
-        layout->addWidget(noDataLabel);
-    }
+    QStringList labels;
+    Sponsor::getDonneesBudgetParCategorie(data, labels);
+    CurveWidget *w = new CurveWidget();
+    w->setData(data, "Budget", Qt::blue);
+    l->addWidget(w);
 }
 
-void MainWindow::creerCourbeBudgets(QVBoxLayout *layout)
-{
-    // Récupérer les données de budget par catégorie
-    QSqlQuery query;
-    query.exec("SELECT CATEGORIE, SUM(BUDGET) FROM sponsor GROUP BY CATEGORIE ORDER BY SUM(BUDGET) DESC");
-
+void MainWindow::creerGraphiqueCategories(QVBoxLayout *l) {
     QVector<QPointF> data;
-    int pointIndex = 0;
-    QStringList categories;
-
-    while (query.next()) {
-        QString categorie = query.value(0).toString();
-        double budget = query.value(1).toDouble();
-        data.append(QPointF(pointIndex, budget));
-        categories << categorie;
-        pointIndex++;
-    }
-
-    // Créer le widget de courbe
-    CurveWidget *curveWidget = new CurveWidget();
-    curveWidget->setData(data, "Budgets par Catégorie", QColor(125, 79, 238));
-    layout->addWidget(curveWidget);
-
-    // Légende avec les catégories
-    if (!data.isEmpty()) {
-        QString legendText = "🏷️ Catégories: ";
-        for (int i = 0; i < qMin(categories.size(), 3); ++i) {
-            legendText += categories[i] + (i < qMin(categories.size(), 3) - 1 ? ", " : "");
-        }
-        if (categories.size() > 3) {
-            legendText += " ...";
-        }
-
-        QLabel *legendLabel = new QLabel(legendText);
-        legendLabel->setStyleSheet("font: 9pt 'Arial'; color: #666; padding: 5px;");
-        legendLabel->setAlignment(Qt::AlignCenter);
-        layout->addWidget(legendLabel);
-    } else {
-        QLabel *noDataLabel = new QLabel("Aucune donnée de budget disponible");
-        noDataLabel->setStyleSheet("font: 12pt 'Arial'; color: #666; padding: 20px;");
-        noDataLabel->setAlignment(Qt::AlignCenter);
-        layout->addWidget(noDataLabel);
-    }
+    QStringList labels;
+    Sponsor::getDonneesRepartitionCategories(data, labels);
+    CurveWidget *w = new CurveWidget();
+    w->setData(data, "Catégories", Qt::green);
+    l->addWidget(w);
 }
 
-void MainWindow::creerGraphiqueCategories(QVBoxLayout *layout)
-{
-    // Récupérer les données de répartition
-    QSqlQuery query;
-    query.exec("SELECT CATEGORIE, COUNT(*) FROM sponsor GROUP BY CATEGORIE ORDER BY COUNT(*) DESC");
-
+void MainWindow::creerGraphiqueDureeContrats(QVBoxLayout *l) {
     QVector<QPointF> data;
-    int pointIndex = 0;
-    QStringList categories;
-
-    while (query.next()) {
-        QString categorie = query.value(0).toString();
-        int count = query.value(1).toInt();
-        data.append(QPointF(pointIndex, count));
-        categories << categorie;
-        pointIndex++;
-    }
-
-    // Créer le widget de courbe
-    CurveWidget *curveWidget = new CurveWidget();
-    curveWidget->setData(data, "Répartition par Catégorie", QColor(78, 205, 196));
-    layout->addWidget(curveWidget);
-
-    // Légende
-    if (!data.isEmpty()) {
-        int total = 0;
-        for (const QPointF &point : data) {
-            total += point.y();
-        }
-
-        QString legendText = QString("📊 Total: %1 sponsors - %2 catégories")
-                                 .arg(total)
-                                 .arg(categories.size());
-
-        QLabel *legendLabel = new QLabel(legendText);
-        legendLabel->setStyleSheet("font: 9pt 'Arial'; color: #666; padding: 5px;");
-        legendLabel->setAlignment(Qt::AlignCenter);
-        layout->addWidget(legendLabel);
-    } else {
-        QLabel *noDataLabel = new QLabel("Aucune donnée de catégorie disponible");
-        noDataLabel->setStyleSheet("font: 12pt 'Arial'; color: #666; padding: 20px;");
-        noDataLabel->setAlignment(Qt::AlignCenter);
-        layout->addWidget(noDataLabel);
-    }
+    Sponsor::getDonneesDureeContrats(data);
+    CurveWidget *w = new CurveWidget();
+    w->setData(data, "Durée (jours)", Qt::yellow);
+    l->addWidget(w);
 }
 
-void MainWindow::creerGraphiqueDureeContrats(QVBoxLayout *layout)
-{
-    // Récupérer les données de durée
-    QSqlQuery query;
-    query.exec(R"(
-        SELECT CATEGORIE,
-               AVG(julianday(FINCONTRAT) - julianday(DEBUTCONTRAT)) as duree_moyenne
-        FROM sponsor
-        WHERE DEBUTCONTRAT IS NOT NULL AND FINCONTRAT IS NOT NULL
-        GROUP BY CATEGORIE
-        ORDER BY duree_moyenne DESC
-    )");
+// ==================== CHATBOT & SMS ====================
+void MainWindow::on_pushButton_25_clicked() {
+    QString q = ui->lineEdit_2->text().trimmed();
+    if(q.isEmpty()) return;
 
-    QVector<QPointF> data;
-    int pointIndex = 0;
-
-    while (query.next()) {
-        double duree = query.value(1).toDouble();
-        data.append(QPointF(pointIndex, duree));
-        pointIndex++;
-    }
-
-    // Créer le widget de courbe
-    CurveWidget *curveWidget = new CurveWidget();
-    curveWidget->setData(data, "Durée Moyenne des Contrats (jours)", QColor(255, 167, 38));
-    layout->addWidget(curveWidget);
-
-    // Légende
-    if (!data.isEmpty()) {
-        double dureeMoyenneGlobale = 0;
-        for (const QPointF &point : data) {
-            dureeMoyenneGlobale += point.y();
-        }
-        dureeMoyenneGlobale /= data.size();
-
-        QString legendText = QString("⏱️ Durée moyenne globale: %1 jours")
-                                 .arg(QString::number(dureeMoyenneGlobale, 'f', 0));
-
-        QLabel *legendLabel = new QLabel(legendText);
-        legendLabel->setStyleSheet("font: 9pt 'Arial'; color: #666; padding: 5px;");
-        legendLabel->setAlignment(Qt::AlignCenter);
-        layout->addWidget(legendLabel);
-    } else {
-        QLabel *noDataLabel = new QLabel("Aucune donnée de durée disponible");
-        noDataLabel->setStyleSheet("font: 12pt 'Arial'; color: #666; padding: 20px;");
-        noDataLabel->setAlignment(Qt::AlignCenter);
-        layout->addWidget(noDataLabel);
-    }
+    QString reponse = chatbot->obtenirReponse(q, idSponsorSelectionne);
+    ui->lineEdit->setText("👤 " + q + "\n🤖 " + reponse);
+    ui->lineEdit_2->clear();
 }
 
-void MainWindow::exporterStatistiquesPDF()
-{
-    QString fileName = QFileDialog::getSaveFileName(this,
-                                                    "Exporter les Statistiques",
-                                                    QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/statistiques_sponsors.html",
-                                                    "Fichiers HTML (*.html)");
+void MainWindow::on_pushButton_26_clicked() {
+    QString numero = ui->lineEdit_3->text().trimmed();
+    QString message = ui->lineEdit_4->text().trimmed();
 
-    if (!fileName.isEmpty()) {
-        Sponsor::exporterPDF(fileName);
-        QMessageBox::information(this, "Succès",
-                                 "✅ Statistiques exportées avec succès !\n\nFichier: " + fileName);
-    }
-}
-
-// ==================== SPONSORS - EXPORT PDF PAR CONTRAT ====================
-
-void MainWindow::exporterSponsorsPDFParContrat()
-{
-    qDebug() << "=== EXPORT PDF SPONSORS PAR CONTRAT ===";
-
-    // Dialogue pour choisir le type de contrat
-    QDialog dialog(this);
-    dialog.setWindowTitle("Exporter les sponsors par type de contrat");
-    dialog.setFixedSize(400, 300);
-
-    QVBoxLayout *layout = new QVBoxLayout(&dialog);
-
-    QLabel *label = new QLabel("Choisissez le type de contrat à exporter:");
-    layout->addWidget(label);
-
-    QComboBox *comboContrat = new QComboBox();
-    comboContrat->addItem("Tous les sponsors", "tous");
-    comboContrat->addItem("Contrats actifs", "actifs");
-    comboContrat->addItem("Contrats expirés", "expires");
-    comboContrat->addItem("Contrats bientôt expirés (30 jours)", "bientot_expires");
-    comboContrat->addItem("Contrats futurs", "futurs");
-    layout->addWidget(comboContrat);
-
-    // Informations sur les filtres
-    QLabel *infoLabel = new QLabel(
-        "📋 Filtres disponibles:\n"
-        "• Actifs: Contrats en cours\n"
-        "• Expirés: Contrats terminés\n"
-        "• Bientôt expirés: Dans les 30 jours\n"
-        "• Futurs: Pas encore commencés"
-        );
-    infoLabel->setWordWrap(true);
-    infoLabel->setStyleSheet("QLabel { background-color: #f0f0f0; padding: 10px; border-radius: 5px; }");
-    layout->addWidget(infoLabel);
-
-    QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-    layout->addWidget(buttons);
-
-    connect(buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
-    connect(buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
-
-    if (dialog.exec() != QDialog::Accepted) {
+    if(numero.isEmpty() || message.isEmpty()) {
+        QMessageBox::warning(this, "Erreur", "❌ Numéro et message requis.");
         return;
     }
 
-    QString filtreContrat = comboContrat->currentData().toString();
-    QString nomFiltre = comboContrat->currentText();
-
-    // Choisir le fichier de destination
-    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-    QString defaultFileName = documentsPath + "/Sponsors_" + nomFiltre.replace(" ", "_") + "_" +
-                              QDate::currentDate().toString("yyyy-MM-dd") + ".html";
-
-    QString nomFichier = QFileDialog::getSaveFileName(
-        this,
-        "Enregistrer la liste des sponsors - " + nomFiltre,
-        defaultFileName,
-        "Fichiers HTML (*.html);;Tous les fichiers (*)"
-        );
-
-    if (nomFichier.isEmpty()) {
-        return;
-    }
-
-    if (!nomFichier.endsWith(".html", Qt::CaseInsensitive)) {
-        nomFichier += ".html";
-    }
-
-    qDebug() << "Export avec filtre:" << filtreContrat << "- Fichier:" << nomFichier;
-
-    if (Sponsor::exporterPDFParContrat(nomFichier, filtreContrat)) {
-        QMessageBox::information(this, "Succès",
-                                 QString("✅ Liste des sponsors exportée avec succès !\n\n"
-                                         "Filtre: %1\n"
-                                         "Fichier: %2\n\n"
-                                         "Le fichier HTML peut être imprimé en PDF depuis votre navigateur.")
-                                     .arg(nomFiltre)
-                                     .arg(nomFichier));
-
-        // Demander si on veut ouvrir le fichier
-        QMessageBox::StandardButton ouvrir = QMessageBox::question(
-            this,
-            "Ouvrir le fichier",
-            "Voulez-vous ouvrir le fichier HTML ?",
-            QMessageBox::Yes | QMessageBox::No
-            );
-
-        if (ouvrir == QMessageBox::Yes) {
-            QDesktopServices::openUrl(QUrl::fromLocalFile(nomFichier));
-        }
+    if(smsManager->envoyerSMS(numero, message)) {
+        QMessageBox::information(this, "Succès", "✅ SMS envoyé !");
+        ui->lineEdit_3->clear();
+        ui->lineEdit_4->clear();
     } else {
-        QMessageBox::critical(this, "Erreur", "❌ Erreur lors de l'export !");
+        QMessageBox::warning(this, "Erreur", "❌ Erreur lors de l'envoi du SMS.");
     }
 }
 
-// ==================== SPONSORS - TRI ====================
+void MainWindow::on_btnConfigSMS_clicked() {
+    QMessageBox::information(this, "Info", "API SMS chargée");
+}
 
-void MainWindow::trierSponsorsParDate()
-{
-    qDebug() << "=== TRI SPONSORS PAR DATE ===";
+void MainWindow::on_ConfigurerGemini_clicked() {
+    QDialog d(this);
+    d.setWindowTitle("Configuration Gemini");
+    QVBoxLayout *l = new QVBoxLayout(&d);
+    QLineEdit *k = new QLineEdit(&d);
+    k->setPlaceholderText("Entrez votre clé API Gemini...");
 
-    QSqlQuery query;
-    QString sql = "SELECT IDSPONSOR, NOM, PRENOM, CATEGORIE, EMAIL, DEBUTCONTRAT, FINCONTRAT, BUDGET FROM sponsor ORDER BY DEBUTCONTRAT DESC";
+    l->addWidget(new QLabel("Clé API:"));
+    l->addWidget(k);
 
-    if (!query.exec(sql)) {
-        qDebug() << "❌ ERREUR SQL:" << query.lastError().text();
-        QMessageBox::critical(this, "Erreur", "❌ Impossible de trier:\n" + query.lastError().text());
+    QDialogButtonBox *b = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    l->addWidget(b);
+
+    connect(b, &QDialogButtonBox::accepted, &d, &QDialog::accept);
+    connect(b, &QDialogButtonBox::rejected, &d, &QDialog::reject);
+
+    if(d.exec() == QDialog::Accepted) {
+        if(!k->text().trimmed().isEmpty()) {
+            chatbot->configurerAPI(k->text());
+            QMessageBox::information(this, "Succès", "✅ Clé API configurée !");
+        }
+    }
+}
+
+// ==================== OUTILS SPONSORS ====================
+void MainWindow::exporterSponsorsPDFParContrat() {
+    QStringList categories = {"Tous", "Technologie", "Alimentation", "Mode", "Automobile", "Divertissement"};
+
+    bool ok;
+    QString filtre = QInputDialog::getItem(this,
+                                           "Filtrer les sponsors",
+                                           "Choisissez une catégorie :",
+                                           categories,
+                                           0, false, &ok);
+
+    if (!ok) {
         return;
     }
 
+    if (filtre == "Tous") {
+        filtre = "";
+    }
+
+    QString defaultFileName = "Sponsors_" + QDate::currentDate().toString("yyyy-MM-dd") + ".html";
+    QString filePath = QFileDialog::getSaveFileName(this,
+                                                    "Exporter les sponsors en HTML",
+                                                    QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" + defaultFileName,
+                                                    "Fichiers HTML (*.html *.htm)");
+
+    if (filePath.isEmpty()) {
+        return;
+    }
+
+    if (!filePath.endsWith(".html", Qt::CaseInsensitive) && !filePath.endsWith(".htm", Qt::CaseInsensitive)) {
+        filePath += ".html";
+    }
+
+    if (Sponsor::exporterPDFParContrat(filePath, filtre)) {
+        QMessageBox::information(this,
+                                 "Succès",
+                                 "📄 Fichier HTML généré avec succès !\n\n"
+                                 "Le fichier s'ouvre dans votre navigateur.\n\n"
+                                 "Pour créer un PDF :\n"
+                                 "1. Cliquez sur le bouton 'Imprimer' dans la page\n"
+                                 "2. Choisissez 'Enregistrer au format PDF'\n"
+                                 "3. Sélectionnez l'orientation 'Paysage'\n"
+                                 "4. Enregistrez le fichier PDF\n\n"
+                                 "Fichier : " + filePath);
+
+        HistoryManager::ajouterLog("EXPORT_HTML",
+                                   QString("Export sponsors HTML - Catégorie: %1 - Fichier: %2")
+                                       .arg(filtre.isEmpty() ? "Tous" : filtre)
+                                       .arg(QFileInfo(filePath).fileName()));
+
+        // Ouvrir le fichier dans le navigateur par défaut
+        QDesktopServices::openUrl(QUrl::fromLocalFile(filePath));
+    } else {
+        QMessageBox::critical(this,
+                              "Erreur",
+                              "Échec de la génération du fichier HTML.\n"
+                              "Vérifiez les permissions d'écriture dans le dossier cible.");
+    }
+}
+
+void MainWindow::trierSponsorsParDate() {
+    QSqlQueryModel *model = Sponsor().trierParDate();
     ui->sponsorTable_9->setRowCount(0);
-    int row = 0;
-
-    while (query.next()) {
-        ui->sponsorTable_9->insertRow(row);
-        for (int col = 0; col < 8; col++) {
-            QTableWidgetItem *item = new QTableWidgetItem(query.value(col).toString());
-            item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-            ui->sponsorTable_9->setItem(row, col, item);
+    if (model) {
+        for(int row=0; row < model->rowCount(); ++row) {
+            ui->sponsorTable_9->insertRow(row);
+            for(int col=0; col < 8; ++col) {
+                QTableWidgetItem *item = new QTableWidgetItem(model->data(model->index(row, col)).toString());
+                item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+                ui->sponsorTable_9->setItem(row, col, item);
+            }
         }
-        row++;
-    }
-
-    qDebug() << "✅ Sponsors triés par date:" << row << "lignes";
-    QMessageBox::information(this, "Succès", "✅ Sponsors triés par date (plus récents en premier)");
-}
-
-void MainWindow::on_pushButton_37_clicked() // TAB ADD - TRI PAR DATE
-{
-    trierSponsorsParDate();
-}
-
-void MainWindow::on_pushButton_41_clicked() // TAB MODIFY - TRI PAR DATE
-{
-    trierSponsorsParDate();
-}
-
-// ==================== SPONSORS - EXPORT PDF ====================
-
-void MainWindow::on_pushButton_35_clicked() // TAB ADD - EXPORT PDF
-{
-    exporterSponsorsPDFParContrat();
-}
-
-void MainWindow::on_pushButton_39_clicked() // TAB MODIFY - EXPORT PDF
-{
-    exporterSponsorsPDFParContrat();
-}
-
-// ==================== FONCTIONS MANQUANTES ====================
-
-void MainWindow::on_searchEdit_7_textChanged(const QString &text)
-{
-    QTimer::singleShot(300, this, [this, text]() {
-        rechercherSponsors(text);
-    });
-}
-
-void MainWindow::on_searchEdit_8_textChanged(const QString &text)
-{
-    QTimer::singleShot(300, this, [this, text]() {
-        rechercherSponsors(text);
-    });
-}
-
-void MainWindow::on_pushButton_24_clicked()
-{
-    qDebug() << "=== RECHERCHE SPONSOR (BOUTON pushButton_24) ===";
-
-    QString recherche = ui->searchEdit_7->text().trimmed();
-
-    if (recherche.isEmpty()) {
-        QMessageBox::information(this, "Recherche", "⚠️ Veuillez entrer un nom à rechercher !");
-        ui->searchEdit_7->setFocus();
-        return;
-    }
-
-    qDebug() << "Recherche sponsor:" << recherche;
-
-    Sponsor sponsor;
-    QSqlQueryModel *model = sponsor.rechercherParNom(recherche);
-
-    if (!model) {
-        QMessageBox::critical(this, "Erreur", "❌ Erreur lors de la recherche !");
-        return;
-    }
-
-    ui->sponsorTable_9->setRowCount(0);
-
-    if (model->rowCount() == 0) {
-        QMessageBox::information(this, "Recherche",
-                                 QString("🔍 Aucun sponsor trouvé pour : \"%1\"").arg(recherche));
         delete model;
-        return;
     }
-
-    for (int row = 0; row < model->rowCount(); ++row) {
-        ui->sponsorTable_9->insertRow(row);
-        for (int col = 0; col < 8; ++col) {
-            QTableWidgetItem *item = new QTableWidgetItem(model->data(model->index(row, col)).toString());
-            item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-            ui->sponsorTable_9->setItem(row, col, item);
-        }
-    }
-
-    QMessageBox::information(this, "Recherche",
-                             QString("✅ %1 sponsor(s) trouvé(s) pour : %2")
-                                 .arg(model->rowCount())
-                                 .arg(recherche));
-
-    delete model;
-    qDebug() << "✅ Recherche terminée:" << model->rowCount() << "résultats";
+    QMessageBox::information(this, "Tri", "✅ Sponsors triés par date !");
 }
 
-// ==================== MÉTHODES AUXILIAIRES SPONSORS ====================
+void MainWindow::on_pushButton_35_clicked() {
+    exporterSponsorsPDFParContrat();
+}
 
-void MainWindow::rechercherSponsors(const QString &recherche)
-{
-    qDebug() << "=== RECHERCHE SPONSOR: " << recherche << " ===";
+void MainWindow::on_pushButton_37_clicked() {
+    trierSponsorsParDate();
+}
 
-    if (recherche.trimmed().isEmpty()) {
-        afficherSponsors();
-        return;
-    }
+void MainWindow::on_pushButton_39_clicked() {
+    exporterSponsorsPDFParContrat();
+}
 
-    QSqlQuery query;
-    query.prepare("SELECT IDSPONSOR, NOM, PRENOM, CATEGORIE, EMAIL, DEBUTCONTRAT, FINCONTRAT, BUDGET "
-                  "FROM sponsor "
-                  "WHERE UPPER(NOM) LIKE UPPER(:search) OR UPPER(PRENOM) LIKE UPPER(:search) OR UPPER(CATEGORIE) LIKE UPPER(:search)");
-    query.bindValue(":search", "%" + recherche.trimmed() + "%");
+void MainWindow::on_pushButton_41_clicked() {
+    trierSponsorsParDate();
+}
 
-    if (!query.exec()) {
-        qDebug() << "❌ Erreur recherche:" << query.lastError().text();
-        QMessageBox::critical(this, "Erreur", "❌ Erreur lors de la recherche :\n" + query.lastError().text());
-        return;
-    }
-
+void MainWindow::rechercherSponsors(const QString &t) {
+    Sponsor s;
+    QSqlQueryModel *m = t.isEmpty() ? s.afficher() : s.rechercherParNom(t);
     ui->sponsorTable_9->setRowCount(0);
-    int row = 0;
+    if(m) {
+        for(int r=0; r<m->rowCount(); ++r) {
+            ui->sponsorTable_9->insertRow(r);
+            for(int c=0; c<8; ++c) {
+                QTableWidgetItem *item = new QTableWidgetItem(m->data(m->index(r, c)).toString());
+                item->setFlags(item->flags() & ~Qt::ItemIsEditable);
 
-    while (query.next()) {
-        ui->sponsorTable_9->insertRow(row);
-        for (int col = 0; col < 8; col++) {
-            QTableWidgetItem *item = new QTableWidgetItem(query.value(col).toString());
-            item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-            ui->sponsorTable_9->setItem(row, col, item);
+                // Surligner les résultats de recherche
+                if (!t.isEmpty() && item->text().contains(t, Qt::CaseInsensitive)) {
+                    item->setBackground(QColor(255, 255, 200));
+                }
+
+                ui->sponsorTable_9->setItem(r, c, item);
+            }
         }
-        row++;
-    }
-
-    qDebug() << "✅ Résultats trouvés:" << row;
-
-    if (row == 0) {
-        statusBar()->showMessage(QString("Aucun sponsor trouvé pour \"%1\"").arg(recherche), 3000);
-    } else {
-        statusBar()->showMessage(QString("%1 sponsor(s) trouvé(s)").arg(row), 3000);
+        delete m;
     }
 }
 
-// ==================== MÉTHODES AUXILIAIRES ====================
+void MainWindow::on_searchEdit_7_textChanged(const QString &t) {
+    rechercherSponsors(t);
+}
 
-void MainWindow::clearEmployeFields()
-{
+void MainWindow::on_searchEdit_8_textChanged(const QString &t) {
+    rechercherSponsors(t);
+}
+
+void MainWindow::on_pushButton_24_clicked() {
+    rechercherSponsors(ui->searchEdit_7->text());
+}
+
+void MainWindow::clearEmployeFields() {
+    ui->lineEdit_12->clear();
     ui->lineEdit_13->clear();
     ui->lineEdit_14->clear();
+    ui->lineEdit_15->clear();
+    ui->lineEdit_16->clear();
     ui->lineEdit_17->clear();
     ui->lineEdit_18->clear();
     ui->lineEdit_19->clear();
     ui->lineEdit_20->clear();
+    ui->lineEdit_21->clear();
 }
 
 void MainWindow::clearSponsorFields()
@@ -1630,17 +1815,460 @@ void MainWindow::clearSponsorFields()
     ui->prenom->clear();
     ui->email->clear();
     ui->categorie->clear();
-    ui->budget2->clear();
+    ui->budget->clear();
+
+    // Réinitialiser les dates
+    ui->debut->setDate(QDate::currentDate());
+    ui->fin->setDate(QDate::currentDate().addMonths(1));
+
+    // Effacer les styles de validation
+    clearSponsorValidationErrors();
 }
 
-void MainWindow::on_lineEdit_textEdited(const QString &arg1)
+void MainWindow::on_lineEdit_textEdited(const QString &) {}
+void MainWindow::on_lineEdit_cursorPositionChanged(int, int) {}
+
+// ==================== FONCTIONS ARDUINO ====================
+
+void MainWindow::onCodeReceived(const QString &code)
 {
+    QString cleanCode = code.trimmed();
+    qDebug() << "========================================";
+    qDebug() << "🔟 CODE BADGE REÇU: \"" << cleanCode << "\"";
+    qDebug() << "========================================";
 
+    // Vérifier que le code a 4 chiffres
+    QRegularExpression regex("^\\d{4}$");
+    if (!regex.match(cleanCode).hasMatch()) {
+        qDebug() << "❌ FORMAT INVALIDE: Le code doit contenir exactement 4 chiffres";
+        QMessageBox::warning(this, "Format invalide",
+                             "Le code doit contenir exactement 4 chiffres.\nCode reçu: " + cleanCode);
+
+        if (serialManager) {
+            serialManager->refuserAcces();
+        }
+        return;
+    }
+
+    qDebug() << "✅ Format valide (4 chiffres)";
+
+    // Rechercher l'employé avec ce code
+    QSqlQuery query;
+    query.prepare("SELECT IDEMPLOYE, PRENOM FROM empolye WHERE CODE_BADGE = :code");
+    query.bindValue(":code", cleanCode);
+
+    if (query.exec() && query.next()) {
+        int idEmploye = query.value(0).toInt();
+        QString nom = query.value(1).toString();
+        QDateTime heureActuelle = QDateTime::currentDateTime();
+
+        qDebug() << "✅✅✅ EMPLOYÉ TROUVÉ ✅✅✅";
+        qDebug() << "   ID:" << idEmploye;
+        qDebug() << "   Nom:" << nom;
+        qDebug() << "   Heure:" << heureActuelle.toString("dd/MM/yyyy HH:mm:ss");
+
+        // Enregistrer l'accès dans l'historique
+        Employes::enregistrerAcces(idEmploye, nom, heureActuelle);
+
+        // Autoriser l'accès sur Arduino
+        if (serialManager) {
+            serialManager->autoriserAcces(nom);
+        }
+
+        // 🎯 AFFICHAGE AMÉLIORÉ AVEC NOM ET HEURE
+        QString messageAcces = QString("✅ Accès Autorisé\n\n"
+                                       "👤 Employé: %1\n"
+                                       "🔑 Code badge: %2\n"
+                                       "🕒 Heure: %3\n"
+                                       "📅 Date: %4")
+                                   .arg(nom)
+                                   .arg(cleanCode)
+                                   .arg(heureActuelle.toString("HH:mm:ss"))
+                                   .arg(heureActuelle.toString("dd/MM/yyyy"));
+
+        // Message Box avec informations complètes
+        QMessageBox msgBox(this);
+        msgBox.setWindowTitle("Accès Autorisé");
+        msgBox.setText(messageAcces);
+        msgBox.setIcon(QMessageBox::Information);
+        msgBox.setStyleSheet("QLabel{min-width: 300px; font-size: 12pt;}");
+        msgBox.exec();
+
+        // Afficher dans la barre de statut
+        ui->statusbar->showMessage(
+            QString("✅ %1 - Accès autorisé à %2")
+                .arg(nom)
+                .arg(heureActuelle.toString("HH:mm:ss")),
+            10000); // Affiche pendant 10 secondes
+
+    } else {
+        qDebug() << "❌❌❌ CODE NON TROUVÉ DANS LA BASE DE DONNÉES ❌❌❌";
+        qDebug() << "   Code:" << cleanCode;
+
+        // Afficher tous les codes disponibles pour déboguer
+        QSqlQuery debugQuery("SELECT PRENOM, CODE_BADGE FROM empolye WHERE CODE_BADGE IS NOT NULL AND CODE_BADGE != ''");
+        qDebug() << "   Codes disponibles dans la BD:";
+        bool hasCodes = false;
+        while (debugQuery.next()) {
+            qDebug() << "      -" << debugQuery.value(0).toString() << ":" << debugQuery.value(1).toString();
+            hasCodes = true;
+        }
+        if (!hasCodes) {
+            qDebug() << "      (Aucun code badge assigné)";
+        }
+
+        if (serialManager) {
+            serialManager->refuserAcces();
+        }
+
+        QDateTime heureRefus = QDateTime::currentDateTime();
+
+        QString messageRefus = QString("❌ Accès Refusé\n\n"
+                                       "🔑 Code: %1\n"
+                                       "⚠️ Code non reconnu\n"
+                                       "🕒 Heure: %2\n"
+                                       "📅 Date: %3\n\n"
+                                       "Veuillez contacter l'administration.")
+                                   .arg(cleanCode)
+                                   .arg(heureRefus.toString("HH:mm:ss"))
+                                   .arg(heureRefus.toString("dd/MM/yyyy"));
+
+        QMessageBox msgBox(this);
+        msgBox.setWindowTitle("Accès Refusé");
+        msgBox.setText(messageRefus);
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setStyleSheet("QLabel{min-width: 300px; font-size: 12pt;}");
+        msgBox.exec();
+
+        ui->statusbar->showMessage(
+            QString("❌ Code %1 refusé à %2")
+                .arg(cleanCode)
+                .arg(heureRefus.toString("HH:mm:ss")),
+            10000);
+    }
+
+    qDebug() << "========================================\n";
 }
 
 
-void MainWindow::on_lineEdit_cursorPositionChanged(int arg1, int arg2)
+void MainWindow::onAccessGranted(const QString &employeName, const QDateTime &timestamp)
 {
+    qDebug() << "Accès accordé à:" << employeName << "à" << timestamp.toString("dd/MM/yyyy HH:mm:ss");
 
+    QString message = QString("✅ Porte ouverte pour %1 à %2")
+                          .arg(employeName)
+                          .arg(timestamp.toString("HH:mm:ss"));
+
+    ui->statusbar->showMessage(message, 8000);
+
+    // Optionnel: Afficher une notification visuelle supplémentaire
+    QTimer::singleShot(500, this, [this, employeName, timestamp]() {
+        // Animation ou effet visuel si nécessaire
+        qDebug() << "🚪 Porte ouverte pour" << employeName;
+    });
 }
 
+
+void MainWindow::onAccessDenied(const QString &code)
+{
+    QDateTime heureRefus = QDateTime::currentDateTime();
+
+    qDebug() << "Accès refusé pour le code:" << code << "à" << heureRefus.toString("HH:mm:ss");
+
+    QString message = QString("❌ Accès refusé - Code %1 à %2")
+                          .arg(code)
+                          .arg(heureRefus.toString("HH:mm:ss"));
+
+    ui->statusbar->showMessage(message, 8000);
+}
+
+void MainWindow::onPorteOuverte()
+{
+    qDebug() << "Porte ouverte";
+    ui->statusbar->showMessage("🚪 Porte ouverte", 5000);
+}
+
+void MainWindow::onPorteFermee()
+{
+    qDebug() << "Porte fermée";
+    ui->statusbar->showMessage("🚪 Porte fermée", 3000);
+}
+
+void MainWindow::onArduinoConnected()
+{
+    qDebug() << "Arduino connecté";
+    ui->statusbar->showMessage("✅ Arduino connecté", 5000);
+    QMessageBox::information(this, "Arduino", "✅ Arduino connecté avec succès");
+}
+
+void MainWindow::onArduinoDisconnected()
+{
+    qDebug() << "Arduino déconnecté";
+    ui->statusbar->showMessage("⚠️ Arduino déconnecté", 5000);
+    QMessageBox::warning(this, "Arduino", "⚠️ Arduino déconnecté");
+}
+
+void MainWindow::onArduinoError(const QString &message)
+{
+    qDebug() << "Erreur Arduino:" << message;
+    QMessageBox::critical(this, "Erreur Arduino", message);
+}
+
+// ==================== BOUTONS BADGE ====================
+
+void MainWindow::on_pushButton_assignBadge_clicked()
+{
+    qDebug() << "\n🎯🎯🎯 BOUTON CLIQUE! 🎯🎯🎯";
+    QMessageBox::information(this, "Test", "Le bouton fonctionne!");
+
+    // Si aucun employé sélectionné, sélectionner le premier
+    if (idEmployeSelectionne == -1) {
+        if (ui->tableWidget->rowCount() > 0) {
+            ui->tableWidget->selectRow(0);
+            QTableWidgetItem* idItem = ui->tableWidget->item(0, 0);
+            if (idItem) {
+                idEmployeSelectionne = idItem->text().toInt();
+                qDebug() << "🔄 Sélection automatique - ID:" << idEmployeSelectionne;
+            } else {
+                QMessageBox::warning(this, "Erreur", "Sélectionnez d'abord un employé dans le tableau.");
+                return;
+            }
+        } else {
+            QMessageBox::warning(this, "Erreur", "Aucun employé dans la base de données.");
+            return;
+        }
+    }
+
+    // Générer un code aléatoire par défaut
+    QString defaultCode = QString::number(1000 + QRandomGenerator::global()->bounded(9000));
+
+    bool ok;
+    QString codeBadge = QInputDialog::getText(
+        this,
+        "Assigner Code Badge",
+        QString("Employé ID: %1\n\nEntrez le code badge (4 chiffres):").arg(idEmployeSelectionne),
+        QLineEdit::Normal,
+        defaultCode,
+        &ok
+        );
+
+    if (!ok || codeBadge.trimmed().isEmpty()) {
+        return;
+    }
+
+    codeBadge = codeBadge.trimmed();
+
+    // Validation simple
+    if (codeBadge.length() != 4 || !codeBadge.toInt()) {
+        QMessageBox::warning(this, "Erreur", "Le code doit contenir exactement 4 chiffres.");
+        return;
+    }
+
+    // Assigner directement avec une requête SQL
+    QSqlQuery query;
+    query.prepare("UPDATE empolye SET CODE_BADGE = ? WHERE IDEMPLOYE = ?");
+    query.addBindValue(codeBadge);
+    query.addBindValue(idEmployeSelectionne);
+
+    if (query.exec()) {
+        qDebug() << "✅ Code badge assigné avec succès!";
+
+        // Rafraîchir l'affichage
+        afficherEmployes();
+
+        // Afficher confirmation
+        QMessageBox::information(this, "Succès",
+                                 QString("✅ Code badge %1 assigné avec succès!\n\n"
+                                         "Vous pouvez maintenant scanner ce code avec Arduino.")
+                                     .arg(codeBadge));
+
+        // Afficher dans la barre de statut
+        ui->statusbar->showMessage(QString("✅ Code %1 assigné").arg(codeBadge), 5000);
+    } else {
+        QMessageBox::critical(this, "Erreur",
+                              QString("Erreur lors de l'assignation:\n%1")
+                                  .arg(query.lastError().text()));
+    }
+}
+
+void MainWindow::on_pushButton_removeBadge_clicked()
+{
+    if (idEmployeSelectionne == -1) {
+        QMessageBox::warning(this, "Erreur", "❌ Sélectionnez un employé d'abord.");
+        return;
+    }
+
+    if (QMessageBox::question(this, "Confirmer",
+                              "Voulez-vous vraiment supprimer le code badge de cet employé ?") == QMessageBox::Yes) {
+
+        QSqlQuery query;
+        query.prepare("UPDATE empolye SET CODE_BADGE = NULL WHERE IDEMPLOYE = ?");
+        query.addBindValue(idEmployeSelectionne);
+
+        if (query.exec()) {
+            afficherEmployes();
+            QMessageBox::information(this, "Succès", "✅ Code badge supprimé avec succès.");
+
+            HistoryManager::ajouterLog("BADGE_REMOVE",
+                                       QString("Code badge supprimé pour l'employé ID %1").arg(idEmployeSelectionne));
+        } else {
+            QMessageBox::warning(this, "Erreur", "❌ Erreur lors de la suppression du code badge.");
+        }
+    }
+}
+
+void MainWindow::on_btnShowAccessHistory_clicked()
+{
+    // Vérifier si la table d'historique existe
+    QSqlQuery checkQuery;
+    QSqlDatabase db = QSqlDatabase::database();
+
+    bool tableExists = false;
+
+    if (db.driverName().contains("ORACLE", Qt::CaseInsensitive)) {
+        if (checkQuery.exec("SELECT COUNT(*) FROM USER_TABLES WHERE TABLE_NAME = 'HISTORIQUE_ACCES'")) {
+            checkQuery.next();
+            tableExists = (checkQuery.value(0).toInt() > 0);
+        }
+    } else {
+        // SQLite
+        if (checkQuery.exec("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='HISTORIQUE_ACCES'")) {
+            checkQuery.next();
+            tableExists = (checkQuery.value(0).toInt() > 0);
+        }
+    }
+
+    if (!tableExists) {
+        QMessageBox::information(this, "Information", "Aucun historique d'accès disponible.");
+        return;
+    }
+
+    QDialog *dialog = new QDialog(this);
+    dialog->setWindowTitle("📋 Historique des Accès - Détaillé");
+    dialog->setMinimumSize(1000, 600);
+
+    QVBoxLayout *layout = new QVBoxLayout(dialog);
+
+    QLabel *title = new QLabel("📊 Historique Complet des Accès par Badge");
+    title->setStyleSheet("font: bold 18pt 'Arial'; color: #7D4FEE; margin: 10px;");
+    title->setAlignment(Qt::AlignCenter);
+    layout->addWidget(title);
+
+    QTableWidget *table = new QTableWidget(dialog);
+    table->setColumnCount(5); // Ajout d'une colonne pour la date
+    QStringList headers = {"ID Employé", "Nom Employé", "Date", "Heure", "Type"};
+    table->setHorizontalHeaderLabels(headers);
+    table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    table->setStyleSheet("QTableWidget { font-size: 11pt; }");
+
+    // Requête pour récupérer l'historique avec date et heure séparées
+    QSqlQuery query;
+    query.prepare("SELECT ID_EMPLOYE, NOM_EMPLOYE, HEURE_ACCES, TYPE_ACCES "
+                  "FROM HISTORIQUE_ACCES "
+                  "ORDER BY HEURE_ACCES DESC");
+
+    if (query.exec()) {
+        int row = 0;
+        while (query.next()) {
+            table->insertRow(row);
+
+            // ID Employé
+            QTableWidgetItem *idItem = new QTableWidgetItem(query.value(0).toString());
+            idItem->setFlags(idItem->flags() & ~Qt::ItemIsEditable);
+            idItem->setTextAlignment(Qt::AlignCenter);
+            table->setItem(row, 0, idItem);
+
+            // Nom Employé
+            QTableWidgetItem *nomItem = new QTableWidgetItem(query.value(1).toString());
+            nomItem->setFlags(nomItem->flags() & ~Qt::ItemIsEditable);
+            nomItem->setFont(QFont("Arial", 10, QFont::Bold));
+            table->setItem(row, 1, nomItem);
+
+            // Date et Heure
+            QDateTime dateTime = query.value(2).toDateTime();
+
+            QTableWidgetItem *dateItem = new QTableWidgetItem(dateTime.toString("dd/MM/yyyy"));
+            dateItem->setFlags(dateItem->flags() & ~Qt::ItemIsEditable);
+            dateItem->setTextAlignment(Qt::AlignCenter);
+            table->setItem(row, 2, dateItem);
+
+            QTableWidgetItem *heureItem = new QTableWidgetItem(dateTime.toString("HH:mm:ss"));
+            heureItem->setFlags(heureItem->flags() & ~Qt::ItemIsEditable);
+            heureItem->setTextAlignment(Qt::AlignCenter);
+            heureItem->setFont(QFont("Arial", 10, QFont::Bold));
+            table->setItem(row, 3, heureItem);
+
+            // Type d'accès
+            QString typeAcces = query.value(3).toString();
+            QTableWidgetItem *typeItem = new QTableWidgetItem(typeAcces);
+            typeItem->setFlags(typeItem->flags() & ~Qt::ItemIsEditable);
+            typeItem->setTextAlignment(Qt::AlignCenter);
+
+            if (typeAcces == "ENTREE") {
+                typeItem->setBackground(QColor(220, 255, 220));
+                typeItem->setForeground(QColor(0, 100, 0));
+                typeItem->setFont(QFont("Arial", 10, QFont::Bold));
+            } else {
+                typeItem->setBackground(QColor(255, 240, 220));
+                typeItem->setForeground(QColor(139, 69, 0));
+            }
+
+            table->setItem(row, 4, typeItem);
+
+            row++;
+        }
+    }
+
+    layout->addWidget(table);
+
+    // Boutons d'action
+    QHBoxLayout *buttonLayout = new QHBoxLayout();
+
+    QPushButton *btnRefresh = new QPushButton("🔄 Rafraîchir");
+    QPushButton *btnExport = new QPushButton("📄 Exporter PDF");
+    QPushButton *btnClear = new QPushButton("🗑️ Effacer Historique");
+    QPushButton *btnClose = new QPushButton("Fermer");
+
+    btnRefresh->setStyleSheet("QPushButton { background-color: #4CAF50; color: white; padding: 10px; border-radius: 5px; font-weight: bold; }");
+    btnExport->setStyleSheet("QPushButton { background-color: #2196F3; color: white; padding: 10px; border-radius: 5px; font-weight: bold; }");
+    btnClear->setStyleSheet("QPushButton { background-color: #f44336; color: white; padding: 10px; border-radius: 5px; font-weight: bold; }");
+    btnClose->setStyleSheet("QPushButton { background-color: #9E9E9E; color: white; padding: 10px; border-radius: 5px; font-weight: bold; }");
+
+    connect(btnRefresh, &QPushButton::clicked, [this, dialog]() {
+        dialog->close();
+        on_btnShowAccessHistory_clicked(); // Réouvrir avec données fraîches
+    });
+
+    connect(btnExport, &QPushButton::clicked, [this, table]() {
+        QString filePath = QFileDialog::getSaveFileName(this, "Exporter Historique",
+                                                        "Historique_Acces.html", "HTML (*.html)");
+        if (!filePath.isEmpty()) {
+            // Code d'export HTML ici
+            QMessageBox::information(this, "Export", "Export HTML à implémenter.");
+        }
+    });
+
+    connect(btnClear, &QPushButton::clicked, [this, table, dialog]() {
+        if (QMessageBox::question(this, "Confirmer",
+                                  "Voulez-vous vraiment effacer tout l'historique des accès ?") == QMessageBox::Yes) {
+
+            QSqlQuery query("DELETE FROM HISTORIQUE_ACCES");
+            if (query.exec()) {
+                table->setRowCount(0);
+                QMessageBox::information(this, "Succès", "✅ Historique effacé.");
+            } else {
+                QMessageBox::warning(this, "Erreur", "❌ Erreur lors de l'effacement.");
+            }
+        }
+    });
+
+    connect(btnClose, &QPushButton::clicked, dialog, &QDialog::accept);
+
+    buttonLayout->addWidget(btnRefresh);
+    buttonLayout->addWidget(btnExport);
+    buttonLayout->addWidget(btnClear);
+    buttonLayout->addWidget(btnClose);
+    layout->addLayout(buttonLayout);
+
+    dialog->exec();
+}

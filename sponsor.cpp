@@ -2,293 +2,467 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>
-#include <QMessageBox>
 #include <QRegularExpression>
+#include <QTextDocument>
+#include <QTextStream>
+#include <QFile>
+#include <QDesktopServices>  // Ajoutez cette ligne
+#include <QUrl>              // Ajoutez cette ligne
 
-Sponsor::Sponsor() : budget(0)
-{
-}
+// Inclure QPrinter si vous avez ajouté printsupport
+#ifdef QT_PRINTSUPPORT_LIB
+#include <QPrinter>
+#include <QPainter>
+#endif
+
+Sponsor::Sponsor() : budget(0) {}
 
 Sponsor::Sponsor(QString nom, QString prenom, QString categorie, QString email,
                  QDate debutcontrat, QDate fincontrat, int budget)
     : nom(nom), prenom(prenom), categorie(categorie), email(email),
-    debutcontrat(debutcontrat), fincontrat(fincontrat), budget(budget)
-{
+    debutcontrat(debutcontrat), fincontrat(fincontrat), budget(budget) {}
+
+bool Sponsor::ajouter() {
+    QSqlQuery query;
+    query.prepare("INSERT INTO sponsor (NOM, PRENOM, CATEGORIE, EMAIL, DEBUTCONTRAT, FINCONTRAT, BUDGET) VALUES (:n, :p, :c, :e, :d, :f, :b)");
+    query.bindValue(":n", nom); query.bindValue(":p", prenom); query.bindValue(":c", categorie);
+    query.bindValue(":e", email); query.bindValue(":d", debutcontrat); query.bindValue(":f", fincontrat);
+    query.bindValue(":b", budget);
+    return query.exec();
 }
 
-bool Sponsor::ajouter()
-{
+bool Sponsor::modifier(int id, QString nom, QString prenom, QString categorie, QString email, QDate debut, QDate fin, int budget) {
     QSqlQuery query;
-    query.prepare("INSERT INTO sponsor (NOM, PRENOM, CATEGORIE, EMAIL, DEBUTCONTRAT, FINCONTRAT, BUDGET) "
-                  "VALUES (:nom, :prenom, :categorie, :email, :debut, :fin, :budget)");
-
-    query.bindValue(":nom", nom);
-    query.bindValue(":prenom", prenom);
-    query.bindValue(":categorie", categorie);
-    query.bindValue(":email", email);
-    query.bindValue(":debut", debutcontrat);
-    query.bindValue(":fin", fincontrat);
-    query.bindValue(":budget", budget);
-
-    if (query.exec()) {
-        qDebug() << "✅ Sponsor ajouté avec succès";
-        return true;
-    } else {
-        qDebug() << "❌ Erreur ajout sponsor:" << query.lastError().text();
-        return false;
-    }
+    query.prepare("UPDATE sponsor SET NOM=:n, PRENOM=:p, CATEGORIE=:c, EMAIL=:e, DEBUTCONTRAT=:d, FINCONTRAT=:f, BUDGET=:b WHERE IDSPONSOR=:id");
+    query.bindValue(":id", id); query.bindValue(":n", nom); query.bindValue(":p", prenom);
+    query.bindValue(":c", categorie); query.bindValue(":e", email); query.bindValue(":d", debut);
+    query.bindValue(":f", fin); query.bindValue(":b", budget);
+    return query.exec();
 }
 
-bool Sponsor::modifier(int id, QString nom, QString prenom, QString categorie, QString email,
-                       QDate debutcontrat, QDate fincontrat, int budget)
-{
+bool Sponsor::supprimer(int id) {
     QSqlQuery query;
-    query.prepare("UPDATE sponsor SET NOM=:nom, PRENOM=:prenom, CATEGORIE=:categorie, "
-                  "EMAIL=:email, DEBUTCONTRAT=:debut, FINCONTRAT=:fin, BUDGET=:budget "
-                  "WHERE IDSPONSOR=:id");
-
+    query.prepare("DELETE FROM sponsor WHERE IDSPONSOR=:id");
     query.bindValue(":id", id);
-    query.bindValue(":nom", nom);
-    query.bindValue(":prenom", prenom);
-    query.bindValue(":categorie", categorie);
-    query.bindValue(":email", email);
-    query.bindValue(":debut", debutcontrat);
-    query.bindValue(":fin", fincontrat);
-    query.bindValue(":budget", budget);
-
-    if (query.exec()) {
-        qDebug() << "✅ Sponsor modifié avec succès ID:" << id;
-        return true;
-    } else {
-        qDebug() << "❌ Erreur modification sponsor:" << query.lastError().text();
-        return false;
-    }
+    return query.exec();
 }
 
-QSqlQueryModel* Sponsor::afficher()
-{
+QSqlQueryModel* Sponsor::afficher() {
     QSqlQueryModel* model = new QSqlQueryModel();
     model->setQuery("SELECT IDSPONSOR, NOM, PRENOM, CATEGORIE, EMAIL, DEBUTCONTRAT, FINCONTRAT, BUDGET FROM sponsor");
     return model;
 }
 
-bool Sponsor::supprimer(int id)
-{
-    QSqlQuery query;
-    query.prepare("DELETE FROM sponsor WHERE IDSPONSOR=:id");
-    query.bindValue(":id", id);
-
-    if (query.exec()) {
-        qDebug() << "✅ Sponsor supprimé avec succès ID:" << id;
-        return true;
-    } else {
-        qDebug() << "❌ Erreur suppression sponsor:" << query.lastError().text();
-        return false;
-    }
-}
-
-QSqlQueryModel* Sponsor::trierParDate()
-{
+QSqlQueryModel* Sponsor::trierParDate() {
     QSqlQueryModel* model = new QSqlQueryModel();
-    model->setQuery("SELECT IDSPONSOR, NOM, PRENOM, CATEGORIE, EMAIL, DEBUTCONTRAT, FINCONTRAT, BUDGET "
-                    "FROM sponsor ORDER BY DEBUTCONTRAT DESC");
+    model->setQuery("SELECT IDSPONSOR, NOM, PRENOM, CATEGORIE, EMAIL, DEBUTCONTRAT, FINCONTRAT, BUDGET FROM sponsor ORDER BY DEBUTCONTRAT DESC");
     return model;
 }
 
-QSqlQueryModel* Sponsor::rechercherParNom(QString nom)
-{
+QSqlQueryModel* Sponsor::rechercherParNom(QString nom) {
     QSqlQueryModel* model = new QSqlQueryModel();
     QSqlQuery query;
-    query.prepare("SELECT IDSPONSOR, NOM, PRENOM, CATEGORIE, EMAIL, DEBUTCONTRAT, FINCONTRAT, BUDGET "
-                  "FROM sponsor WHERE UPPER(NOM) LIKE UPPER(:nom) OR UPPER(PRENOM) LIKE UPPER(:nom)");
-    query.bindValue(":nom", "%" + nom + "%");
-
-    if (query.exec()) {
-        QSqlQueryModel* resultModel = new QSqlQueryModel();
-        resultModel->setQuery(std::move(query));
-        return resultModel;
-    } else {
-        return model;
-    }
-}
-
-QSqlQueryModel* Sponsor::statistiques()
-{
-    QSqlQueryModel* model = new QSqlQueryModel();
-    model->setQuery("SELECT CATEGORIE, COUNT(*), SUM(BUDGET) FROM sponsor GROUP BY CATEGORIE");
+    query.prepare("SELECT * FROM sponsor WHERE UPPER(NOM) LIKE UPPER(:n) OR UPPER(PRENOM) LIKE UPPER(:n)");
+    query.bindValue(":n", "%" + nom + "%");
+    query.exec();
+    model->setQuery(std::move(query));
     return model;
 }
 
-QSqlQueryModel* Sponsor::getEmployesSponsor(int idSponsor)
-{
-    QSqlQueryModel* model = new QSqlQueryModel();
-    QSqlQuery query;
-    query.prepare("SELECT e.IDEMPLOYE, e.PRENOM, e.POSTE FROM empolye e "
-                  "INNER JOIN sponsor_employe se ON e.IDEMPLOYE = se.IDEMPLOYE "
-                  "WHERE se.IDSPONSOR = :id");
-    query.bindValue(":id", idSponsor);
+// ==================== STATISTIQUES POUR CURVEWIDGET ====================
 
-    if (query.exec()) {
-        QSqlQueryModel* resultModel = new QSqlQueryModel();
-        resultModel->setQuery(std::move(query));
-        return resultModel;
+QVector<QPointF> Sponsor::getDonneesEvolutionContrats() {
+    QVector<QPointF> data;
+    QSqlQuery query;
+    query.exec("SELECT strftime('%Y-%m', DEBUTCONTRAT) as mois, COUNT(*) as nb FROM sponsor WHERE DEBUTCONTRAT IS NOT NULL GROUP BY mois ORDER BY mois");
+    int i = 0;
+    while (query.next()) {
+        data.append(QPointF(i++, query.value(1).toInt()));
+    }
+    return data;
+}
+
+void Sponsor::getDonneesBudgetParCategorie(QVector<QPointF> &data, QStringList &labels) {
+    data.clear(); labels.clear();
+    QSqlQuery query("SELECT CATEGORIE, SUM(BUDGET) FROM sponsor GROUP BY CATEGORIE");
+    int i = 0;
+    while (query.next()) {
+        labels << query.value(0).toString();
+        data.append(QPointF(i++, query.value(1).toDouble()));
+    }
+}
+
+void Sponsor::getDonneesRepartitionCategories(QVector<QPointF> &data, QStringList &labels) {
+    data.clear(); labels.clear();
+    QSqlQuery query("SELECT CATEGORIE, COUNT(*) FROM sponsor GROUP BY CATEGORIE");
+    int i = 0;
+    while (query.next()) {
+        labels << query.value(0).toString();
+        data.append(QPointF(i++, query.value(1).toInt()));
+    }
+}
+
+void Sponsor::getDonneesDureeContrats(QVector<QPointF> &data) {
+    data.clear();
+    QSqlQuery query("SELECT CATEGORIE, AVG(julianday(FINCONTRAT) - julianday(DEBUTCONTRAT)) FROM sponsor GROUP BY CATEGORIE");
+    int i = 0;
+    while (query.next()) {
+        data.append(QPointF(i++, query.value(1).toDouble()));
+    }
+}
+
+void Sponsor::getResumeStatistiques(int &totalSponsors, double &totalBudget, double &avgBudget) {
+    QSqlQuery query("SELECT COUNT(*), SUM(BUDGET), AVG(BUDGET) FROM sponsor");
+    if (query.next()) {
+        totalSponsors = query.value(0).toInt();
+        totalBudget = query.value(1).toDouble();
+        avgBudget = query.value(2).toDouble();
     } else {
-        return model;
+        totalSponsors = 0;
+        totalBudget = 0.0;
+        avgBudget = 0.0;
     }
 }
 
-bool Sponsor::lierEmploye(int idSponsor, int idEmploye)
-{
-    QSqlQuery query;
-    query.prepare("INSERT INTO sponsor_employe (IDSPONSOR, IDEMPLOYE) VALUES (:idSponsor, :idEmploye)");
-    query.bindValue(":idSponsor", idSponsor);
-    query.bindValue(":idEmploye", idEmploye);
+// VALIDATIONS
+bool Sponsor::validerNom(const QString &nom) { return !nom.isEmpty() && nom.length() >= 2; }
+bool Sponsor::validerBudget(int budget) { return budget >= 0; }
 
-    return query.exec();
-}
-
-// MÉTHODES PDF
-bool Sponsor::exporterPDF(const QString &nomFichier)
-{
-    return exporterHTML(nomFichier);
-}
-
-bool Sponsor::exporterPDF(const QString &nomFichier, QSqlQueryModel *model)
-{
-    QFile file(nomFichier);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qDebug() << "❌ Impossible d'ouvrir le fichier:" << nomFichier;
-        return false;
-    }
-
-    QTextStream out(&file);
-    out.setEncoding(QStringConverter::Utf8);
-
-    QString html = genererHTMLPourPDF(model);
-    out << html;
-
-    file.close();
-    qDebug() << "✅ PDF exporté avec succès:" << nomFichier;
-    return true;
-}
-
-bool Sponsor::exporterHTML(const QString &nomFichier)
-{
-    Sponsor sponsor;
-    QSqlQueryModel* model = sponsor.afficher();
+// EXPORTS PDF
+bool Sponsor::exporterPDF(const QString &nomFichier) {
+    Sponsor sponsorObj;
+    QSqlQueryModel *model = sponsorObj.afficher();
     return exporterPDF(nomFichier, model);
 }
 
-// MÉTHODES DE VALIDATION AMÉLIORÉES
-bool Sponsor::validerNom(const QString &nom)
-{
-    if (nom.isEmpty() || nom.length() < 2) {
-        return false;
+bool Sponsor::exporterPDFParContrat(const QString &nomFichier, const QString &filtre) {
+    // 1. Récupérer les données selon le filtre
+    QSqlQuery query;
+    if (filtre.toLower() == "tous" || filtre.isEmpty()) {
+        query.exec("SELECT * FROM sponsor");
+    } else {
+        query.prepare("SELECT * FROM sponsor WHERE CATEGORIE = :categorie");
+        query.bindValue(":categorie", filtre);
+        query.exec();
     }
 
-    QRegularExpression regex("^[a-zA-ZÀ-ÿ\\s'-]+$");
-    return regex.match(nom).hasMatch();
-}
-
-bool Sponsor::validerPrenom(const QString &prenom)
-{
-    if (prenom.isEmpty() || prenom.length() < 2) {
-        return false;
-    }
-
-    QRegularExpression regex("^[a-zA-ZÀ-ÿ\\s'-]+$");
-    return regex.match(prenom).hasMatch();
-}
-
-bool Sponsor::validerEmail(const QString &email)
-{
-    QRegularExpression regex(R"(^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$)");
-    return regex.match(email).hasMatch();
-}
-
-bool Sponsor::validerCategorie(const QString &categorie)
-{
-    if (categorie.isEmpty()) {
-        return false;
-    }
-
-    QRegularExpression regex("^[a-zA-ZÀ-ÿ\\s'-]+$");
-    return regex.match(categorie).hasMatch();
-}
-
-bool Sponsor::validerBudget(int budget)
-{
-    return budget >= 0;
-}
-
-bool Sponsor::validerDates(const QDate &debut, const QDate &fin)
-{
-    return debut.isValid() && fin.isValid() && debut <= fin;
-}
-
-bool Sponsor::validerID(int id)
-{
-    return id > 0;
-}
-
-bool Sponsor::validerID(const QString &idStr)
-{
-    bool ok;
-    int id = idStr.toInt(&ok);
-    return ok && id > 0;
-}
-
-bool Sponsor::validerCIN(const QString &cin)
-{
-    return !cin.isEmpty() && cin.length() >= 3;
-}
-
-bool Sponsor::validerTelephone(const QString &telephone)
-{
-    QRegularExpression regex(R"(^[0-9+\-\s\(\)]{8,15}$)");
-    return regex.match(telephone).hasMatch();
-}
-
-bool Sponsor::validerSalaire(double salaire)
-{
-    return salaire >= 0;
-}
-
-// MÉTHODES HELPER POUR HTML
-QString Sponsor::genererHTMLPourPDF()
-{
-    Sponsor sponsor;
-    QSqlQueryModel* model = sponsor.afficher();
-    return genererHTMLPourPDF(model);
-}
-
-QString Sponsor::genererHTMLPourPDF(QSqlQueryModel *model)
-{
+    // 2. Créer le contenu HTML
     QString html;
     html += "<!DOCTYPE html>";
     html += "<html lang='fr'>";
     html += "<head>";
     html += "<meta charset='UTF-8'>";
-    html += "<title>Liste des Sponsors</title>";
+    html += "<meta name='viewport' content='width=device-width, initial-scale=1.0'>";
+    html += "<title>Liste des Sponsors - ConnectPlus</title>";
     html += "<style>";
-    html += "body { font-family: Arial, sans-serif; margin: 20px; }";
-    html += "h1 { color: #7D4FEE; text-align: center; }";
-    html += "table { width: 100%; border-collapse: collapse; margin-top: 20px; }";
-    html += "th, td { border: 1px solid #7D4FEE; padding: 8px; text-align: left; }";
-    html += "th { background-color: #7D4FEE; color: white; }";
-    html += "tr:nth-child(even) { background-color: #f2f2f2; }";
-    html += ".footer { margin-top: 30px; text-align: center; font-size: 12px; color: #666; }";
+    html += "body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }";
+    html += ".container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); max-width: 1200px; margin: 20px auto; }";
+    html += "h1 { color: #7D4FEE; text-align: center; border-bottom: 3px solid #7D4FEE; padding-bottom: 15px; margin-bottom: 30px; }";
+    html += ".header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; }";
+    html += ".logo { display: flex; align-items: center; gap: 15px; }";
+    html += ".logo img { width: 50px; height: 50px; }";
+    html += ".info-box { background: linear-gradient(to right, #f8f9fa, #e9ecef); padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #7D4FEE; }";
+    html += "table { width: 100%; border-collapse: collapse; margin: 20px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }";
+    html += "th { background: linear-gradient(to right, #7D4FEE, #5a3fd8); color: white; padding: 15px; text-align: left; font-weight: bold; position: sticky; top: 0; }";
+    html += "td { border: 1px solid #e0e0e0; padding: 12px; }";
+    html += "tr:nth-child(even) { background-color: #f9f9f9; }";
+    html += "tr:hover { background-color: #f0f0ff; transform: scale(1.01); transition: all 0.2s; }";
+    html += ".budget { text-align: right; font-weight: bold; color: #2E7D32; }";
+    html += ".footer { text-align: center; margin-top: 40px; color: #666; font-size: 0.9em; padding-top: 20px; border-top: 1px solid #eee; }";
+    html += ".stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 30px; }";
+    html += ".stat-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.08); text-align: center; border-top: 4px solid #7D4FEE; }";
+    html += ".stat-value { font-size: 2em; font-weight: bold; color: #7D4FEE; margin: 10px 0; }";
+    html += ".stat-label { color: #666; font-size: 0.9em; }";
+    html += ".print-section { margin: 30px 0; padding: 20px; background: #fff3e0; border-radius: 8px; border: 2px dashed #ff9800; }";
+    html += ".print-btn { background: linear-gradient(to right, #7D4FEE, #5a3fd8); color: white; border: none; padding: 12px 24px; border-radius: 5px; cursor: pointer; font-size: 16px; display: flex; align-items: center; gap: 10px; margin: 0 auto; }";
+    html += ".print-btn:hover { background: linear-gradient(to right, #6a42d4, #4a34b5); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(125, 79, 238, 0.4); }";
+    html += ".contract-active { color: #2E7D32; font-weight: bold; }";
+    html += ".contract-expired { color: #d32f2f; font-weight: bold; }";
+    html += "@media print {";
+    html += "    body { background: white; margin: 0; padding: 0; }";
+    html += "    .print-section, .print-btn { display: none; }";
+    html += "    .container { box-shadow: none; margin: 0; padding: 10px; }";
+    html += "    .info-box { border: 1px solid #ccc; }";
+    html += "}";
     html += "</style>";
+    html += "<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'>";
     html += "</head>";
     html += "<body>";
-    html += "<h1>Liste des Sponsors</h1>";
-    html += "<p>Généré le " + QDate::currentDate().toString("dd/MM/yyyy") + "</p>";
 
+    html += "<div class='container'>";
+
+    // En-tête avec logo
+    html += "<div class='header'>";
+    html += "<div class='logo'>";
+    html += "<div style='background: #7D4FEE; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px;'>";
+    html += "<i class='fas fa-handshake'></i>";
+    html += "</div>";
+    html += "<div>";
+    html += "<h1 style='margin: 0;'>CONNECTPLUS SPONSORS</h1>";
+    html += "<p style='margin: 0; color: #666;'>Gestion des partenaires et sponsors</p>";
+    html += "</div>";
+    html += "</div>";
+    html += "<div style='text-align: right;'>";
+    html += "<p><strong>Date :</strong> " + QDate::currentDate().toString("dddd d MMMM yyyy") + "</p>";
+    html += "<p><strong>Heure :</strong> " + QTime::currentTime().toString("HH:mm") + "</p>";
+    html += "</div>";
+    html += "</div>";
+
+    // Information sur le filtre
+    html += "<div class='info-box'>";
+    html += "<h3 style='margin-top: 0;'><i class='fas fa-filter'></i> Filtre appliqué</h3>";
+    html += "<p><strong>Catégorie :</strong> " + (filtre.isEmpty() ? "Toutes les catégories" : filtre) + "</p>";
+    html += "<p><strong>Généré par :</strong> Système ConnectPlus v2.0</p>";
+    html += "</div>";
+
+    // Statistiques en cartes
+    int totalBudget = 0;
+    int rowCount = 0;
+    int activeContracts = 0;
+    int expiredContracts = 0;
+    QDate today = QDate::currentDate();
+
+    QVector<QPair<QString, int>> categoryBudgets;
+    QHash<QString, int> categoryMap;
+
+    while (query.next()) {
+        rowCount++;
+        QDate finContrat = query.value("FINCONTRAT").toDate();
+        bool isActive = (finContrat >= today);
+
+        if (isActive) {
+            activeContracts++;
+        } else {
+            expiredContracts++;
+        }
+
+        int budget = query.value("BUDGET").toInt();
+        totalBudget += budget;
+
+        QString categorie = query.value("CATEGORIE").toString();
+        categoryMap[categorie] += budget;
+    }
+
+    // Ré-exécuter la requête pour le tableau
+    query.exec(filtre.isEmpty() ? "SELECT * FROM sponsor" :
+                   "SELECT * FROM sponsor WHERE CATEGORIE = '" + filtre + "'");
+
+    html += "<div class='stats-grid'>";
+    html += "<div class='stat-card'>";
+    html += "<div class='stat-label'>Total Sponsors</div>";
+    html += "<div class='stat-value'>" + QString::number(rowCount) + "</div>";
+    html += "<i class='fas fa-users' style='color: #7D4FEE; font-size: 24px;'></i>";
+    html += "</div>";
+
+    html += "<div class='stat-card'>";
+    html += "<div class='stat-label'>Budget Total</div>";
+    html += "<div class='stat-value'>" + QString::number(totalBudget) + "€</div>";
+    html += "<i class='fas fa-euro-sign' style='color: #2E7D32; font-size: 24px;'></i>";
+    html += "</div>";
+
+    html += "<div class='stat-card'>";
+    html += "<div class='stat-label'>Contrats Actifs</div>";
+    html += "<div class='stat-value'>" + QString::number(activeContracts) + "</div>";
+    html += "<i class='fas fa-check-circle' style='color: #4CAF50; font-size: 24px;'></i>";
+    html += "</div>";
+
+    html += "<div class='stat-card'>";
+    html += "<div class='stat-label'>Contrats Expirés</div>";
+    html += "<div class='stat-value'>" + QString::number(expiredContracts) + "</div>";
+    html += "<i class='fas fa-times-circle' style='color: #f44336; font-size: 24px;'></i>";
+    html += "</div>";
+    html += "</div>";
+
+    // Instructions pour impression
+    html += "<div class='print-section'>";
+    html += "<h3><i class='fas fa-print'></i> Instructions pour l'impression PDF</h3>";
+    html += "<p>Pour générer un PDF de haute qualité :</p>";
+    html += "<ol>";
+    html += "<li>Cliquez sur le bouton <strong>'Imprimer'</strong> ci-dessous</li>";
+    html += "<li>Dans la fenêtre d'impression, choisissez <strong>'Enregistrer au format PDF'</strong></li>";
+    html += "<li>Sélectionnez <strong>Orientation Paysage</strong> pour une meilleure lisibilité</li>";
+    html += "<li>Cliquez sur <strong>Enregistrer</strong> et choisissez un emplacement</li>";
+    html += "</ol>";
+    html += "<button class='print-btn' onclick='window.print()'>";
+    html += "<i class='fas fa-print'></i> Imprimer / Générer PDF";
+    html += "</button>";
+    html += "</div>";
+
+    // Tableau des sponsors
+    html += "<h2><i class='fas fa-table'></i> Détail des Sponsors</h2>";
+    html += "<div style='overflow-x: auto;'>";
     html += "<table>";
+    html += "<thead>";
     html += "<tr>";
-    html += "<th>ID</th><th>Nom</th><th>Prénom</th><th>Catégorie</th>";
-    html += "<th>Email</th><th>Début</th><th>Fin</th><th>Budget</th>";
+    html += "<th>ID</th>";
+    html += "<th>Nom</th>";
+    html += "<th>Prénom</th>";
+    html += "<th>Catégorie</th>";
+    html += "<th>Email</th>";
+    html += "<th>Début Contrat</th>";
+    html += "<th>Fin Contrat</th>";
+    html += "<th>Statut</th>";
+    html += "<th>Budget (€)</th>";
     html += "</tr>";
+    html += "</thead>";
+    html += "<tbody>";
+
+    while (query.next()) {
+        QString id = query.value("IDSPONSOR").toString();
+        QString nom = query.value("NOM").toString();
+        QString prenom = query.value("PRENOM").toString();
+        QString categorie = query.value("CATEGORIE").toString();
+        QString email = query.value("EMAIL").toString();
+        QDate debut = query.value("DEBUTCONTRAT").toDate();
+        QDate fin = query.value("FINCONTRAT").toDate();
+        int budget = query.value("BUDGET").toInt();
+
+        bool isActive = (fin >= today);
+        int joursRestants = debut.daysTo(fin);
+
+        html += "<tr>";
+        html += "<td><strong>" + id + "</strong></td>";
+        html += "<td>" + nom + "</td>";
+        html += "<td>" + prenom + "</td>";
+        html += "<td><span style='background: #e0e7ff; color: #7D4FEE; padding: 4px 8px; border-radius: 4px;'>" + categorie + "</span></td>";
+        html += "<td><a href='mailto:" + email + "' style='color: #2196F3;'>" + email + "</a></td>";
+        html += "<td>" + debut.toString("dd/MM/yyyy") + "</td>";
+        html += "<td>" + fin.toString("dd/MM/yyyy") + "</td>";
+
+        if (isActive) {
+            html += "<td class='contract-active'><i class='fas fa-check-circle'></i> Actif (" + QString::number(joursRestants) + " jours)</td>";
+        } else {
+            html += "<td class='contract-expired'><i class='fas fa-times-circle'></i> Expiré</td>";
+        }
+
+        html += "<td class='budget'>" + QString::number(budget) + " €</td>";
+        html += "</tr>";
+    }
+
+    html += "</tbody>";
+    html += "</table>";
+    html += "</div>";
+
+    // Résumé détaillé
+    html += "<div class='info-box' style='margin-top: 30px;'>";
+    html += "<h3><i class='fas fa-chart-bar'></i> Analyse par Catégorie</h3>";
+
+    // Calculer les budgets par catégorie
+    QSqlQuery catQuery("SELECT CATEGORIE, SUM(BUDGET), COUNT(*) FROM sponsor GROUP BY CATEGORIE");
+    html += "<div style='display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-top: 15px;'>";
+
+    while (catQuery.next()) {
+        QString cat = catQuery.value(0).toString();
+        int budgetCat = catQuery.value(1).toInt();
+        int countCat = catQuery.value(2).toInt();
+        double pourcentage = rowCount > 0 ? (countCat * 100.0 / rowCount) : 0;
+
+        html += "<div style='padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);'>";
+        html += "<h4 style='margin-top: 0;'>" + cat + "</h4>";
+        html += "<p><strong>Nombre :</strong> " + QString::number(countCat) + " (" + QString::number(pourcentage, 'f', 1) + "%)</p>";
+        html += "<p><strong>Budget :</strong> " + QString::number(budgetCat) + " €</p>";
+        html += "<div style='height: 8px; background: #e0e0e0; border-radius: 4px; margin-top: 10px;'>";
+        html += "<div style='height: 100%; width: " + QString::number(pourcentage > 100 ? 100 : pourcentage) + "%; background: #7D4FEE; border-radius: 4px;'></div>";
+        html += "</div>";
+        html += "</div>";
+    }
+
+    html += "</div>";
+    html += "</div>";
+
+    // Pied de page
+    html += "<div class='footer'>";
+    html += "<p><i class='fas fa-info-circle'></i> Document généré automatiquement par ConnectPlus Management System</p>";
+    html += "<p><i class='fas fa-copyright'></i> " + QString::number(QDate::currentDate().year()) + " ConnectPlus. Tous droits réservés.</p>";
+    html += "<p><small>Dernière mise à jour : " + QDateTime::currentDateTime().toString("dd/MM/yyyy à HH:mm:ss") + "</small></p>";
+    html += "</div>";
+
+    html += "</div>"; // Fermeture du container
+
+    // Script JavaScript
+    html += "<script>";
+    html += "function exportToPDF() {";
+    html += "    window.print();";
+    html += "}";
+    html += "function sortTable(columnIndex) {";
+    html += "    const table = document.querySelector('table');";
+    html += "    const rows = Array.from(table.querySelectorAll('tbody tr'));";
+    html += "    const isNumeric = columnIndex === 0 || columnIndex === 8;";
+    html += "    rows.sort((a, b) => {";
+    html += "        const aVal = a.cells[columnIndex].textContent.trim();";
+    html += "        const bVal = b.cells[columnIndex].textContent.trim();";
+    html += "        if (isNumeric) return parseInt(aVal) - parseInt(bVal);";
+    html += "        return aVal.localeCompare(bVal);";
+    html += "    });";
+    html += "    const tbody = table.querySelector('tbody');";
+    html += "    tbody.innerHTML = '';";
+    html += "    rows.forEach(row => tbody.appendChild(row));";
+    html += "}";
+    html += "</script>";
+
+    html += "</body>";
+    html += "</html>";
+
+    // 3. Écrire le contenu dans un fichier
+    QFile file(nomFichier);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream stream(&file);
+
+        stream << html;
+        file.close();
+
+        // Ouvrir le fichier dans le navigateur par défaut
+        QDesktopServices::openUrl(QUrl::fromLocalFile(nomFichier));
+
+        return true;
+    } else {
+        qDebug() << "Erreur : Impossible d'écrire dans le fichier" << nomFichier;
+        return false;
+    }
+}
+bool Sponsor::exporterPDF(const QString &nomFichier, QSqlQueryModel *model) {
+    if (!model || model->rowCount() == 0) {
+        qDebug() << "Erreur : Modèle vide ou invalide";
+        return false;
+    }
+
+    // Générer le contenu HTML
+    QString html = genererHTMLPourPDF(model);
+
+    // Écrire dans un fichier
+    QFile file(nomFichier);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream stream(&file);
+        stream << html;
+        file.close();
+
+        // Ouvrir dans le navigateur
+        QDesktopServices::openUrl(QUrl::fromLocalFile(nomFichier));
+        return true;
+    } else {
+        qDebug() << "Erreur : Impossible d'écrire dans" << nomFichier;
+        return false;
+    }
+}
+
+QString Sponsor::genererHTMLPourPDF(QSqlQueryModel *model) {
+    QString html;
+    html += "<!DOCTYPE html>";
+    html += "<html><head><meta charset='UTF-8'>";
+    html += "<style>";
+    html += "body { font-family: Arial, sans-serif; }";
+    html += "h1 { color: #7D4FEE; text-align: center; }";
+    html += "table { width: 100%; border-collapse: collapse; margin: 20px 0; }";
+    html += "th { background-color: #7D4FEE; color: white; padding: 10px; text-align: left; }";
+    html += "td { border: 1px solid #ddd; padding: 8px; }";
+    html += "tr:nth-child(even) { background-color: #f2f2f2; }";
+    html += ".footer { text-align: right; font-style: italic; margin-top: 30px; }";
+    html += "</style>";
+    html += "<title>Liste des Sponsors</title>";
+    html += "</head><body>";
+    html += "<h1>Liste des Sponsors</h1>";
+    html += "<table>";
+    html += "<tr><th>ID</th><th>Nom</th><th>Prénom</th><th>Catégorie</th><th>Email</th><th>Début</th><th>Fin</th><th>Budget</th></tr>";
 
     for (int row = 0; row < model->rowCount(); ++row) {
         html += "<tr>";
@@ -300,173 +474,211 @@ QString Sponsor::genererHTMLPourPDF(QSqlQueryModel *model)
 
     html += "</table>";
     html += "<div class='footer'>";
-    html += "Total: " + QString::number(model->rowCount()) + " sponsors";
+    html += "<p>Généré le " + QDate::currentDate().toString("dd/MM/yyyy") + "</p>";
     html += "</div>";
-    html += "</body>";
-    html += "</html>";
-
+    html += "</body></html>";
     return html;
 }
-// ==================== NOUVELLES MÉTHODES POUR EXPORT PAR CONTRAT ====================
 
-bool Sponsor::exporterPDFParContrat(const QString &nomFichier, const QString &filtreContrat)
-{
-    QSqlQueryModel* model = filtrerParContrat(filtreContrat);
-    if (!model) {
-        qDebug() << "❌ Erreur: Impossible de filtrer les sponsors par contrat";
-        return false;
-    }
 
-    QFile file(nomFichier);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qDebug() << "❌ Impossible d'ouvrir le fichier:" << nomFichier;
-        delete model;
-        return false;
-    }
 
-    QTextStream out(&file);
-    out.setEncoding(QStringConverter::Utf8);
-
-    QString html = genererHTMLPourPDFParContrat(model, filtreContrat);
-    out << html;
-
-    file.close();
-    delete model;
-
-    qDebug() << "✅ PDF exporté avec succès:" << nomFichier << "Filtre:" << filtreContrat;
-    return true;
+// Méthodes de validation supplémentaires
+bool Sponsor::validerEmail(const QString &email) {
+    QRegularExpression regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    return regex.match(email).hasMatch();
 }
 
-QSqlQueryModel* Sponsor::filtrerParContrat(const QString &filtreContrat)
-{
-    QSqlQueryModel* model = new QSqlQueryModel();
-    QString sql = "SELECT IDSPONSOR, NOM, PRENOM, CATEGORIE, EMAIL, DEBUTCONTRAT, FINCONTRAT, BUDGET FROM sponsor WHERE 1=1";
+bool Sponsor::validerDates(const QDate &debut, const QDate &fin) {
+    return debut.isValid() && fin.isValid() && debut <= fin;
+}
 
-    QDate aujourdhui = QDate::currentDate();
+bool Sponsor::validerCategorie(const QString &categorie) {
+    return !categorie.isEmpty();
+}
 
-    if (filtreContrat == "actifs") {
-        sql += " AND DEBUTCONTRAT <= :aujourdhui AND FINCONTRAT >= :aujourdhui";
-    } else if (filtreContrat == "expires") {
-        sql += " AND FINCONTRAT < :aujourdhui";
-    } else if (filtreContrat == "bientot_expires") {
-        sql += " AND FINCONTRAT BETWEEN :aujourdhui AND :dans30jours";
-    } else if (filtreContrat == "futurs") {
-        sql += " AND DEBUTCONTRAT > :aujourdhui";
-    }
-    // "tous" ne nécessite pas de filtre supplémentaire
+bool Sponsor::validerPrenom(const QString &prenom) {
+    return !prenom.isEmpty() && prenom.length() >= 2;
+}
 
-    sql += " ORDER BY NOM, PRENOM";
+bool Sponsor::validerCIN(const QString &cin) {
+    QRegularExpression regex("^[0-9]{8}$");
+    return regex.match(cin).hasMatch();
+}
 
+bool Sponsor::validerTelephone(const QString &telephone) {
+    QRegularExpression regex("^[0-9]{8}$");
+    return regex.match(telephone).hasMatch();
+}
+
+bool Sponsor::validerSalaire(double salaire) {
+    return salaire >= 0;
+}
+#include <QFile>
+#include <QTextStream>
+#include <QDesktopServices>
+#include <QUrl>
+
+// Ajoutez cette fonction à la fin du fichier :
+bool Sponsor::exporterHTMLParContrat(const QString &nomFichier, const QString &filtre) {
+    // 1. Récupérer les données selon le filtre
     QSqlQuery query;
-    query.prepare(sql);
-
-    query.bindValue(":aujourdhui", aujourdhui);
-
-    if (filtreContrat == "bientot_expires") {
-        query.bindValue(":dans30jours", aujourdhui.addDays(30));
-    }
-
-    if (query.exec()) {
-        model->setQuery(std::move(query));
-        return model;
+    if (filtre.toLower() == "tous" || filtre.isEmpty()) {
+        query.exec("SELECT * FROM sponsor");
     } else {
-        qDebug() << "❌ Erreur lors du filtrage:" << query.lastError().text();
-        delete model;
-        return nullptr;
+        query.prepare("SELECT * FROM sponsor WHERE CATEGORIE = :categorie");
+        query.bindValue(":categorie", filtre);
+        query.exec();
     }
-}
 
-QStringList Sponsor::obtenirTypesContrat()
-{
-    return QStringList() << "tous" << "actifs" << "expires" << "bientot_expires" << "futurs";
-}
-
-QString Sponsor::genererHTMLPourPDFParContrat(QSqlQueryModel *model, const QString &filtreContrat)
-{
-    QString nomFiltre;
-    if (filtreContrat == "actifs") nomFiltre = "Contrats Actifs";
-    else if (filtreContrat == "expires") nomFiltre = "Contrats Expirés";
-    else if (filtreContrat == "bientot_expires") nomFiltre = "Contrats Bientôt Expirés (30 jours)";
-    else if (filtreContrat == "futurs") nomFiltre = "Contrats Futurs";
-    else nomFiltre = "Tous les Sponsors";
-
+    // 2. Créer le contenu HTML
     QString html;
     html += "<!DOCTYPE html>";
     html += "<html lang='fr'>";
     html += "<head>";
     html += "<meta charset='UTF-8'>";
-    html += "<title>Liste des Sponsors - " + nomFiltre + "</title>";
+    html += "<meta name='viewport' content='width=device-width, initial-scale=1.0'>";
+    html += "<title>Liste des Sponsors - ConnectPlus</title>";
     html += "<style>";
-    html += "body { font-family: Arial, sans-serif; margin: 20px; }";
-    html += "h1 { color: #7D4FEE; text-align: center; }";
-    html += "h2 { color: #333; text-align: center; }";
-    html += "table { width: 100%; border-collapse: collapse; margin-top: 20px; }";
-    html += "th, td { border: 1px solid #7D4FEE; padding: 8px; text-align: left; }";
-    html += "th { background-color: #7D4FEE; color: white; }";
-    html += "tr:nth-child(even) { background-color: #f2f2f2; }";
-    html += ".footer { margin-top: 30px; text-align: center; font-size: 12px; color: #666; }";
-    html += ".info-box { background-color: #f0f8ff; border: 1px solid #7D4FEE; padding: 10px; margin: 10px 0; border-radius: 5px; }";
+    html += "body { font-family: 'Segoe UI', Arial, sans-serif; margin: 40px; background-color: #f5f5f5; }";
+    html += ".container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.1); }";
+    html += "h1 { color: #7D4FEE; text-align: center; border-bottom: 3px solid #7D4FEE; padding-bottom: 15px; }";
+    html += ".header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }";
+    html += ".info-box { background: #f0f0f0; padding: 15px; border-radius: 5px; margin: 20px 0; }";
+    html += "table { width: 100%; border-collapse: collapse; margin: 20px 0; }";
+    html += "th { background-color: #7D4FEE; color: white; padding: 15px; text-align: left; font-weight: bold; }";
+    html += "td { border: 1px solid #ddd; padding: 12px; }";
+    html += "tr:nth-child(even) { background-color: #f9f9f9; }";
+    html += "tr:hover { background-color: #f0f0ff; }";
+    html += ".budget { text-align: right; font-weight: bold; color: #2E7D32; }";
+    html += ".footer { text-align: center; margin-top: 40px; color: #666; font-size: 0.9em; }";
+    html += ".stats { background: #e8f5e9; padding: 15px; border-radius: 5px; margin-top: 30px; }";
     html += "</style>";
     html += "</head>";
     html += "<body>";
-    html += "<h1>Liste des Sponsors</h1>";
-    html += "<h2>" + nomFiltre + "</h2>";
 
-    html += "<div class='info-box'>";
-    html += "<strong>Date de génération:</strong> " + QDate::currentDate().toString("dd/MM/yyyy") + "<br>";
-    html += "<strong>Heure de génération:</strong> " + QTime::currentTime().toString("hh:mm:ss") + "<br>";
-    html += "<strong>Total d'enregistrements:</strong> " + QString::number(model->rowCount());
+    html += "<div class='container'>";
+
+    // En-tête avec titre et date
+    html += "<div class='header'>";
+    html += "<div>";
+    html += "<h1>📋 LISTE DES SPONSORS</h1>";
+    html += "<p><strong>Système :</strong> ConnectPlus Management</p>";
+    html += "</div>";
+    html += "<div style='text-align: right;'>";
+    html += "<p><strong>Date :</strong> " + QDate::currentDate().toString("dd/MM/yyyy") + "</p>";
+    html += "<p><strong>Heure :</strong> " + QTime::currentTime().toString("hh:mm") + "</p>";
+    html += "</div>";
     html += "</div>";
 
-    html += "<table>";
-    html += "<tr>";
-    html += "<th>ID</th><th>Nom</th><th>Prénom</th><th>Catégorie</th>";
-    html += "<th>Email</th><th>Début Contrat</th><th>Fin Contrat</th><th>Budget (€)</th>";
-    html += "</tr>";
+    // Information sur le filtre
+    html += "<div class='info-box'>";
+    html += "<strong>Filtre appliqué :</strong> " + (filtre.isEmpty() ? "Tous les sponsors" : "Catégorie : " + filtre);
+    html += "</div>";
 
-    if (model->rowCount() == 0) {
-        html += "<tr><td colspan='8' style='text-align: center;'>Aucun sponsor trouvé pour ce filtre</td></tr>";
-    } else {
-        for (int row = 0; row < model->rowCount(); ++row) {
-            html += "<tr>";
-            for (int col = 0; col < model->columnCount(); ++col) {
-                html += "<td>" + model->data(model->index(row, col)).toString() + "</td>";
-            }
-            html += "</tr>";
+    // Tableau des sponsors
+    html += "<table>";
+    html += "<thead>";
+    html += "<tr>";
+    html += "<th>ID</th>";
+    html += "<th>Nom</th>";
+    html += "<th>Prénom</th>";
+    html += "<th>Catégorie</th>";
+    html += "<th>Email</th>";
+    html += "<th>Début Contrat</th>";
+    html += "<th>Fin Contrat</th>";
+    html += "<th>Budget (€)</th>";
+    html += "</tr>";
+    html += "</thead>";
+    html += "<tbody>";
+
+    int totalBudget = 0;
+    int rowCount = 0;
+    int activeContracts = 0;
+    QDate today = QDate::currentDate();
+
+    while (query.next()) {
+        rowCount++;
+        QDate finContrat = query.value("FINCONTRAT").toDate();
+        bool isActive = (finContrat >= today);
+
+        html += "<tr>";
+        html += "<td>" + query.value("IDSPONSOR").toString() + "</td>";
+        html += "<td>" + query.value("NOM").toString() + "</td>";
+        html += "<td>" + query.value("PRENOM").toString() + "</td>";
+        html += "<td>" + query.value("CATEGORIE").toString() + "</td>";
+        html += "<td>" + query.value("EMAIL").toString() + "</td>";
+        html += "<td>" + query.value("DEBUTCONTRAT").toDate().toString("dd/MM/yyyy") + "</td>";
+
+        // Colorer la date de fin si le contrat est expiré
+        if (!isActive) {
+            html += "<td style='color: #d32f2f; font-weight: bold;'>" + finContrat.toString("dd/MM/yyyy") + " (EXPIRÉ)</td>";
+        } else {
+            html += "<td>" + finContrat.toString("dd/MM/yyyy") + "</td>";
+            activeContracts++;
         }
+
+        int budget = query.value("BUDGET").toInt();
+        totalBudget += budget;
+        html += "<td class='budget'>" + QString::number(budget) + " €</td>";
+        html += "</tr>";
     }
 
+    html += "</tbody>";
     html += "</table>";
 
-    // Statistiques
-    if (model->rowCount() > 0) {
-        double totalBudget = 0;
-        QDate aujourdhui = QDate::currentDate();
-        int contratsActifs = 0;
-        int contratsExpires = 0;
+    // Résumé statistique
+    html += "<div class='stats'>";
+    html += "<h3>📊 RÉSUMÉ STATISTIQUE</h3>";
+    html += "<table style='width: 100%;'>";
+    html += "<tr>";
+    html += "<td><strong>Nombre total de sponsors :</strong></td>";
+    html += "<td>" + QString::number(rowCount) + "</td>";
+    html += "<td><strong>Contrats actifs :</strong></td>";
+    html += "<td>" + QString::number(activeContracts) + "</td>";
+    html += "</tr>";
+    html += "<tr>";
+    html += "<td><strong>Budget total :</strong></td>";
+    html += "<td style='color: #2E7D32; font-weight: bold;'>" + QString::number(totalBudget) + " €</td>";
+    html += "<td><strong>Budget moyen :</strong></td>";
+    html += "<td>" + (rowCount > 0 ? QString::number(totalBudget / rowCount) : "0") + " €</td>";
+    html += "</tr>";
+    html += "</table>";
+    html += "</div>";
 
-        for (int row = 0; row < model->rowCount(); ++row) {
-            totalBudget += model->data(model->index(row, 7)).toDouble(); // Budget à l'index 7
+    // Instructions pour l'utilisateur
+    html += "<div style='margin: 30px 0; padding: 15px; background: #fff3e0; border-radius: 5px;'>";
+    html += "<p><strong>💡 Comment imprimer en PDF :</strong></p>";
+    html += "<ol>";
+    html += "<li>Appuyez sur <strong>Ctrl+P</strong> (Windows/Linux) ou <strong>Cmd+P</strong> (Mac)</li>";
+    html += "<li>Choisissez l'imprimante <strong>'Microsoft Print to PDF'</strong> ou <strong>'Save as PDF'</strong></li>";
+    html += "<li>Sélectionnez l'orientation <strong>Paysage</strong> pour une meilleure lisibilité</li>";
+    html += "<li>Cliquez sur <strong>Enregistrer</strong> pour créer le fichier PDF</li>";
+    html += "</ol>";
+    html += "</div>";
 
-            QDate finContrat = QDate::fromString(model->data(model->index(row, 6)).toString(), "yyyy-MM-dd");
-            if (finContrat >= aujourdhui) {
-                contratsActifs++;
-            } else {
-                contratsExpires++;
-            }
-        }
+    // Pied de page
+    html += "<div class='footer'>";
+    html += "<p>Document généré automatiquement par ConnectPlus Management System</p>";
+    html += "<p>© " + QString::number(QDate::currentDate().year()) + " ConnectPlus - Tous droits réservés</p>";
+    html += "</div>";
 
-        html += "<div class='footer'>";
-        html += "<strong>Statistiques:</strong><br>";
-        html += "• Budget total: " + QString::number(totalBudget, 'f', 0) + " €<br>";
-        html += "• Budget moyen: " + QString::number(totalBudget / model->rowCount(), 'f', 0) + " €<br>";
-        html += "• Contrats actifs: " + QString::number(contratsActifs) + "<br>";
-        html += "• Contrats expirés: " + QString::number(contratsExpires);
-        html += "</div>";
-    }
-
+    html += "</div>"; // Fermeture du container
     html += "</body>";
     html += "</html>";
 
-    return html;
+    // 3. Écrire le contenu dans un fichier
+    QFile file(nomFichier);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream stream(&file);
+        stream << html;
+        file.close();
+
+        // Ouvrir le fichier dans le navigateur par défaut
+        QDesktopServices::openUrl(QUrl::fromLocalFile(nomFichier));
+
+        return true;
+    } else {
+        qDebug() << "Erreur : Impossible d'écrire dans le fichier" << nomFichier;
+        return false;
+    }
 }

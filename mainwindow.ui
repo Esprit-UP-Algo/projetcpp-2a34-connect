@@ -517,7 +517,7 @@ QStackedWidget {
           <x>-10</x>
           <y>30</y>
           <width>2051</width>
-          <height>681</height>
+          <height>651</height>
          </rect>
         </property>
         <property name="styleSheet">
@@ -561,7 +561,7 @@ QTabBar::tab:hover {
 </string>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="tabAdd_4">
          <attribute name="title">
@@ -1075,7 +1075,7 @@ self.response_label.setProperty(&quot;class&quot;, &quot;response-area&quot;)</s
            </rect>
           </property>
           <property name="text">
-           <string>Sort by name</string>
+           <string>Sort by date</string>
           </property>
          </widget>
          <widget class="QLabel" name="label_78">
@@ -1125,8 +1125,8 @@ self.response_label.setProperty(&quot;class&quot;, &quot;response-area&quot;)</s
        <widget class="QTableView" name="tableView">
         <property name="geometry">
          <rect>
-          <x>920</x>
-          <y>730</y>
+          <x>910</x>
+          <y>690</y>
           <width>411</width>
           <height>151</height>
          </rect>
@@ -1136,7 +1136,7 @@ self.response_label.setProperty(&quot;class&quot;, &quot;response-area&quot;)</s
         <property name="geometry">
          <rect>
           <x>770</x>
-          <y>740</y>
+          <y>790</y>
           <width>120</width>
           <height>32</height>
          </rect>
@@ -1149,7 +1149,7 @@ self.response_label.setProperty(&quot;class&quot;, &quot;response-area&quot;)</s
         <property name="geometry">
          <rect>
           <x>770</x>
-          <y>790</y>
+          <y>740</y>
           <width>120</width>
           <height>32</height>
          </rect>
@@ -1162,7 +1162,7 @@ self.response_label.setProperty(&quot;class&quot;, &quot;response-area&quot;)</s
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>720</y>
+          <y>690</y>
           <width>751</width>
           <height>191</height>
          </rect>
@@ -1178,7 +1178,7 @@ self.response_label.setProperty(&quot;class&quot;, &quot;response-area&quot;)</s
         <property name="geometry">
          <rect>
           <x>770</x>
-          <y>840</y>
+          <y>700</y>
           <width>120</width>
           <height>32</height>
          </rect>
@@ -1227,229 +1227,6 @@ self.response_label.setProperty(&quot;class&quot;, &quot;response-area&quot;)</s
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;search&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
-       </widget>
-       <widget class="QWidget" name="widget_3" native="true">
-        <property name="geometry">
-         <rect>
-          <x>950</x>
-          <y>340</y>
-          <width>251</width>
-          <height>411</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QWidget#widget_3 {
-    background-color: #FFFFFF;
-    border: 2px solid #7D4FEE;
-    border-radius: 10px;
-    font: bold 14pt &quot;Arial&quot;;
-    color: #7D4FEE;
-    margin: 10px;
-}
-</string>
-        </property>
-        <widget class="QFrame" name="frame_5">
-         <property name="geometry">
-          <rect>
-           <x>30</x>
-           <y>80</y>
-           <width>21</width>
-           <height>151</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QFrame#frame {
-    background-color: black;  /* black color */
-    border-radius: 5px;       /* optional rounded edges */
-}
-</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Shape::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Shadow::Raised</enum>
-         </property>
-        </widget>
-        <widget class="QFrame" name="frame_6">
-         <property name="geometry">
-          <rect>
-           <x>70</x>
-           <y>160</y>
-           <width>21</width>
-           <height>71</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QFrame#frame_2 {
-    background-color: yellow;
-    border-radius: 5px;   /* optional rounded corners */
-}
-</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Shape::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Shadow::Raised</enum>
-         </property>
-        </widget>
-        <widget class="QFrame" name="frame_7">
-         <property name="geometry">
-          <rect>
-           <x>160</x>
-           <y>120</y>
-           <width>21</width>
-           <height>111</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QFrame#frame_3 {
-    background-color: yellow;
-    border-radius: 5px;   /* optional rounded corners */
-}
-</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Shape::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Shadow::Raised</enum>
-         </property>
-        </widget>
-        <widget class="QFrame" name="frame_8">
-         <property name="geometry">
-          <rect>
-           <x>120</x>
-           <y>40</y>
-           <width>21</width>
-           <height>191</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QFrame#frame_4 {
-    background-color: #7D4FEE;   /* purple */
-    border-radius: 5px;          /* optional rounded corners */
-    border: 1px solid #333;      /* optional border */
-}
-</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Shape::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Shadow::Raised</enum>
-         </property>
-        </widget>
-        <widget class="QFrame" name="frame_10">
-         <property name="geometry">
-          <rect>
-           <x>30</x>
-           <y>280</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QFrame#frame_6 {
-    background-color: #7D4FEE;   /* purple */
-    border-radius: 5px;          /* optional rounded corners */
-    border: 1px solid #333;      /* optional border */
-}
-</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Shape::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Shadow::Raised</enum>
-         </property>
-        </widget>
-        <widget class="QFrame" name="frame_11">
-         <property name="geometry">
-          <rect>
-           <x>30</x>
-           <y>320</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QFrame#frame_7 {
-    background-color: black;  /* black color */
-    border-radius: 5px;       /* optional rounded edges */
-}
-</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Shape::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Shadow::Raised</enum>
-         </property>
-        </widget>
-        <widget class="QFrame" name="frame_9">
-         <property name="geometry">
-          <rect>
-           <x>30</x>
-           <y>360</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QFrame#frame_5 {
-    background-color: yellow;
-    border-radius: 5px;   /* optional rounded corners */
-}
-</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Shape::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Shadow::Raised</enum>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_22">
-         <property name="geometry">
-          <rect>
-           <x>80</x>
-           <y>280</y>
-           <width>101</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>female employee</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_23">
-         <property name="geometry">
-          <rect>
-           <x>80</x>
-           <y>320</y>
-           <width>91</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>male employee</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_25">
-         <property name="geometry">
-          <rect>
-           <x>70</x>
-           <y>360</y>
-           <width>101</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>App usage time</string>
-         </property>
-        </widget>
        </widget>
        <widget class="QLineEdit" name="lineEdit_6">
         <property name="geometry">
@@ -2418,7 +2195,85 @@ QPushButton#pushButton_11:hover {
 }</string>
         </property>
         <property name="text">
-         <string>Export PDF</string>
+         <string>PAYSLIP</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="STATS">
+        <property name="geometry">
+         <rect>
+          <x>800</x>
+          <y>40</y>
+          <width>120</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>STATS</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="HISTORY">
+        <property name="geometry">
+         <rect>
+          <x>950</x>
+          <y>40</y>
+          <width>120</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>HISTORY DB</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="MAILING">
+        <property name="geometry">
+         <rect>
+          <x>920</x>
+          <y>100</y>
+          <width>120</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>MAILING</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="on_pushButton_assignBadge_clicked">
+        <property name="geometry">
+         <rect>
+          <x>1050</x>
+          <y>290</y>
+          <width>120</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>on_pushButton_assignBadge_clicked</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="on_pushButton_removeBadge_clicked">
+        <property name="geometry">
+         <rect>
+          <x>1050</x>
+          <y>350</y>
+          <width>120</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>on_pushButton_removeBadge_clicked</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="on_btnShowAccessHistory_clicked">
+        <property name="geometry">
+         <rect>
+          <x>1050</x>
+          <y>410</y>
+          <width>120</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>on_btnShowAccessHistory_clicked</string>
         </property>
        </widget>
       </widget>
