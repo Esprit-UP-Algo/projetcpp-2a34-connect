@@ -1,0 +1,8 @@
+[30/11/2025 22:55:03] [AJOUT] Nom: ijo okp | Email: ayoub.hidrixx46@gmail.com | Tél: 26560429
+[30/11/2025 22:55:09] [MODIFICATION] ID: 1 | Nom: ijo | Email: ayoub.hidrixx46@gmail.com | Nouv. Salaire: 1500
+[30/11/2025 22:55:56] [MODIFICATION] ID: 1 | Nom: ijooo | Email: ayoub.hidrixx46@gmail.com | Nouv. Salaire: 1500
+[30/11/2025 22:56:01] [MODIFICATION] ID: 1 | Nom: ijooo | Email: ayoub.hidrixx46@gmail.com | Nouv. Salaire: 1500
+[30/11/2025 22:56:06] [SUPPRESSION] ID: 1 | Nom: ijo | Email: ayoub.hidrixx46@gmail.com
+[01/12/2025 14:48:26] [AJOUT] Nom: amen ALAYA | Email: amenalaya57@gmail.com | Tél: 12345678
+[01/12/2025 14:49:40] [AJOUT] Nom: amen ALAYA | Email: amenalaya57@gmail.com | Tél: 12345678
+[01/12/2025 14:50:21] [MAILING] Mail motivation envoyé à amenalaya57@gmail.com

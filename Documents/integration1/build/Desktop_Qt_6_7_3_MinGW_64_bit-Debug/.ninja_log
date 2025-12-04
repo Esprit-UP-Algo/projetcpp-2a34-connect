@@ -1,0 +1,54 @@
+# ninja log v6
+12	157	7864942980641321	interface23_autogen/timestamp	a97db1d68d9b4fc
+12	157	7864942980641321	C:/Users/ayoub/Downloads/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/timestamp	a97db1d68d9b4fc
+12	157	7864942980641321	interface23_autogen/mocs_compilation.cpp	a97db1d68d9b4fc
+12	157	7864942980641321	C:/Users/ayoub/Downloads/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/mocs_compilation.cpp	a97db1d68d9b4fc
+800	3861	7862240085212421	CMakeFiles/interface23.dir/chatbot.cpp.obj	53d33bd530044d1
+797	3178	7862240085183117	CMakeFiles/interface23.dir/connection.cpp.obj	46c30cd13a0f4204
+804	3180	7862240085251073	CMakeFiles/interface23.dir/historymanager.cpp.obj	9fa0d8d6cc1fcc67
+814	3379	7862240085349100	CMakeFiles/interface23.dir/fichedepaie.cpp.obj	af8455aae4efabf0
+793	3374	7862240085134151	CMakeFiles/interface23.dir/employes.cpp.obj	f059157a828b3816
+802	3392	7862240085230478	CMakeFiles/interface23.dir/smsmanager.cpp.obj	a299590a7c6c6320
+806	3396	7862240085251073	CMakeFiles/interface23.dir/smtp.cpp.obj	145ecae3168cfef9
+811	3435	7862240085322465	CMakeFiles/interface23.dir/barchartwidget.cpp.obj	2818e12b442cbbfa
+809	3545	7862240085297621	CMakeFiles/interface23.dir/curvewidget.cpp.obj	174be027b0f8dc7a
+795	3570	7862240085134151	CMakeFiles/interface23.dir/sponsor.cpp.obj	458a31adcebfc8a8
+160	1998	7864942982117583	CMakeFiles/interface23.dir/calendardialog.cpp.obj	ef005e823356d548
+646	3569	7864910000886188	CMakeFiles/interface23.dir/main.cpp.obj	bfa947dc27e94d78
+644	3823	7864910000865869	CMakeFiles/interface23.dir/interface23_autogen/mocs_compilation.cpp.obj	4940a90d2bfbc96
+158	3629	7864942982092923	CMakeFiles/interface23.dir/mainwindow.cpp.obj	72d8801e1fd87342
+3630	4429	7864943016819033	interface23.exe	7898ed29f6273357
+13	164	7864944279233051	interface23_autogen/timestamp	a97db1d68d9b4fc
+13	164	7864944279233051	interface23_autogen/mocs_compilation.cpp	a97db1d68d9b4fc
+13	164	7864944279233051	C:/Users/ayoub/Downloads/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/timestamp	a97db1d68d9b4fc
+13	164	7864944279233051	C:/Users/ayoub/Downloads/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/mocs_compilation.cpp	a97db1d68d9b4fc
+167	1975	7864944280828377	CMakeFiles/interface23.dir/calendardialog.cpp.obj	ef005e823356d548
+165	3630	7864944280808295	CMakeFiles/interface23.dir/mainwindow.cpp.obj	72d8801e1fd87342
+3630	4423	7864944315464055	interface23.exe	7898ed29f6273357
+14	722	7864946013088439	interface23_autogen/timestamp	a97db1d68d9b4fc
+14	722	7864946013088439	interface23_autogen/mocs_compilation.cpp	a97db1d68d9b4fc
+14	722	7864946013088439	C:/Users/ayoub/Downloads/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/timestamp	a97db1d68d9b4fc
+14	722	7864946013088439	C:/Users/ayoub/Downloads/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/mocs_compilation.cpp	a97db1d68d9b4fc
+725	3307	7864946013741253	CMakeFiles/interface23.dir/main.cpp.obj	bfa947dc27e94d78
+723	3523	7864946013711258	CMakeFiles/interface23.dir/interface23_autogen/mocs_compilation.cpp.obj	4940a90d2bfbc96
+727	4306	7864946013761245	CMakeFiles/interface23.dir/mainwindow.cpp.obj	72d8801e1fd87342
+12	714	7864946531697878	interface23_autogen/timestamp	a97db1d68d9b4fc
+12	714	7864946531697878	interface23_autogen/mocs_compilation.cpp	a97db1d68d9b4fc
+12	714	7864946531697878	C:/Users/ayoub/Downloads/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/timestamp	a97db1d68d9b4fc
+12	714	7864946531697878	C:/Users/ayoub/Downloads/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/mocs_compilation.cpp	a97db1d68d9b4fc
+718	3590	7864946532316690	CMakeFiles/interface23.dir/main.cpp.obj	bfa947dc27e94d78
+716	3779	7864946532296688	CMakeFiles/interface23.dir/interface23_autogen/mocs_compilation.cpp.obj	4940a90d2bfbc96
+11	159	7864947529442393	interface23_autogen/timestamp	a97db1d68d9b4fc
+11	159	7864947529442393	interface23_autogen/mocs_compilation.cpp	a97db1d68d9b4fc
+11	159	7864947529442393	C:/Users/ayoub/Downloads/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/timestamp	a97db1d68d9b4fc
+11	159	7864947529442393	C:/Users/ayoub/Downloads/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/mocs_compilation.cpp	a97db1d68d9b4fc
+161	2056	7864947530952724	CMakeFiles/interface23.dir/calendardialog.cpp.obj	ef005e823356d548
+159	3643	7864947530932732	CMakeFiles/interface23.dir/mainwindow.cpp.obj	72d8801e1fd87342
+3644	4441	7864947565778804	interface23.exe	7898ed29f6273357
+11	151	7864949185884943	interface23_autogen/timestamp	a97db1d68d9b4fc
+11	151	7864949185884943	interface23_autogen/mocs_compilation.cpp	a97db1d68d9b4fc
+11	151	7864949185884943	C:/Users/ayoub/Downloads/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/timestamp	a97db1d68d9b4fc
+11	151	7864949185884943	C:/Users/ayoub/Downloads/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/mocs_compilation.cpp	a97db1d68d9b4fc
+153	1865	7864949187303820	CMakeFiles/interface23.dir/calendardialog.cpp.obj	ef005e823356d548
+151	3681	7864949187283826	CMakeFiles/interface23.dir/mainwindow.cpp.obj	72d8801e1fd87342
+3681	4467	7864949222582108	interface23.exe	7898ed29f6273357
