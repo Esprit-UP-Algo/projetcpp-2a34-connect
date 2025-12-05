@@ -1,5 +1,5 @@
-C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/EWIEGA46WW/moc_mainwindow.cpp: C:/Users/MSI/Desktop/INTEG2/integration1/mainwindow.h \
-  C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/moc_predefs.h \
+C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/EWIEGA46WW/moc_mainwindow.cpp: C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/mainwindow.h \
+  C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/moc_predefs.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/QDate \
   C:/Qt/6.7.3/mingw_64/include/QtCore/QDateTime \
   C:/Qt/6.7.3/mingw_64/include/QtCore/QDebug \
@@ -109,6 +109,8 @@ C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Deb
   C:/Qt/6.7.3/mingw_64/include/QtCore/qpair.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qpoint.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qprocessordetection.h \
+  C:/Qt/6.7.3/mingw_64/include/QtCore/qproperty.h \
+  C:/Qt/6.7.3/mingw_64/include/QtCore/qpropertyprivate.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qrect.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qrefcount.h \
   C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
@@ -168,6 +170,7 @@ C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Deb
   C:/Qt/6.7.3/mingw_64/include/QtCore/qyieldcpu.h \
   C:/Qt/6.7.3/mingw_64/include/QtGui/QLinearGradient \
   C:/Qt/6.7.3/mingw_64/include/QtGui/QPainter \
+  C:/Qt/6.7.3/mingw_64/include/QtGui/QPixmap \
   C:/Qt/6.7.3/mingw_64/include/QtGui/QTextDocument \
   C:/Qt/6.7.3/mingw_64/include/QtGui/qaction.h \
   C:/Qt/6.7.3/mingw_64/include/QtGui/qbitmap.h \
@@ -222,12 +225,18 @@ C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Deb
   C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
   C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
   C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+  C:/Qt/6.7.3/mingw_64/include/QtSerialPort/QSerialPort \
+  C:/Qt/6.7.3/mingw_64/include/QtSerialPort/qserialport.h \
+  C:/Qt/6.7.3/mingw_64/include/QtSerialPort/qserialportglobal.h \
+  C:/Qt/6.7.3/mingw_64/include/QtSerialPort/qtserialportexports.h \
   C:/Qt/6.7.3/mingw_64/include/QtSql/QSqlDatabase \
   C:/Qt/6.7.3/mingw_64/include/QtSql/QSqlQuery \
   C:/Qt/6.7.3/mingw_64/include/QtSql/QSqlQueryModel \
+  C:/Qt/6.7.3/mingw_64/include/QtSql/QSqlTableModel \
   C:/Qt/6.7.3/mingw_64/include/QtSql/qsqldatabase.h \
   C:/Qt/6.7.3/mingw_64/include/QtSql/qsqlquery.h \
   C:/Qt/6.7.3/mingw_64/include/QtSql/qsqlquerymodel.h \
+  C:/Qt/6.7.3/mingw_64/include/QtSql/qsqltablemodel.h \
   C:/Qt/6.7.3/mingw_64/include/QtSql/qtsql-config.h \
   C:/Qt/6.7.3/mingw_64/include/QtSql/qtsqlexports.h \
   C:/Qt/6.7.3/mingw_64/include/QtSql/qtsqlglobal.h \
@@ -507,8 +516,10 @@ C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Deb
   C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/vadefs.h \
   C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wchar.h \
   C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wctype.h \
-  C:/Users/MSI/Desktop/INTEG2/integration1/chatbot.h \
-  C:/Users/MSI/Desktop/INTEG2/integration1/employes.h \
-  C:/Users/MSI/Desktop/INTEG2/integration1/historymanager.h \
-  C:/Users/MSI/Desktop/INTEG2/integration1/smsmanager.h \
-  C:/Users/MSI/Desktop/INTEG2/integration1/sponsor.h
+  C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/arduino.h \
+  C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/calendardialog.h \
+  C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/chatbot.h \
+  C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/employes.h \
+  C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/historymanager.h \
+  C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/smsmanager.h \
+  C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/sponsor.h

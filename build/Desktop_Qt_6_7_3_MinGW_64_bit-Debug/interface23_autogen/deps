@@ -108,6 +108,8 @@ interface23_autogen/timestamp: \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qpair.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qpoint.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qprocessordetection.h \
+	C:/Qt/6.7.3/mingw_64/include/QtCore/qproperty.h \
+	C:/Qt/6.7.3/mingw_64/include/QtCore/qpropertyprivate.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qrect.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qrefcount.h \
 	C:/Qt/6.7.3/mingw_64/include/QtCore/qregularexpression.h \
@@ -168,6 +170,7 @@ interface23_autogen/timestamp: \
 	C:/Qt/6.7.3/mingw_64/include/QtGui/QColor \
 	C:/Qt/6.7.3/mingw_64/include/QtGui/QLinearGradient \
 	C:/Qt/6.7.3/mingw_64/include/QtGui/QPainter \
+	C:/Qt/6.7.3/mingw_64/include/QtGui/QPixmap \
 	C:/Qt/6.7.3/mingw_64/include/QtGui/QTextDocument \
 	C:/Qt/6.7.3/mingw_64/include/QtGui/qaction.h \
 	C:/Qt/6.7.3/mingw_64/include/QtGui/qbitmap.h \
@@ -223,12 +226,18 @@ interface23_autogen/timestamp: \
 	C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
 	C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
 	C:/Qt/6.7.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+	C:/Qt/6.7.3/mingw_64/include/QtSerialPort/QSerialPort \
+	C:/Qt/6.7.3/mingw_64/include/QtSerialPort/qserialport.h \
+	C:/Qt/6.7.3/mingw_64/include/QtSerialPort/qserialportglobal.h \
+	C:/Qt/6.7.3/mingw_64/include/QtSerialPort/qtserialportexports.h \
 	C:/Qt/6.7.3/mingw_64/include/QtSql/QSqlDatabase \
 	C:/Qt/6.7.3/mingw_64/include/QtSql/QSqlQuery \
 	C:/Qt/6.7.3/mingw_64/include/QtSql/QSqlQueryModel \
+	C:/Qt/6.7.3/mingw_64/include/QtSql/QSqlTableModel \
 	C:/Qt/6.7.3/mingw_64/include/QtSql/qsqldatabase.h \
 	C:/Qt/6.7.3/mingw_64/include/QtSql/qsqlquery.h \
 	C:/Qt/6.7.3/mingw_64/include/QtSql/qsqlquerymodel.h \
+	C:/Qt/6.7.3/mingw_64/include/QtSql/qsqltablemodel.h \
 	C:/Qt/6.7.3/mingw_64/include/QtSql/qtsql-config.h \
 	C:/Qt/6.7.3/mingw_64/include/QtSql/qtsqlexports.h \
 	C:/Qt/6.7.3/mingw_64/include/QtSql/qtsqlglobal.h \
@@ -443,6 +452,14 @@ interface23_autogen/timestamp: \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginConfig.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginTargets-relwithdebinfo.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6SerialPort/Qt6SerialPortAdditionalTargetInfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6SerialPort/Qt6SerialPortConfig.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6SerialPort/Qt6SerialPortConfigVersion.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6SerialPort/Qt6SerialPortConfigVersionImpl.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6SerialPort/Qt6SerialPortDependencies.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6SerialPort/Qt6SerialPortTargets-relwithdebinfo.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6SerialPort/Qt6SerialPortTargets.cmake \
+	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6SerialPort/Qt6SerialPortVersionlessTargets.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginAdditionalTargetInfo.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginConfig.cmake \
 	C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginTargets-relwithdebinfo.cmake \
@@ -757,35 +774,49 @@ interface23_autogen/timestamp: \
 	C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/vadefs.h \
 	C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wchar.h \
 	C:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include/wctype.h \
-	C:/Users/MSI/Desktop/INTEG2/integration1/CMakeLists.txt \
-	C:/Users/MSI/Desktop/INTEG2/integration1/barchartwidget.cpp \
-	C:/Users/MSI/Desktop/INTEG2/integration1/barchartwidget.h \
-	C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/.qtc/package-manager/auto-setup.cmake \
-	C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/.qtc/package-manager/maintenance_tool_provider.cmake \
-	C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake \
-	C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeRCCompiler.cmake \
-	C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeSystem.cmake \
-	C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/moc_predefs.h \
-	C:/Users/MSI/Desktop/INTEG2/integration1/chatbot.cpp \
-	C:/Users/MSI/Desktop/INTEG2/integration1/chatbot.h \
-	C:/Users/MSI/Desktop/INTEG2/integration1/connection.cpp \
-	C:/Users/MSI/Desktop/INTEG2/integration1/connection.h \
-	C:/Users/MSI/Desktop/INTEG2/integration1/curvewidget.cpp \
-	C:/Users/MSI/Desktop/INTEG2/integration1/curvewidget.h \
-	C:/Users/MSI/Desktop/INTEG2/integration1/employes.cpp \
-	C:/Users/MSI/Desktop/INTEG2/integration1/employes.h \
-	C:/Users/MSI/Desktop/INTEG2/integration1/fichedepaie.cpp \
-	C:/Users/MSI/Desktop/INTEG2/integration1/fichedepaie.h \
-	C:/Users/MSI/Desktop/INTEG2/integration1/historymanager.cpp \
-	C:/Users/MSI/Desktop/INTEG2/integration1/historymanager.h \
-	C:/Users/MSI/Desktop/INTEG2/integration1/main.cpp \
-	C:/Users/MSI/Desktop/INTEG2/integration1/mainwindow.cpp \
-	C:/Users/MSI/Desktop/INTEG2/integration1/mainwindow.h \
-	C:/Users/MSI/Desktop/INTEG2/integration1/smsmanager.cpp \
-	C:/Users/MSI/Desktop/INTEG2/integration1/smsmanager.h \
-	C:/Users/MSI/Desktop/INTEG2/integration1/smtp.cpp \
-	C:/Users/MSI/Desktop/INTEG2/integration1/smtp.h \
-	C:/Users/MSI/Desktop/INTEG2/integration1/sponsor.cpp \
-	C:/Users/MSI/Desktop/INTEG2/integration1/sponsor.h \
-	C:/Users/MSI/Desktop/INTEG2/integration1/mainwindow.ui \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/CMakeLists.txt \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/arduino.cpp \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/arduino.h \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/barchartwidget.cpp \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/barchartwidget.h \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/.qtc/package-manager/auto-setup.cmake \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/.qtc/package-manager/maintenance_tool_provider.cmake \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeRCCompiler.cmake \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeSystem.cmake \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/moc_predefs.h \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/calendardialog.cpp \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/calendardialog.h \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/chatbot.cpp \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/chatbot.h \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/connection.cpp \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/connection.h \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/createur.cpp \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/createur.h \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/curvewidget.cpp \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/curvewidget.h \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/employes.cpp \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/employes.h \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/fichedepaie.cpp \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/fichedepaie.h \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/historymanager.cpp \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/historymanager.h \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/logindialog.cpp \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/logindialog.h \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/main.cpp \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/mainwindow.cpp \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/mainwindow.h \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/qrcodegen.cpp \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/qrcodegen.hpp \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/qrcodegenerator.cpp \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/qrcodegenerator.h \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/smsmanager.cpp \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/smsmanager.h \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/smtp.cpp \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/smtp.h \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/sponsor.cpp \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/sponsor.h \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/calendardialog.ui \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/logindialog.ui \
+	C:/Users/Selim\ Fekih/Downloads/integ\ fin\ 3anddi/INTEGRATION\ FINALE/integration1/mainwindow.ui \
 	C:/Qt/Tools/CMake_64/bin/cmake.exe

@@ -5,7 +5,7 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <QTimer>
-#include <QDateTime>
+#include <QDebug>
 
 class SerialManager : public QObject
 {
@@ -15,34 +15,36 @@ public:
     explicit SerialManager(QObject *parent = nullptr);
     ~SerialManager();
 
-    bool connectToArduino();
+    bool connectToArduino(const QString &portName = "");
     bool isConnected() const;
     void disconnectArduino();
+    void sendCommand(const QString &command);
 
-    void autoriserAcces(const QString &nom);
-    void refuserAcces();
+    QStringList getAvailablePorts() const;
+    QString currentPort() const;
 
 signals:
     void codeReceived(const QString &code);
-    void accessGranted(const QString &employeName, const QDateTime &timestamp);
+    void accessGranted(const QString &nomEmploye);
     void accessDenied(const QString &code);
     void porteOuverte();
     void porteFermee();
-    void connected();
+    void connected(const QString &portName);
     void disconnected();
     void error(const QString &message);
+    void dataReceived(const QString &data);
 
-private slots:
-    void readData();
-    void handleError(QSerialPort::SerialPortError error);
-    void tenterReconnexion();
+public slots:
+    void onReadyRead();
 
 private:
     QSerialPort *serial;
+    QString m_currentPort;
     QTimer *reconnectTimer;
-    QString buffer;
+    QByteArray m_buffer;
 
-    void sendCommand(const QString &command);
+    void processReceivedData(const QByteArray &data);
+    bool testArduinoConnection();
 };
 
 #endif // SERIALMANAGER_H

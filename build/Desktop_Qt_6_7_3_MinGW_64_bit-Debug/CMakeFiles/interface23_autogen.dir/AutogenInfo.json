@@ -1,19 +1,19 @@
 {
 	"AUTOGEN_COMMAND_LINE_LENGTH_MAX" : 32000,
-	"BUILD_DIR" : "C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen",
-	"CMAKE_BINARY_DIR" : "C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug",
-	"CMAKE_CURRENT_BINARY_DIR" : "C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug",
-	"CMAKE_CURRENT_SOURCE_DIR" : "C:/Users/MSI/Desktop/INTEG2/integration1",
+	"BUILD_DIR" : "C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen",
+	"CMAKE_BINARY_DIR" : "C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1",
 	"CMAKE_EXECUTABLE" : "C:/Qt/Tools/CMake_64/bin/cmake.exe",
 	"CMAKE_LIST_FILES" : 
 	[
-		"C:/Users/MSI/Desktop/INTEG2/integration1/CMakeLists.txt",
-		"C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/.qtc/package-manager/auto-setup.cmake",
-		"C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeSystem.cmake",
-		"C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/.qtc/package-manager/maintenance_tool_provider.cmake",
+		"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/CMakeLists.txt",
+		"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/.qtc/package-manager/auto-setup.cmake",
+		"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeSystem.cmake",
+		"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/.qtc/package-manager/maintenance_tool_provider.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeSystemSpecificInitialize.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-Initialize.cmake",
-		"C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake",
+		"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeSystemSpecificInformation.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeGenericSystem.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeInitializeConfigs.cmake",
@@ -26,7 +26,7 @@
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Compiler/CMakeCommonCompilerMacros.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-GNU-CXX.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-GNU.cmake",
-		"C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeRCCompiler.cmake",
+		"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/3.30.5/CMakeRCCompiler.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeRCInformation.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-windres.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/Platform/Windows-GNU-CXX-ABI.cmake",
@@ -329,6 +329,15 @@
 		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginTargets.cmake",
 		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginTargets-relwithdebinfo.cmake",
 		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginAdditionalTargetInfo.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6SerialPort/Qt6SerialPortConfigVersion.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6SerialPort/Qt6SerialPortConfigVersionImpl.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6SerialPort/Qt6SerialPortConfig.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6SerialPort/Qt6SerialPortDependencies.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6SerialPort/Qt6SerialPortTargets.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6SerialPort/Qt6SerialPortTargets-relwithdebinfo.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6SerialPort/Qt6SerialPortAdditionalTargetInfo.cmake",
+		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6SerialPort/Qt6SerialPortVersionlessTargets.cmake",
 		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/Qt6ConfigVersion.cmake",
 		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/Qt6ConfigVersionImpl.cmake",
 		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/Qt6Config.cmake",
@@ -355,82 +364,118 @@
 		"C:/Qt/6.7.3/mingw_64/lib/cmake/Qt6/Qt6Dependencies.cmake",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/GNUInstallDirs.cmake"
 	],
-	"CMAKE_SOURCE_DIR" : "C:/Users/MSI/Desktop/INTEG2/integration1",
+	"CMAKE_SOURCE_DIR" : "C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1",
 	"CROSS_CONFIG" : false,
-	"DEP_FILE" : "C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/deps",
+	"DEP_FILE" : "C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/deps",
 	"DEP_FILE_RULE_NAME" : "interface23_autogen/timestamp",
 	"HEADERS" : 
 	[
 		[
-			"C:/Users/MSI/Desktop/INTEG2/integration1/barchartwidget.h",
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/arduino.h",
+			"MU",
+			"EWIEGA46WW/moc_arduino.cpp",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/barchartwidget.h",
 			"MU",
 			"EWIEGA46WW/moc_barchartwidget.cpp",
 			null
 		],
 		[
-			"C:/Users/MSI/Desktop/INTEG2/integration1/chatbot.h",
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/calendardialog.h",
+			"MU",
+			"EWIEGA46WW/moc_calendardialog.cpp",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/chatbot.h",
 			"MU",
 			"EWIEGA46WW/moc_chatbot.cpp",
 			null
 		],
 		[
-			"C:/Users/MSI/Desktop/INTEG2/integration1/connection.h",
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/connection.h",
 			"MU",
 			"EWIEGA46WW/moc_connection.cpp",
 			null
 		],
 		[
-			"C:/Users/MSI/Desktop/INTEG2/integration1/curvewidget.h",
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/createur.h",
+			"MU",
+			"EWIEGA46WW/moc_createur.cpp",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/curvewidget.h",
 			"MU",
 			"EWIEGA46WW/moc_curvewidget.cpp",
 			null
 		],
 		[
-			"C:/Users/MSI/Desktop/INTEG2/integration1/employes.h",
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/employes.h",
 			"MU",
 			"EWIEGA46WW/moc_employes.cpp",
 			null
 		],
 		[
-			"C:/Users/MSI/Desktop/INTEG2/integration1/fichedepaie.h",
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/fichedepaie.h",
 			"MU",
 			"EWIEGA46WW/moc_fichedepaie.cpp",
 			null
 		],
 		[
-			"C:/Users/MSI/Desktop/INTEG2/integration1/historymanager.h",
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/historymanager.h",
 			"MU",
 			"EWIEGA46WW/moc_historymanager.cpp",
 			null
 		],
 		[
-			"C:/Users/MSI/Desktop/INTEG2/integration1/mainwindow.h",
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/logindialog.h",
+			"MU",
+			"EWIEGA46WW/moc_logindialog.cpp",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/mainwindow.h",
 			"MU",
 			"EWIEGA46WW/moc_mainwindow.cpp",
 			null
 		],
 		[
-			"C:/Users/MSI/Desktop/INTEG2/integration1/smsmanager.h",
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/qrcodegen.hpp",
+			"MU",
+			"EWIEGA46WW/moc_qrcodegen.cpp",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/qrcodegenerator.h",
+			"MU",
+			"EWIEGA46WW/moc_qrcodegenerator.cpp",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/smsmanager.h",
 			"MU",
 			"EWIEGA46WW/moc_smsmanager.cpp",
 			null
 		],
 		[
-			"C:/Users/MSI/Desktop/INTEG2/integration1/smtp.h",
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/smtp.h",
 			"MU",
 			"EWIEGA46WW/moc_smtp.cpp",
 			null
 		],
 		[
-			"C:/Users/MSI/Desktop/INTEG2/integration1/sponsor.h",
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/sponsor.h",
 			"MU",
 			"EWIEGA46WW/moc_sponsor.cpp",
 			null
 		]
 	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
-	"INCLUDE_DIR" : "C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/include",
-	"MOC_COMPILATION_FILE" : "C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/mocs_compilation.cpp",
+	"INCLUDE_DIR" : "C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/include",
+	"MOC_COMPILATION_FILE" : "C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/mocs_compilation.cpp",
 	"MOC_DEFINITIONS" : 
 	[
 		"MINGW_HAS_SECURE_API=1",
@@ -438,6 +483,7 @@
 		"QT_GUI_LIB",
 		"QT_NEEDS_QMAIN",
 		"QT_NETWORK_LIB",
+		"QT_SERIALPORT_LIB",
 		"QT_SQL_LIB",
 		"QT_WIDGETS_LIB",
 		"UNICODE",
@@ -463,6 +509,7 @@
 		"C:/Qt/6.7.3/mingw_64/include/QtGui",
 		"C:/Qt/6.7.3/mingw_64/include/QtSql",
 		"C:/Qt/6.7.3/mingw_64/include/QtNetwork",
+		"C:/Qt/6.7.3/mingw_64/include/QtSerialPort",
 		"C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++",
 		"C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32",
 		"C:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward",
@@ -490,47 +537,109 @@
 		"-c",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/CMakeCXXCompilerABI.cpp"
 	],
-	"MOC_PREDEFS_FILE" : "C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/moc_predefs.h",
+	"MOC_PREDEFS_FILE" : "C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/interface23_autogen/moc_predefs.h",
 	"MOC_RELAXED_MODE" : false,
 	"MOC_SKIP" : [],
 	"MULTI_CONFIG" : false,
-	"PARALLEL" : 8,
-	"PARSE_CACHE_FILE" : "C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/interface23_autogen.dir/ParseCache.txt",
+	"PARALLEL" : 4,
+	"PARSE_CACHE_FILE" : "C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/interface23_autogen.dir/ParseCache.txt",
 	"QT_MOC_EXECUTABLE" : "C:/Qt/6.7.3/mingw_64/bin/moc.exe",
 	"QT_UIC_EXECUTABLE" : "C:/Qt/6.7.3/mingw_64/bin/uic.exe",
 	"QT_VERSION_MAJOR" : 6,
 	"QT_VERSION_MINOR" : 7,
-	"SETTINGS_FILE" : "C:/Users/MSI/Desktop/INTEG2/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/interface23_autogen.dir/AutogenUsed.txt",
+	"SETTINGS_FILE" : "C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug/CMakeFiles/interface23_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
 		[
-			"C:/Users/MSI/Desktop/INTEG2/integration1/barchartwidget.cpp",
-			"MU",
-			null
-		],
-		[ "C:/Users/MSI/Desktop/INTEG2/integration1/chatbot.cpp", "MU", null ],
-		[ "C:/Users/MSI/Desktop/INTEG2/integration1/connection.cpp", "MU", null ],
-		[
-			"C:/Users/MSI/Desktop/INTEG2/integration1/curvewidget.cpp",
-			"MU",
-			null
-		],
-		[ "C:/Users/MSI/Desktop/INTEG2/integration1/employes.cpp", "MU", null ],
-		[
-			"C:/Users/MSI/Desktop/INTEG2/integration1/fichedepaie.cpp",
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/arduino.cpp",
 			"MU",
 			null
 		],
 		[
-			"C:/Users/MSI/Desktop/INTEG2/integration1/historymanager.cpp",
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/barchartwidget.cpp",
 			"MU",
 			null
 		],
-		[ "C:/Users/MSI/Desktop/INTEG2/integration1/main.cpp", "MU", null ],
-		[ "C:/Users/MSI/Desktop/INTEG2/integration1/mainwindow.cpp", "MU", null ],
-		[ "C:/Users/MSI/Desktop/INTEG2/integration1/smsmanager.cpp", "MU", null ],
-		[ "C:/Users/MSI/Desktop/INTEG2/integration1/smtp.cpp", "MU", null ],
-		[ "C:/Users/MSI/Desktop/INTEG2/integration1/sponsor.cpp", "MU", null ]
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/calendardialog.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/chatbot.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/connection.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/createur.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/curvewidget.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/employes.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/fichedepaie.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/historymanager.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/logindialog.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/main.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/mainwindow.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/qrcodegen.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/qrcodegenerator.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/smsmanager.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/smtp.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Selim Fekih/Downloads/integ fin 3anddi/INTEGRATION FINALE/integration1/sponsor.cpp",
+			"MU",
+			null
+		]
 	],
 	"UIC_OPTIONS" : [],
 	"UIC_SEARCH_PATHS" : [],
