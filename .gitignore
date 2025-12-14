@@ -1,0 +1,21 @@
+# Build artifacts
+*.o
+banque_app
+*.exe
+
+# Qt build directory
+build/
+
+# Qt user files
+*.user
+*.autosave
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+/tmp/
